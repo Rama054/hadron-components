@@ -1,8 +1,9 @@
 {
   "name": "hadron-components",
-  "version": "1.1.1",
+  "version": "1.1.4",
   "main": "dist/hadron-components.umd.js",
   "module": "dist/hadron-components.es.js",
+  "github": "https://github.com/Rama054/hadron-components",
   "types": "dist/index.d.ts",
   "files": [
     "dist"

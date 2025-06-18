@@ -10,18 +10,20 @@
                 z-index: 1000;
                 background-color: var(--background-sidebar, var(--#{$prefix}surface-bg));
                 transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-                
-                @if $pos == left or $pos == right {
+
+                @if $pos ==left or $pos ==right {
                     width: var(--sidebar-size);
                     height: 100vh;
-                    #{$pos}: calc(var(--sidebar-size) * -1); 
+                    #{$pos}: calc(var(--sidebar-size) * -1);
                     top: 0;
-                    border-#{if($pos == left, right, left)}: 1px solid var(--#{$prefix}border-color);
+                    //border-#{if($pos == left, right, left)}: 1px solid var(--#{$prefix}border-color);
                     box-shadow: #{if($pos == left, '4px 0 6px -1px', '-4px 0 6px -1px')} var(--#{$prefix}shadow);
-                } @else if $pos == top or $pos == bottom {
+                }
+
+                @else if $pos ==top or $pos ==bottom {
                     width: 100vw;
                     height: var(--sidebar-size);
-                    #{$pos}: calc(var(--sidebar-size) * -1); 
+                    #{$pos}: calc(var(--sidebar-size) * -1);
                     left: 0;
                     border-#{if($pos == top, bottom, top)}: 1px solid var(--#{$prefix}border-color);
                     box-shadow: #{if($pos == top, '0 4px 6px -1px', '0 -4px 6px -1px')} var(--#{$prefix}shadow);
@@ -32,6 +34,7 @@
                 .q-sidebar {
                     #{$pos}: 0;
                 }
+
                 .q-sidebar-overlay {
                     opacity: 1;
                     pointer-events: auto;
@@ -70,23 +73,23 @@
 
 .q-sidebar-content {
     flex: 1;
-    padding: 1.5rem;
+    //padding: 1.5rem;
     overflow-y: auto;
     overflow-x: hidden;
-    
+
     // Custom scrollbar
     &::-webkit-scrollbar {
         width: 6px;
     }
-    
+
     &::-webkit-scrollbar-track {
         background: var(--#{$prefix}border-light);
     }
-    
+
     &::-webkit-scrollbar-thumb {
         background: var(--#{$prefix}text-muted);
         border-radius: 3px;
-        
+
         &:hover {
             background: var(--#{$prefix}color);
         }
@@ -98,11 +101,11 @@
     top: 1rem;
     right: 1rem;
     z-index: 10;
-    
+
     svg {
         color: var(--#{$prefix}color);
     }
-    
+
     &:hover svg {
         color: var(--#{$prefix}color-danger);
     }
@@ -113,7 +116,7 @@
     .q-sidebar {
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
     }
-    
+
     .q-sidebar-overlay {
         background-color: rgba(0, 0, 0, 0.7);
     }
@@ -121,11 +124,12 @@
 
 // Animation for mobile
 @media (max-width: 768px) {
+
     .q-sidebar-root[data-position="left"] .q-sidebar,
     .q-sidebar-root[data-position="right"] .q-sidebar {
         width: min(var(--sidebar-size), 90vw);
     }
-    
+
     .q-sidebar-root[data-position="top"] .q-sidebar,
     .q-sidebar-root[data-position="bottom"] .q-sidebar {
         height: min(var(--sidebar-size), 90vh);

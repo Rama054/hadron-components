@@ -101,7 +101,7 @@ export default function Sidebar({
     }
 
     return (
-        <div 
+        <aside 
             className={sidebarClass} 
             style={sidebarStyle} 
             data-open={open} 
@@ -136,7 +136,7 @@ export default function Sidebar({
                     {children}
                 </div>
             </div>
-        </div>
+        </aside>
     );
 }
 

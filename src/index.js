@@ -1,3 +1,4 @@
+// Importar el tema CSS
 import "./css/theme.css";
 
 export { default as Accordion } from "./components/accordion/Accordion";
@@ -24,6 +25,7 @@ export { default as RadioCards } from "./components/radioCards/RadioCards";
 export { default as Select } from "./components/select/Select";
 export { default as Separator } from "./components/separator/Separator";
 export { default as Sidebar } from "./components/sidebar/Sidebar";
+export { default as SidebarPanel } from "./components/sidebarPanel/SidebarPanel";
 export { default as Skeleton } from "./components/skeleton/Skeleton";
 export { default as Spinner } from "./components/spinner/Spinner";
 export { default as Stepper } from "./components/stepper/Stepper";
@@ -31,4 +33,3 @@ export { default as Switch } from "./components/switch/Switch";
 export { default as Tabs } from "./components/tabs/Tabs";
 export { default as TextArea } from "./components/textArea/TextArea";
 export { default as Tooltip } from "./components/tooltip/Tooltip";
-export { default as VerticalMenu } from "./components/verticalMenu/VerticalMenu";
