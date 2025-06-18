@@ -1,0 +1,193 @@
+@import "partials/colors";
+@import "partials/variables";
+
+@mixin tabs-size($size) {
+    $map: (
+        "sm": (height: 36px, padding: 0.5rem 0.75rem, font-size: 0.875rem),
+        "md": (height: 40px, padding: 0.625rem 1rem, font-size: 0.875rem),
+        "lg": (height: 44px, padding: 0.75rem 1.25rem, font-size: 1rem)
+    );
+    
+    $props: map-get($map, $size);
+    height: map-get($props, height);
+    padding: map-get($props, padding);
+    font-size: map-get($props, font-size);
+}
+
+.q-tabs-root {
+    display: flex;
+    width: 100%;
+    
+    // Orientation
+    &[data-orientation="horizontal"] {
+        flex-direction: column;
+        
+        .q-tabs-list {
+            flex-direction: row;
+        }
+    }
+    
+    &[data-orientation="vertical"] {
+        flex-direction: row;
+        
+        .q-tabs-list {
+            flex-direction: column;
+            width: auto;
+            min-width: 200px;
+        }
+        
+        .q-tabs-content {
+            flex: 1;
+            margin-left: 1rem;
+        }
+    }
+    
+    // Equal width
+    &[data-equal-width="true"] {
+        .q-tabs-trigger {
+            flex: 1;
+        }
+    }
+}
+
+.q-tabs-list {
+    display: flex;
+    position: relative;
+    background-color: var(--#{$prefix}surface-bg);
+    
+    // Variant styles
+    .q-tabs-root[data-variant="line"] & {
+        border-bottom: 2px solid var(--#{$prefix}border-color);
+        gap: 0;
+    }
+    
+    .q-tabs-root[data-variant="card"] & {
+        background-color: var(--#{$prefix}selected);
+        border-radius: 8px;
+        padding: 4px;
+        gap: 2px;
+    }
+    
+    .q-tabs-root[data-variant="pill"] & {
+        background-color: var(--#{$prefix}selected);
+        border-radius: 50px;
+        padding: 4px;
+        gap: 2px;
+    }
+}
+
+.q-tabs-trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    color: var(--#{$prefix}text-muted);
+    transition: all 0.2s ease-in-out;
+    white-space: nowrap;
+    user-select: none;
+    outline: none;
+    
+    // Default size
+    @include tabs-size(md);
+    
+    // Size variants
+    @each $size in sm, md, lg {
+        .q-tabs-root[data-size="#{$size}"] & {
+            @include tabs-size($size);
+        }
+    }
+    
+    // Focus state
+    &:focus-visible {
+        outline: 2px solid var(--#{$prefix}color-primary);
+        outline-offset: 2px;
+    }
+    
+    // Hover state
+    &:hover:not(.disabled):not(.active) {
+        color: var(--#{$prefix}color);
+        background-color: var(--#{$prefix}hover-bg);
+    }
+    
+    // Active state for line variant
+    .q-tabs-root[data-variant="line"] &.active {
+        color: var(--#{$prefix}color-primary);
+        
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--#{$prefix}color-primary);
+            border-radius: 1px;
+        }
+    }
+    
+    // Active state for card variant
+    .q-tabs-root[data-variant="card"] &.active {
+        color: var(--#{$prefix}color-primary);
+        background-color: var(--#{$prefix}surface-bg);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border-radius: 6px;
+    }
+    
+    // Active state for pill variant
+    .q-tabs-root[data-variant="pill"] &.active {
+        color: var(--#{$prefix}color-primary);
+        background-color: var(--#{$prefix}surface-bg);
+        border-radius: 50px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    // Disabled state
+    &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+}
+
+.q-tabs-content {
+    padding: 1rem 0;
+    width: 100%;
+    
+    // Vertical orientation
+    .q-tabs-root[data-orientation="vertical"] & {
+        padding: 0;
+    }
+}
+
+// Color variants
+@each $name, $color in $colors {
+    .q-tabs-root[data-color="#{$name}"] {
+        .q-tabs-trigger {
+            &:focus-visible {
+                outline-color: var(--#{$prefix}color-#{$name});
+            }
+            
+            &.active {
+                color: var(--#{$prefix}color-#{$name});
+                
+                &::after {
+                    background-color: var(--#{$prefix}color-#{$name});
+                }
+            }
+        }
+    }
+}
+
+// Dark mode adjustments
+[data-theme="dark"] {
+    .q-tabs-root[data-variant="card"] .q-tabs-trigger.active,
+    .q-tabs-root[data-variant="pill"] .q-tabs-trigger.active {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+}

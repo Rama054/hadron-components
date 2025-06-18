@@ -1,0 +1,123 @@
+@keyframes skeleton-pulse {
+  0% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+@keyframes skeleton-wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+.q-skeleton {
+  display: inline-block;
+  width: var(--skeleton-width);
+  height: var(--skeleton-height);
+  background-color: var(--hadr-border-color);
+  position: relative;
+  overflow: hidden;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  background-image: none;
+  background-clip: initial;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  cursor: default;
+  color: transparent;
+  /* &[data-variant="rectangular"] {
+      // Default rectangular shape
+  } */
+}
+.q-skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, var(--hadr-surface-bg), transparent);
+  animation: skeleton-wave 2s infinite;
+}
+.q-skeleton[data-radius=none] {
+  border-radius: 0;
+}
+.q-skeleton[data-radius=sm] {
+  border-radius: 4px;
+}
+.q-skeleton[data-radius=md] {
+  border-radius: 8px;
+}
+.q-skeleton[data-radius=lg] {
+  border-radius: 12px;
+}
+.q-skeleton[data-radius=xl] {
+  border-radius: 16px;
+}
+.q-skeleton[data-radius=full] {
+  border-radius: 9999px;
+}
+.q-skeleton[data-variant=circular] {
+  border-radius: 50%;
+  aspect-ratio: 1;
+}
+.q-skeleton[data-variant=text] {
+  border-radius: 4px;
+  height: 1em;
+  margin: 0.125em 0;
+}
+
+[data-theme=dark] .q-skeleton {
+  background-color: var(--hadr-border-light);
+}
+[data-theme=dark] .q-skeleton::after {
+  background: linear-gradient(90deg, transparent, var(--hadr-surface-bg), transparent);
+}
+
+.q-skeleton-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.q-skeleton-title {
+  height: 1.5em;
+  width: 60%;
+  margin-bottom: 0.5em;
+}
+
+.q-skeleton-text {
+  height: 1em;
+  width: 100%;
+  margin: 0.25em 0;
+}
+.q-skeleton-text:last-child {
+  width: 80%;
+}
+
+.q-skeleton-button {
+  height: 40px;
+  width: 120px;
+  border-radius: 8px;
+}
+
+.q-skeleton-card {
+  height: 200px;
+  width: 100%;
+  border-radius: 12px;
+}

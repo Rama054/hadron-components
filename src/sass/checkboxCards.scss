@@ -1,0 +1,147 @@
+@import 'partials/breakpoints';
+@import 'partials/radius';
+@import 'partials/colors';
+@import 'partials/variables';
+
+.q-checkbox-cards-root {
+    display: grid;
+    gap: 1rem;
+    box-sizing: border-box;
+
+    // Responsive grid columns
+    @each $name, $size in $breakpoints {
+        @media (min-width: $size) {
+            @for $i from 1 through 12 {
+                &[data-columns-#{$name}="#{$i}"] {
+                    grid-template-columns: repeat(#{$i}, 1fr);
+                }
+            }
+        }
+    }
+}
+
+.q-checkbox-cards-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    background-color: var(--#{$prefix}surface-bg);
+    border: 2px solid var(--#{$prefix}border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    user-select: none;
+    
+    // Radius variants
+    @each $name, $size in $radius {
+        [data-radius="#{$name}"] & {
+            border-radius: #{$size};
+        }
+    }
+    
+    // Hide the actual checkbox input
+    input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+    
+    // Focus state for accessibility
+    &:focus-visible {
+        outline: 2px solid var(--#{$prefix}color-primary);
+        outline-offset: 2px;
+    }
+    
+    // Hover state
+    &:hover:not(.disabled):not(.selected) {
+        background-color: var(--#{$prefix}hover-bg);
+        border-color: var(--#{$prefix}text-muted);
+    }
+    
+    // Selected state
+    &.selected {
+        background-color: var(--#{$prefix}color-primary-light);
+        border-color: var(--#{$prefix}color-primary);
+        
+        &:hover {
+            border-color: var(--#{$prefix}color-primary-hover);
+        }
+    }
+    
+    // Disabled state
+    &.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background-color: var(--#{$prefix}disabled);
+        border-color: var(--#{$prefix}text-subtle);
+        
+        &:hover {
+            background-color: var(--#{$prefix}disabled);
+            border-color: var(--#{$prefix}text-subtle);
+        }
+        
+        .q-checkbox-cards-title,
+        .q-checkbox-cards-description {
+            color: var(--#{$prefix}text-subtle);
+        }
+    }
+}
+
+.q-checkbox-cards-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    color: var(--#{$prefix}text-muted);
+    
+    .q-checkbox-cards-item.selected & {
+        color: var(--#{$prefix}color-primary);
+    }
+}
+
+.q-checkbox-cards-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.q-checkbox-cards-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--#{$prefix}color);
+    line-height: 1.4;
+}
+
+.q-checkbox-cards-description {
+    font-size: 0.75rem;
+    color: var(--#{$prefix}text-muted);
+    line-height: 1.4;
+}
+
+// Color variants
+@each $name, $color in $colors {
+    .q-checkbox-cards-root[data-color="#{$name}"] {
+        .q-checkbox-cards-item {
+            &.selected {
+                background-color: var(--#{$prefix}color-#{$name}-light);
+                border-color: var(--#{$prefix}color-#{$name});
+                
+                &:hover {
+                    border-color: var(--#{$prefix}color-#{$name}-hover);
+                }
+                
+                .q-checkbox-cards-icon {
+                    color: var(--#{$prefix}color-#{$name});
+                }
+            }
+            
+            &:focus-visible {
+                outline-color: var(--#{$prefix}color-#{$name});
+            }
+        }
+    }
+}

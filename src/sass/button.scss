@@ -1,0 +1,213 @@
+@import 'partials/colors';
+@import 'partials/radius';
+@import 'partials/variables';
+
+$variants: 'solid' 'outline' 'soft' 'ghost';
+
+@mixin button-size($size) {
+    $map: (
+        "xs": (padding: 0.375rem 0.75rem, font-size: 0.75rem, height: 32px),
+        "sm": (padding: 0.5rem 1rem, font-size: 0.875rem, height: 36px),
+        "md": (padding: 0.625rem 1.25rem, font-size: 0.875rem, height: 40px),
+        "lg": (padding: 0.75rem 1.5rem, font-size: 1rem, height: 44px),
+        "xl": (padding: 0.875rem 2rem, font-size: 1.125rem, height: 48px)
+    );
+    
+    $props: map-get($map, $size);
+    padding: map-get($props, padding);
+    font-size: map-get($props, font-size);
+    min-height: map-get($props, height);
+}
+
+.q-button {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    font-weight: 500;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    text-decoration: none;
+    font-family: inherit;
+    line-height: 1.25;
+    
+    // Default size
+    @include button-size(md);
+
+    // Sizes
+    @each $size in xs, sm, md, lg, xl {
+        &[data-size="#{$size}"] {
+            @include button-size($size);
+        }
+    }
+
+    // Variants
+    @each $variant in $variants {
+        &[data-variant="#{$variant}"] {
+            @if $variant == 'solid' {
+                color: white;
+                
+                @each $name, $color in $colors {
+                    &[data-color="#{$name}"] {
+                        background-color: var(--#{$prefix}color-#{$name});
+                        border-color: var(--#{$prefix}color-#{$name});
+                    }
+                }
+
+                &:not([disabled]):hover {
+                    transform: translateY(-1px);
+                    box-shadow: var(--#{$prefix}shadow);
+                    
+                    @each $name, $color in $colors {
+                        &[data-color="#{$name}"] {
+                            background-color: var(--#{$prefix}color-#{$name}-hover);
+                            border-color: var(--#{$prefix}color-#{$name}-hover);
+                        }
+                    }
+                }
+
+                &:not([disabled]):active {
+                    transform: translateY(0);
+                    
+                    @each $name, $color in $colors {
+                        &[data-color="#{$name}"] {
+                            background-color: var(--#{$prefix}color-#{$name}-active);
+                            border-color: var(--#{$prefix}color-#{$name}-active);
+                        }
+                    }
+                }
+            }
+
+            @else if $variant == 'outline' {
+                background-color: transparent;
+
+                @each $name, $color in $colors {
+                    &[data-color="#{$name}"] {
+                        border-color: var(--#{$prefix}color-#{$name});
+                        color: var(--#{$prefix}color-#{$name});
+                    }
+                }
+
+                &:not([disabled]):hover {
+                    @each $name, $color in $colors {
+                        &[data-color="#{$name}"] {
+                            background-color: var(--#{$prefix}color-#{$name});
+                            color: white;
+                        }
+                    }
+                }
+
+                &:not([disabled]):active {
+                    @each $name, $color in $colors {
+                        &[data-color="#{$name}"] {
+                            background-color: var(--#{$prefix}color-#{$name}-active);
+                            border-color: var(--#{$prefix}color-#{$name}-active);
+                        }
+                    }
+                }
+            }
+
+            @else if $variant == 'soft' {
+                @each $name, $color in $colors {
+                    &[data-color="#{$name}"] {
+                        background-color: var(--#{$prefix}color-#{$name}-light);
+                        color: var(--#{$prefix}color-#{$name});
+                        border-color: transparent;
+                    }
+                }
+
+                &:not([disabled]):hover {
+                    @each $name, $color in $colors {
+                        &[data-color="#{$name}"] {
+                            background-color: var(--#{$prefix}color-#{$name});
+                            color: white;
+                        }
+                    }
+                }
+
+                &:not([disabled]):active {
+                    @each $name, $color in $colors {
+                        &[data-color="#{$name}"] {
+                            background-color: var(--#{$prefix}color-#{$name}-active);
+                        }
+                    }
+                }
+            }
+
+            @else if $variant == 'ghost' {
+                background-color: transparent;
+                border-color: transparent;
+
+                @each $name, $color in $colors {
+                    &[data-color="#{$name}"] {
+                        color: var(--#{$prefix}color-#{$name});
+                    }
+                }
+
+                &:not([disabled]):hover {
+                    background-color: var(--#{$prefix}hover-bg);
+                    
+                    @each $name, $color in $colors {
+                        &[data-color="#{$name}"] {
+                            background-color: var(--#{$prefix}color-#{$name}-light);
+                        }
+                    }
+                }
+
+                &:not([disabled]):active {
+                    @each $name, $color in $colors {
+                        &[data-color="#{$name}"] {
+                            background-color: var(--#{$prefix}color-#{$name});
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // States
+    &[disabled] {
+        cursor: not-allowed;
+        opacity: 0.5;
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--#{$prefix}color-primary);
+        outline-offset: 2px;
+    }
+
+    // Modifiers
+    &.q-button-icon {
+        aspect-ratio: 1;
+        padding: 0.5rem !important;
+        
+        &[data-size="xs"] { padding: 0.375rem !important; }
+        &[data-size="sm"] { padding: 0.5rem !important; }
+        &[data-size="md"] { padding: 0.625rem !important; }
+        &[data-size="lg"] { padding: 0.75rem !important; }
+        &[data-size="xl"] { padding: 0.875rem !important; }
+    }
+
+    &.q-button-full {
+        width: 100%;
+    }
+
+    // Radius
+    @each $name, $size in $radius {
+        &[data-radius="#{$name}"] {
+            border-radius: $size;
+        }
+    }
+}

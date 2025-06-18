@@ -1,0 +1,296 @@
+@import 'partials/colors';
+@import 'partials/radius';
+@import 'partials/variables';
+
+@mixin input-size($size) {
+    $map: (
+        "sm": (height: 36px, font-size: 0.875rem),
+        "md": (height: 40px, font-size: 0.875rem),
+        "lg": (height: 44px, font-size: 1rem)
+    );
+    
+    $props: map-get($map, $size);
+    height: map-get($props, height);
+    padding: map-get($props, padding);
+    font-size: map-get($props, font-size);
+}
+
+.q-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.q-input-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--#{$prefix}color);
+    line-height: 1.5;
+    
+    .q-input-required {
+        color: var(--#{$prefix}color-danger);
+        margin-left: 0.25rem;
+    }
+}
+
+.q-input-root {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: var(--#{$prefix}surface-bg);
+    border: 1px solid var(--#{$prefix}border-color);
+    transition: all 0.2s ease-in-out;
+    cursor: text;
+    overflow: hidden; // Para que los elementos internos respeten el border-radius
+    
+    // Default size
+    @include input-size(md);
+    
+    // Remove default padding when we have slots
+    &:has(.q-input-slot) {
+        padding: 0;
+    }
+    
+    // Sizes
+    @each $size in sm, md, lg {
+        &[data-size="#{$size}"] {
+            @include input-size($size);
+        }
+    }
+    
+    // Variants
+    &[data-variant="default"] {
+        background-color: var(--#{$prefix}surface-bg);
+        border-color: var(--#{$prefix}border-color);
+    }
+    
+    &[data-variant="filled"] {
+        background-color: var(--#{$prefix}selected);
+        border-color: transparent;
+    }
+    
+    &[data-variant="ghost"] {
+        background-color: transparent;
+        border-color: transparent;
+        border-bottom: 1px solid var(--#{$prefix}border-color);
+        border-radius: 0;
+    }
+    
+    // Radius
+    @each $name, $size in $radius {
+        &[data-radius="#{$name}"] {
+            border-radius: $size;
+            
+            &[data-variant="ghost"] {
+                border-radius: 0;
+            }
+        }
+    }
+    
+    // Focus state
+    &:focus-within {
+        outline: none;
+        border-color: var(--#{$prefix}color-primary);
+        box-shadow: 0 0 0 3px var(--#{$prefix}color-primary-light);
+        
+        &[data-variant="ghost"] {
+            box-shadow: none;
+            border-bottom-color: var(--#{$prefix}color-primary);
+        }
+    }
+    
+    // Color variants
+    @each $name, $color in $colors {
+        &[data-color="#{$name}"] {
+            background-color: var(--#{$prefix}color-#{$name}-light);
+            border-color: var(--#{$prefix}color-#{$name});
+            
+            &[data-variant="filled"] {
+                background-color: var(--#{$prefix}color-#{$name}-light);
+                border-color: transparent;
+            }
+            
+            &[data-variant="ghost"] {
+                background-color: transparent;
+                border-color: transparent;
+                border-bottom-color: var(--#{$prefix}color-#{$name});
+            }
+            
+            &:focus-within {
+                border-color: var(--#{$prefix}color-#{$name});
+                box-shadow: 0 0 0 3px var(--#{$prefix}color-#{$name}-light);
+                
+                &[data-variant="ghost"] {
+                    box-shadow: none;
+                    border-bottom-color: var(--#{$prefix}color-#{$name});
+                }
+            }
+        }
+    }
+    
+    // Error state
+    &.q-input-error {
+        border-color: var(--#{$prefix}color-danger);
+        
+        &:focus-within {
+            border-color: var(--#{$prefix}color-danger);
+            box-shadow: 0 0 0 3px var(--#{$prefix}color-danger-light);
+            
+            &[data-variant="ghost"] {
+                box-shadow: none;
+                border-bottom-color: var(--#{$prefix}color-danger);
+            }
+        }
+    }
+    
+    // Disabled state
+    &.q-input-disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background-color: var(--#{$prefix}disabled);
+        
+        .q-input {
+            cursor: not-allowed;
+        }
+    }
+    
+    // Hover state
+    &:hover:not(.q-input-disabled):not(:focus-within) {
+        border-color: var(--#{$prefix}text-muted);
+        
+        &[data-variant="ghost"] {
+            border-bottom-color: var(--#{$prefix}text-muted);
+        }
+    }
+}
+
+.q-input {
+    flex: 1;
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--#{$prefix}color);
+    min-width: 0; // Permite que el input se contraiga
+    
+    // Padding dinámico basado en el contenedor padre
+    padding: 0.625rem 1rem; // Default para md
+    
+    // Ajustar padding cuando hay slots
+    .q-input-root:has(.q-input-slot) & {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    
+    // Ajustar padding específico para prepend/append
+    .q-input-root:has(.q-input-prepend):not(:has(.q-input-append)) & {
+        padding-left: 0;
+        padding-right: 1rem;
+    }
+    
+    .q-input-root:has(.q-input-append):not(:has(.q-input-prepend)) & {
+        padding-left: 1rem;
+        padding-right: 0;
+    }
+    
+    .q-input-root:has(.q-input-prepend):has(.q-input-append) & {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    
+    &::placeholder {
+        color: var(--#{$prefix}text-subtle);
+        opacity: 1;
+    }
+    
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 1;
+    }
+    
+    // Remove autofill styles
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 1000px var(--#{$prefix}surface-bg) inset;
+        -webkit-text-fill-color: var(--#{$prefix}color);
+        transition: background-color 5000s ease-in-out 0s;
+    }
+}
+
+.q-input-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--#{$prefix}text-muted);
+    height: 100%;
+    
+    &.q-input-prepend {
+        padding: 0 0.5rem 0 0.75rem;
+    }
+    
+    &.q-input-append {
+        padding: 0 0.75rem 0 0.5rem;
+    }
+}
+
+.q-slot-text {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 0.75rem;
+    background-color: var(--#{$prefix}selected);
+    color: var(--#{$prefix}text-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    
+    &[data-side="left"] {
+        border-right: 1px solid var(--#{$prefix}border-light);
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+    }
+    
+    &[data-side="right"] {
+        border-left: 1px solid var(--#{$prefix}border-light);
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+    }
+}
+
+.q-input-help-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.q-input-help-text {
+    font-size: 0.75rem;
+    color: var(--#{$prefix}text-muted);
+    line-height: 1.4;
+    margin: 0;
+}
+
+.q-input-error-text {
+    font-size: 0.75rem;
+    color: var(--#{$prefix}color-danger);
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 500;
+}
+
+// Dark mode adjustments
+[data-theme="dark"] {
+    .q-input:-webkit-autofill,
+    .q-input:-webkit-autofill:hover,
+    .q-input:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 1000px var(--#{$prefix}surface-bg) inset;
+        -webkit-text-fill-color: var(--#{$prefix}color);
+    }
+}

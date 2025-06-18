@@ -1,0 +1,115 @@
+@import 'partials/colors';
+@import 'partials/variables';
+
+.q-radio-root {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    
+    &.q-radio-disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        
+        .q-radio-label {
+            cursor: not-allowed;
+        }
+    }
+}
+
+.q-radio-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    
+    // Focus state for accessibility
+    &:focus-visible + .q-radio-label .q-radio-indicator {
+        outline: 2px solid var(--#{$prefix}color-primary);
+        outline-offset: 2px;
+    }
+}
+
+.q-radio-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--#{$prefix}color);
+    line-height: 1.5;
+    
+    &:hover .q-radio-indicator {
+        border-color: var(--#{$prefix}text-muted);
+    }
+}
+
+.q-radio-indicator {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--#{$prefix}border-color);
+    background-color: var(--#{$prefix}surface-bg);
+    transition: all 0.2s ease-in-out;
+    flex-shrink: 0;
+    margin-top: 1px; // Align with text baseline
+    
+    &::after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: transparent;
+        transition: all 0.2s ease-in-out;
+        transform: scale(0);
+    }
+}
+
+.q-radio-text {
+    flex: 1;
+    user-select: none;
+}
+
+// Checked state
+.q-radio-input:checked + .q-radio-label .q-radio-indicator {
+    border-color: var(--#{$prefix}color-primary);
+    background-color: var(--#{$prefix}color-primary);
+    
+    &::after {
+        background-color: white;
+        transform: scale(1);
+    }
+}
+
+// Color variants
+@each $name, $color in $colors {
+    .q-radio-input[data-color="#{$name}"]:checked + .q-radio-label .q-radio-indicator {
+        border-color: var(--#{$prefix}color-#{$name});
+        background-color: var(--#{$prefix}color-#{$name});
+    }
+    
+    .q-radio-input[data-color="#{$name}"]:focus-visible + .q-radio-label .q-radio-indicator {
+        outline-color: var(--#{$prefix}color-#{$name});
+    }
+}
+
+// Disabled state
+.q-radio-input:disabled + .q-radio-label {
+    cursor: not-allowed;
+    
+    .q-radio-indicator {
+        background-color: var(--#{$prefix}disabled);
+        border-color: var(--#{$prefix}text-subtle);
+        
+        &::after {
+            background-color: var(--#{$prefix}text-subtle);
+        }
+    }
+    
+    .q-radio-text {
+        color: var(--#{$prefix}text-subtle);
+    }
+}

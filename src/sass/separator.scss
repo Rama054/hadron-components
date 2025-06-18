@@ -1,0 +1,32 @@
+@import 'partials/colors';
+@import 'partials/variables';
+
+.q-separator {
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: var(--#{$prefix}border-color);
+    flex-shrink: 0;
+
+    &[data-orientation="horizontal"] {
+        height: var(--separator-width);
+        width: var(--separator-size);
+        margin: 1rem 0;
+    }
+    
+    &[data-orientation="vertical"] {
+        height: var(--separator-size);
+        width: var(--separator-width);
+        margin: 0 1rem;
+        display: inline-block;
+    }
+
+    // Color variants
+    @each $name, $color in $colors {
+        &[data-color="#{$name}"] {
+            background-color: var(--#{$prefix}color-#{$name});
+        }
+    }
+}

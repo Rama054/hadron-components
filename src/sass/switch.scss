@@ -1,0 +1,167 @@
+@import 'partials/colors';
+@import 'partials/variables';
+
+@mixin switch-size($size) {
+    $map: (
+        "sm": (width: 2.5rem, height: 1.25rem, thumb: 1rem, translate: 1rem),
+        "md": (width: 3rem, height: 1.5rem, thumb: 1.15rem, translate: 1.25rem),
+        "lg": (width: 3.5rem, height: 1.75rem, thumb: 1.35rem, translate: 1.5rem)
+    );
+    
+    $props: map-get($map, $size);
+    width: map-get($props, width);
+    height: map-get($props, height);
+    
+    .q-switch-slider::before {
+        width: map-get($props, thumb);
+        height: map-get($props, thumb);
+    }
+    
+    input:checked + .q-switch-slider::before {
+        transform: translate(map-get($props, translate), -50%);
+    }
+}
+
+.q-switch-root {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    
+    &.q-switch-disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        
+        .q-switch-label {
+            cursor: not-allowed;
+        }
+    }
+}
+
+.q-switch-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--#{$prefix}color);
+    cursor: pointer;
+    user-select: none;
+    line-height: 1.5;
+}
+
+.q-switch {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    
+    // Default size
+    @include switch-size(md);
+    
+    // Size variants
+    @each $size in sm, md, lg {
+        &[data-size="#{$size}"] {
+            @include switch-size($size);
+        }
+    }
+
+    input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        opacity: 0;
+        z-index: 1;
+        outline: none;
+
+        &:focus-visible + .q-switch-slider {
+            outline: 2px solid var(--#{$prefix}color-primary);
+            outline-offset: 2px;
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+        }
+
+        &:disabled + .q-switch-slider {
+            background-color: var(--#{$prefix}disabled);
+            border-color: var(--#{$prefix}text-subtle);
+            
+            &::before {
+                background-color: var(--#{$prefix}text-subtle);
+            }
+        }
+
+        // Color variants when checked
+        @each $name, $color in $colors {
+            &[data-color="#{$name}"]:checked + .q-switch-slider {
+                background-color: var(--#{$prefix}color-#{$name});
+                border-color: var(--#{$prefix}color-#{$name});
+            }
+            
+            &[data-color="#{$name}"]:focus-visible + .q-switch-slider {
+                outline-color: var(--#{$prefix}color-#{$name});
+            }
+        }
+
+        &:checked + .q-switch-slider {
+            background-color: var(--#{$prefix}color-primary);
+            border-color: var(--#{$prefix}color-primary);
+            
+            &::before {
+                background-color: white;
+            }
+        }
+    }
+    
+    .q-switch-slider {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--#{$prefix}border-color);
+        border: 2px solid var(--#{$prefix}border-color);
+        border-radius: 50px;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+
+        &::before {
+            position: absolute;
+            content: '';
+            top: 50%;
+            left: 2px;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            background-color: white;
+            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        &:hover {
+            border-color: var(--#{$prefix}text-muted);
+        }
+    }
+}
+
+// Checked state animations
+.q-switch[data-checked="true"] {
+    .q-switch-slider {
+        background-color: var(--#{$prefix}color-primary);
+        border-color: var(--#{$prefix}color-primary);
+        
+        &::before {
+            background-color: white;
+        }
+    }
+}
+
+// Dark mode adjustments
+[data-theme="dark"] {
+    .q-switch-slider::before {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+}

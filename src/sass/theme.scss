@@ -1,0 +1,249 @@
+@import "partials/colors";
+@import "partials/variables";
+
+
+@function color-variant($color, $variation) {
+    @if $variation =='hover' {
+        @return darken($color, 10%);
+    }
+
+    @else if $variation =='active' {
+        @return darken($color, 15%);
+    }
+
+    @else if $variation =='light' {
+        @return rgba($color, 10%);
+    }
+}
+
+
+:root,
+[data-theme=light] {
+    --#{$prefix}body-font-size: 1rem;
+    --#{$prefix}body-bg: #fafbfc;
+    --#{$prefix}color: #2d3748;
+    --#{$prefix}color-rgb: 45, 55, 72;
+    --#{$prefix}surface-bg: #ffffff;
+    --#{$prefix}text-muted: #718096;
+    --#{$prefix}text-subtle: #a0aec0;
+    --#{$prefix}selected: #edf2f7;
+    --#{$prefix}hover-bg: #f7fafc;
+    --#{$prefix}border-color: #e2e8f0;
+    --#{$prefix}border-light: #edf2f7;
+    --#{$prefix}disabled: #e2e8f0;
+    --#{$prefix}shadow: rgba(0, 0, 0, 0.1);
+    --#{$prefix}shadow-lg: rgba(0, 0, 0, 0.15);
+    
+    // Primary color RGB values for transparency
+    --#{$prefix}color-primary-rgb: 59, 130, 246;
+
+
+    @each $name, $color in $colors {
+        $hover-color: color-variant($color, hover);
+        $active-color: color-variant($color, active);
+        $light-color: color-variant($color, light);
+
+        --#{$prefix}color-#{$name}: #{$color};
+        --#{$prefix}color-#{$name}-hover: #{$hover-color};
+        --#{$prefix}color-#{$name}-active: #{$active-color};
+        --#{$prefix}color-#{$name}-light: #{$light-color};
+    }
+
+
+}
+
+[data-theme=dark] {
+    color-scheme: dark;
+    --#{$prefix}body-bg: #0d1117;
+    --#{$prefix}color: #f0f6fc;
+    --#{$prefix}color-rgb: 240, 246, 252;
+    --#{$prefix}surface-bg: #161b22;
+    --#{$prefix}text-muted: #8b949e;
+    --#{$prefix}text-subtle: #6e7681;
+    --#{$prefix}selected: #21262d;
+    --#{$prefix}hover-bg: #1c2128;
+    --#{$prefix}border-color: #30363d;
+    --#{$prefix}border-light: #21262d;
+    --#{$prefix}disabled: #484f58;
+    --#{$prefix}shadow: rgba(0, 0, 0, 0.3);
+    --#{$prefix}shadow-lg: rgba(0, 0, 0, 0.5);
+    
+    // Primary color RGB values for transparency (adjusted for dark mode)
+    --#{$prefix}color-primary-rgb: 88, 166, 255;
+}
+
+body {
+    margin: 0;
+    background-color: var(--#{$prefix}body-bg);
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    font-family: 'Roboto', sans-serif;
+    transition: background 0.2s, color 0.2s;
+    scroll-behavior: smooth;
+}
+
+.hr,
+hr {
+    margin: 2rem 0;
+    color: inherit;
+    border: 0;
+    border-top: var(--#{$prefix}border-width) solid;
+    opacity: .16
+}
+
+
+.h1,
+h1 {
+    font-size: 1.5rem
+}
+
+.h2,
+h2 {
+    font-size: 1.25rem
+}
+
+.h3,
+h3 {
+    font-size: 1rem
+}
+
+.h4,
+h4 {
+    font-size: .875rem
+}
+
+.h5,
+h5 {
+    font-size: .75rem
+}
+
+.h6,
+h6 {
+    font-size: .625rem
+}
+
+
+
+*,
+::after,
+::before {
+    box-sizing: border-box
+}
+
+*::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: var(--#{$prefix}text-muted);
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: var(--#{$prefix}color);
+    background-clip: content-box;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--#{$prefix}border-light);
+}
+
+
+.small,
+small {
+    font-size: .875em;
+}
+
+img,
+svg {
+    vertical-align: middle;
+}
+
+table {
+    caption-side: bottom;
+    border-collapse: collapse;
+}
+
+caption {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    color: var(--#{$prefix}secondary-color);
+    text-align: left;
+}
+
+th {
+    text-align: inherit;
+    text-align: -webkit-match-parent;
+}
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+
+label {
+    display: inline-block;
+}
+
+button {
+    border-radius: 0;
+}
+
+button:focus:not(:focus-visible) {
+    outline: 0;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+button,
+select {
+    text-transform: none;
+}
+
+[role=button] {
+    cursor: pointer;
+}
+
+select {
+    word-wrap: normal;
+}
+
+select:disabled {
+    opacity: 1;
+}
+
+
+[type=button]:not(:disabled),
+[type=reset]:not(:disabled),
+[type=submit]:not(:disabled),
+button:not(:disabled) {
+    cursor: pointer;
+}
+
+.img-thumbnail {
+    padding: .25rem;
+    background-color: var(--#{$prefix}body-bg);
+    border: var(--#{$prefix}border-width) solid var(--#{$prefix}border-color);
+    border-radius: var(--#{$prefix}border-radius);
+    box-shadow: var(--#{$prefix}box-shadow-sm);
+    max-width: 100%;
+    height: auto;
+}

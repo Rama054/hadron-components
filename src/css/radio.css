@@ -1,0 +1,324 @@
+.q-radio-root {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.q-radio-root.q-radio-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.q-radio-root.q-radio-disabled .q-radio-label {
+  cursor: not-allowed;
+}
+
+.q-radio-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.q-radio-input:focus-visible + .q-radio-label .q-radio-indicator {
+  outline: 2px solid var(--hadr-color-primary);
+  outline-offset: 2px;
+}
+
+.q-radio-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--hadr-color);
+  line-height: 1.5;
+}
+.q-radio-label:hover .q-radio-indicator {
+  border-color: var(--hadr-text-muted);
+}
+
+.q-radio-indicator {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--hadr-border-color);
+  background-color: var(--hadr-surface-bg);
+  transition: all 0.2s ease-in-out;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.q-radio-indicator::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+  transform: scale(0);
+}
+
+.q-radio-text {
+  flex: 1;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.q-radio-input:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-primary);
+  background-color: var(--hadr-color-primary);
+}
+.q-radio-input:checked + .q-radio-label .q-radio-indicator::after {
+  background-color: white;
+  transform: scale(1);
+}
+
+.q-radio-input[data-color=primary]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-primary);
+  background-color: var(--hadr-color-primary);
+}
+
+.q-radio-input[data-color=primary]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-primary);
+}
+
+.q-radio-input[data-color=secondary]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-secondary);
+  background-color: var(--hadr-color-secondary);
+}
+
+.q-radio-input[data-color=secondary]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-secondary);
+}
+
+.q-radio-input[data-color=accent]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-accent);
+  background-color: var(--hadr-color-accent);
+}
+
+.q-radio-input[data-color=accent]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-accent);
+}
+
+.q-radio-input[data-color=success]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-success);
+  background-color: var(--hadr-color-success);
+}
+
+.q-radio-input[data-color=success]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-success);
+}
+
+.q-radio-input[data-color=warning]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-warning);
+  background-color: var(--hadr-color-warning);
+}
+
+.q-radio-input[data-color=warning]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-warning);
+}
+
+.q-radio-input[data-color=danger]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-danger);
+  background-color: var(--hadr-color-danger);
+}
+
+.q-radio-input[data-color=danger]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-danger);
+}
+
+.q-radio-input[data-color=info]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-info);
+  background-color: var(--hadr-color-info);
+}
+
+.q-radio-input[data-color=info]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-info);
+}
+
+.q-radio-input[data-color=blue]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-blue);
+  background-color: var(--hadr-color-blue);
+}
+
+.q-radio-input[data-color=blue]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-blue);
+}
+
+.q-radio-input[data-color=indigo]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-indigo);
+  background-color: var(--hadr-color-indigo);
+}
+
+.q-radio-input[data-color=indigo]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-indigo);
+}
+
+.q-radio-input[data-color=purple]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-purple);
+  background-color: var(--hadr-color-purple);
+}
+
+.q-radio-input[data-color=purple]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-purple);
+}
+
+.q-radio-input[data-color=pink]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-pink);
+  background-color: var(--hadr-color-pink);
+}
+
+.q-radio-input[data-color=pink]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-pink);
+}
+
+.q-radio-input[data-color=red]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-red);
+  background-color: var(--hadr-color-red);
+}
+
+.q-radio-input[data-color=red]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-red);
+}
+
+.q-radio-input[data-color=orange]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-orange);
+  background-color: var(--hadr-color-orange);
+}
+
+.q-radio-input[data-color=orange]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-orange);
+}
+
+.q-radio-input[data-color=yellow]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-yellow);
+  background-color: var(--hadr-color-yellow);
+}
+
+.q-radio-input[data-color=yellow]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-yellow);
+}
+
+.q-radio-input[data-color=green]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-green);
+  background-color: var(--hadr-color-green);
+}
+
+.q-radio-input[data-color=green]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-green);
+}
+
+.q-radio-input[data-color=emerald]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-emerald);
+  background-color: var(--hadr-color-emerald);
+}
+
+.q-radio-input[data-color=emerald]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-emerald);
+}
+
+.q-radio-input[data-color=teal]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-teal);
+  background-color: var(--hadr-color-teal);
+}
+
+.q-radio-input[data-color=teal]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-teal);
+}
+
+.q-radio-input[data-color=cyan]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-cyan);
+  background-color: var(--hadr-color-cyan);
+}
+
+.q-radio-input[data-color=cyan]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-cyan);
+}
+
+.q-radio-input[data-color=sky]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-sky);
+  background-color: var(--hadr-color-sky);
+}
+
+.q-radio-input[data-color=sky]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-sky);
+}
+
+.q-radio-input[data-color=slate]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-slate);
+  background-color: var(--hadr-color-slate);
+}
+
+.q-radio-input[data-color=slate]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-slate);
+}
+
+.q-radio-input[data-color=gray]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-gray);
+  background-color: var(--hadr-color-gray);
+}
+
+.q-radio-input[data-color=gray]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-gray);
+}
+
+.q-radio-input[data-color=zinc]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-zinc);
+  background-color: var(--hadr-color-zinc);
+}
+
+.q-radio-input[data-color=zinc]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-zinc);
+}
+
+.q-radio-input[data-color=neutral]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-neutral);
+  background-color: var(--hadr-color-neutral);
+}
+
+.q-radio-input[data-color=neutral]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-neutral);
+}
+
+.q-radio-input[data-color=stone]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-stone);
+  background-color: var(--hadr-color-stone);
+}
+
+.q-radio-input[data-color=stone]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-stone);
+}
+
+.q-radio-input[data-color=white]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-white);
+  background-color: var(--hadr-color-white);
+}
+
+.q-radio-input[data-color=white]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-white);
+}
+
+.q-radio-input[data-color=black]:checked + .q-radio-label .q-radio-indicator {
+  border-color: var(--hadr-color-black);
+  background-color: var(--hadr-color-black);
+}
+
+.q-radio-input[data-color=black]:focus-visible + .q-radio-label .q-radio-indicator {
+  outline-color: var(--hadr-color-black);
+}
+
+.q-radio-input:disabled + .q-radio-label {
+  cursor: not-allowed;
+}
+.q-radio-input:disabled + .q-radio-label .q-radio-indicator {
+  background-color: var(--hadr-disabled);
+  border-color: var(--hadr-text-subtle);
+}
+.q-radio-input:disabled + .q-radio-label .q-radio-indicator::after {
+  background-color: var(--hadr-text-subtle);
+}
+.q-radio-input:disabled + .q-radio-label .q-radio-text {
+  color: var(--hadr-text-subtle);
+}

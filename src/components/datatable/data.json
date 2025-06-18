@@ -1,0 +1,282 @@
+[
+    {
+            "id": 1,
+            "nombre": "Juan",
+            "apellido": "Pérez",
+            "email": "juan.perez@hotmail.com",
+            "telefono": "+54 9 11 2345-6789",
+            "status": "activo",
+            "empresa": { "nombre": "TechCorp"
+        }
+    },
+    {
+            "id": 2,
+            "nombre": "María",
+            "apellido": "González",
+            "email": "maria.gonzalez@example.com",
+            "telefono": "+54 9 11 9876-5432",
+            "status": "inactivo",
+            "empresa": { "nombre": "SoftSolutions"
+        }
+    },
+    {
+            "id": 3,
+            "nombre": "Carlos",
+            "apellido": "Ramírez",
+            "email": "carlos.ramirez@example.com",
+            "telefono": "+34 600 123 456",
+            "status": "activo",
+            "empresa": { "nombre": "Innovatech"
+        }
+    },
+    {
+            "id": 4,
+            "nombre": "Laura",
+            "apellido": "Fernández",
+            "email": "laura.fernandez@example.com",
+            "telefono": "+1 305 678 9012",
+            "status": "activo",
+            "empresa": { "nombre": "NextGen"
+        }
+    },
+    {
+            "id": 5,
+            "nombre": "Diego",
+            "apellido": "López",
+            "email": "diego.lopez@example.com",
+            "telefono": "+52 55 4321 8765",
+            "status": "inactivo",
+            "empresa": { "nombre": "CyberWorks"
+        }
+    },
+    {
+            "id": 6,
+            "nombre": "Ana",
+            "apellido": "Martínez",
+            "email": "pepita.martinez@example.com",
+            "telefono": "+33 7 89 56 34 12",
+            "status": "activo",
+            "empresa": { "nombre": "DevHub"
+        }
+    },
+    {
+            "id": 7,
+            "nombre": "Ricardo",
+            "apellido": "Sánchez",
+            "email": "ricardo.sanchez@example.com",
+            "telefono": "+49 151 23456789",
+            "status": "activo",
+            "empresa": { "nombre": "ByteWave"
+        }
+    },
+    {
+            "id": 8,
+            "nombre": "Elena",
+            "apellido": "Díaz",
+            "email": "elena.diaz@example.com",
+            "telefono": "+39 320 987 6543",
+            "status": "inactivo",
+            "empresa": { "nombre": "CodeLab"
+        }
+    },
+    {
+            "id": 9,
+            "nombre": "Roberto",
+            "apellido": "Torres",
+            "email": "roberto.torres@example.com",
+            "telefono": "+55 11 99876-5432",
+            "status": "activo",
+            "empresa": { "nombre": "TechNova"
+        }
+    },
+    {
+            "id": 10,
+            "nombre": "Gabriela",
+            "apellido": "Hernández",
+            "email": "gabriela.hernandez@example.com",
+            "telefono": "+44 7911 123456",
+            "status": "inactivo",
+            "empresa": { "nombre": "DataSync"
+        }
+    },
+    {
+            "id": 11,
+            "nombre": "Santiago",
+            "apellido": "Méndez",
+            "email": "santiago.mendez@example.com",
+            "telefono": "+1 415 234 5678",
+            "status": "activo",
+            "empresa": { "nombre": "CloudSphere"
+        }
+    },
+    {
+            "id": 12,
+            "nombre": "Valeria",
+            "apellido": "Castro",
+            "email": "valeria.castro@example.com",
+            "telefono": "+34 612 345 678",
+            "status": "activo",
+            "empresa": { "nombre": "NexaTech"
+        }
+    },
+    {
+            "id": 13,
+            "nombre": "Fernando",
+            "apellido": "Ortega",
+            "email": "fernando.ortega@example.com",
+            "telefono": "+57 320 876 5432",
+            "status": "inactivo",
+            "empresa": { "nombre": "QuantumSoft"
+        }
+    },
+    {
+            "id": 14,
+            "nombre": "Isabel",
+            "apellido": "Morales",
+            "email": "isabel.morales@example.com",
+            "telefono": "+351 912 345 678",
+            "status": "activo",
+            "empresa": { "nombre": "ByteFlow"
+        }
+    },
+    {
+            "id": 15,
+            "nombre": "Oscar",
+            "apellido": "Rojas",
+            "email": "oscar.rojas@example.com",
+            "telefono": "+506 7012 3456",
+            "status": "inactivo",
+            "empresa": { "nombre": "MetaDev"
+        }
+    },
+    {
+            "id": 16,
+            "nombre": "Carla",
+            "apellido": "Jiménez",
+            "email": "carla.jimenez@example.com",
+            "telefono": "+34 689 432 123",
+            "status": "activo",
+            "empresa": { "nombre": "SynergyTech"
+        }
+    },
+    {
+            "id": 17,
+            "nombre": "Luis",
+            "apellido": "Navarro",
+            "email": "luis.navarro@example.com",
+            "telefono": "+58 412 345 6789",
+            "status": "activo",
+            "empresa": { "nombre": "ZettaSoft"
+        }
+    },
+    {
+            "id": 18,
+            "nombre": "Mónica",
+            "apellido": "Paredes",
+            "email": "monica.paredes@example.com",
+            "telefono": "+502 5123 4567",
+            "status": "inactivo",
+            "empresa": { "nombre": "NovaCode"
+        }
+    },
+    {
+            "id": 19,
+            "nombre": "Esteban",
+            "apellido": "Cabrera",
+            "email": "esteban.cabrera@example.com",
+            "telefono": "+593 987 654 321",
+            "status": "activo",
+            "empresa": { "nombre": "XenonWorks"
+        }
+    },
+    {
+            "id": 20,
+            "nombre": "Silvia",
+            "apellido": "Vargas",
+            "email": "silvia.vargas@example.com",
+            "telefono": "+54 9 261 654 9876",
+            "status": "activo",
+            "empresa": { "nombre": "BitFusion"
+        }
+    },
+    {
+            "id": 21,
+            "nombre": "Joaquín",
+            "apellido": "Molina",
+            "email": "joaquin.molina@example.com",
+            "telefono": "+1 917 456 7890",
+            "status": "inactivo",
+            "empresa": { "nombre": "DataLink"
+        }
+    },
+    {
+            "id": 22,
+            "nombre": "Paula",
+            "apellido": "Reyes",
+            "email": "paula.reyes@example.com",
+            "telefono": "+57 314 789 1234",
+            "status": "activo",
+            "empresa": { "nombre": "CodeNet"
+        }
+    },
+    {
+            "id": 23,
+            "nombre": "Martín",
+            "apellido": "Suárez",
+            "email": "martin.suarez@example.com",
+            "telefono": "+56 9 7654 3210",
+            "status": "activo",
+            "empresa": { "nombre": "CyberLink"
+        }
+    },
+    {
+            "id": 24,
+            "nombre": "Julieta",
+            "apellido": "Peña",
+            "email": "julieta.pena@example.com",
+            "telefono": "+52 998 765 4321",
+            "status": "inactivo",
+            "empresa": { "nombre": "Innovex"
+        }
+    },
+    {
+            "id": 25,
+            "nombre": "Rodrigo",
+            "apellido": "Guzmán",
+            "email": "rodrigo.guzman@example.com",
+            "telefono": "+34 678 345 210",
+            "status": "activo",
+            "empresa": { "nombre": "BlueTech"
+        }
+    },
+    {
+            "id": 26,
+            "nombre": "Daniela",
+            "apellido": "Ramos",
+            "email": "daniela.ramos@example.com",
+            "telefono": "+351 964 321 678",
+            "status": "activo",
+            "empresa": { "nombre": "AI Solutions"
+        }
+    },
+    {
+            "id": 27,
+            "nombre": "Ezequiel",
+            "apellido": "Domínguez",
+            "email": "ezequiel.dominguez@example.com",
+            "telefono": "+54 9 341 765 4321",
+            "status": "inactivo",
+            "empresa": { "nombre": "CloudNest"
+        }
+    },
+    {
+            "id": 28,
+            "nombre": "Camila",
+            "apellido": "Salazar",
+            "email": "camila.salazar@example.com",
+            "telefono": "+506 6012 3456",
+            "status": "activo",
+            "empresa": { "nombre": "ByteSync"
+        }
+    }
+]

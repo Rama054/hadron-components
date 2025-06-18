@@ -1,0 +1,24 @@
+.q-inset img {
+  display: block;
+}
+.q-inset[data-side=bottom] {
+  margin: 0 -1rem -1rem -1rem;
+}
+.q-inset[data-side=top] {
+  margin: -1rem -1rem 0 -1rem;
+}
+.q-inset[data-side=left] {
+  margin: -1rem -1rem -1rem 0;
+}
+.q-inset[data-side=right] {
+  margin: -1rem 0 -1rem -1rem;
+}
+.q-inset[data-side=all] {
+  margin: -1rem;
+}
+.q-inset[data-side=x] {
+  margin: 0 -1rem;
+}
+.q-inset[data-side=y] {
+  margin: -1rem 0;
+}

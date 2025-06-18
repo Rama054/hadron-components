@@ -1,0 +1,54 @@
+{
+  "name": "hadron-components",
+  "version": "1.1.1",
+  "main": "dist/hadron-components.umd.js",
+  "module": "dist/hadron-components.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Librería de componentes para React",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "react-hook-form": "^7.55.0",
+    "react-icons": "^5.5.0",
+    "styled-components": "^6.1.16"
+  },
+  "dependencies": {
+    "cooltipz-css": "^2.3.1",
+    "react-router-dom": "^7.6.2",
+    "swapy": "^1.0.5"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.6",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@storybook/addon-essentials": "^8.6.7",
+    "@storybook/addon-onboarding": "^8.6.7",
+    "@storybook/blocks": "^8.6.7",
+    "@storybook/experimental-addon-test": "^8.6.7",
+    "@storybook/react": "^8.6.7",
+    "@storybook/react-vite": "^8.6.7",
+    "@storybook/test": "^8.6.7",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-v8": "^3.0.9",
+    "playwright": "^1.51.1",
+    "prop-types": "^15.8.1",
+    "rollup": "^4.36.0",
+    "storybook": "^8.6.7",
+    "vite": "^6.2.2",
+    "vitest": "^3.0.9"
+  }
+}

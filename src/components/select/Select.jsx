@@ -1,0 +1,389 @@
+import { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
+import '../../css/select.css';
+import { IoChevronDownOutline, IoChevronUpOutline, IoClose } from 'react-icons/io5';
+import Checkbox from '../checkbox/Checkbox';
+
+const Dropdown = ({ options, filter, onFilterChange, template, selectedValue, onChange, color, shouldResetFilter, multiple }) => {
+    const [filterValue, setFilterValue] = useState('');
+
+    const handleFilterInputChange = (e) => {
+        const value = e.target.value;
+        setFilterValue(value);
+        onFilterChange(value);
+    };
+
+    // Reset filter when dropdown closes
+    useEffect(() => {
+        if (shouldResetFilter) {
+            setFilterValue('');
+        }
+    }, [shouldResetFilter]);
+
+    const isOptionSelected = (option) => {
+        if (multiple) {
+            return Array.isArray(selectedValue) && selectedValue.some(item => item.value === option.value);
+        }
+        return selectedValue?.value === option.value;
+    };
+
+    return (
+        <div className='q-select-dropdown'>
+            {filter && (
+                <div className='q-select-filter-container'>
+                    <input
+                        type="text"
+                        className='q-select-filter-input'
+                        placeholder='Buscar...'
+                        value={filterValue}
+                        onChange={handleFilterInputChange}
+                    />
+                </div>
+            )}
+            <div className='q-select-options'>
+                {options.length > 0 ? (
+                    options.map((option, index) => (
+                        <div 
+                            key={index} 
+                            className={`q-select-option ${isOptionSelected(option) ? 'selected' : ''}`} 
+                            onClick={() => onChange(option)}
+                            role="option"
+                            aria-selected={isOptionSelected(option)}
+                        >
+                            {multiple && (
+                                <div className="q-select-checkbox-wrapper" onClick={(e) => e.stopPropagation()}>
+                                    <Checkbox 
+                                        checked={isOptionSelected(option)}
+                                        onChange={() => onChange(option)}
+                                        size="sm"
+                                        color={color}
+                                    />
+                                </div>
+                            )}
+                            <span className="q-select-option-label">
+                                {template ? template(option) : option.label}
+                            </span>
+                        </div>
+                    ))
+                ) : (
+                    <div className='q-select-option disabled'>No hay resultados</div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default function Select({ 
+    options = [], 
+    label, 
+    template, 
+    radius = "md", 
+    color = "primary", 
+    size = "md",
+    name, 
+    form, 
+    filter = false,
+    multiple = false,
+    disabled = false,
+    placeholder = "Seleccionar...",
+    defaultValue,
+    className,
+    ...props 
+}) {
+    const selectRef = useRef(null);
+    const [isOpen, setIsOpen] = useState(false);
+    
+    // Inicializar selectedValue según el modo
+    const [selectedValue, setSelectedValue] = useState(() => {
+        if (multiple) {
+            if (Array.isArray(defaultValue)) {
+                return defaultValue.map(val => options.find(opt => opt.value === val)).filter(Boolean);
+            }
+            return [];
+        } else {
+            return defaultValue ? options.find(opt => opt.value === defaultValue) || null : null;
+        }
+    });
+    
+    const [filteredOptions, setFilteredOptions] = useState(options);
+    const [filterResetKey, setFilterResetKey] = useState(0);
+
+    const field = form ? form.register(name) : {};
+
+    const handleSelect = (option) => {
+        if (multiple) {
+            const currentSelected = Array.isArray(selectedValue) ? selectedValue : [];
+            const isAlreadySelected = currentSelected.some(item => item.value === option.value);
+            
+            let newSelected;
+            if (isAlreadySelected) {
+                // Remover si ya está seleccionado
+                newSelected = currentSelected.filter(item => item.value !== option.value);
+            } else {
+                // Agregar si no está seleccionado
+                newSelected = [...currentSelected, option];
+            }
+            
+            setSelectedValue(newSelected);
+            
+            if (form) {
+                const values = newSelected.map(item => item.value);
+                form.setValue(name, values);
+                form.trigger(name);
+            }
+            
+            if (props.onChange) {
+                const values = newSelected.map(item => item.value);
+                props.onChange(values);
+            }
+            
+            // En modo múltiple, no cerrar el dropdown
+        } else {
+            // Modo simple (comportamiento original)
+            setIsOpen(false);
+            setSelectedValue(option);
+
+            if (form) {
+                form.setValue(name, option.value);
+                form.trigger(name);
+            }
+
+            if (props.onChange) props.onChange(option.value);
+        }
+    };
+
+    // Función para eliminar un elemento específico
+    const handleRemoveItem = (itemToRemove, e) => {
+        e.stopPropagation();
+        if (multiple && Array.isArray(selectedValue)) {
+            const newSelected = selectedValue.filter(item => item.value !== itemToRemove.value);
+            setSelectedValue(newSelected);
+            
+            if (form) {
+                const values = newSelected.map(item => item.value);
+                form.setValue(name, values);
+                form.trigger(name);
+            }
+            
+            if (props.onChange) {
+                const values = newSelected.map(item => item.value);
+                props.onChange(values);
+            }
+        }
+    };
+
+    // Función para renderizar los chips de elementos seleccionados
+    const renderSelectedChips = () => {
+        if (!multiple || !Array.isArray(selectedValue) || selectedValue.length === 0) {
+            return null;
+        }
+
+        const maxVisibleChips = 2;
+        const visibleItems = selectedValue.slice(0, maxVisibleChips);
+        const remainingCount = selectedValue.length - maxVisibleChips;
+
+        return (
+            <div className="q-select-chips">
+                {visibleItems.map((item, index) => (
+                    <div key={index} className="q-select-chip">
+                        <span className="q-select-chip-label">
+                            {template ? template(item) : item.label}
+                        </span>
+                        <button
+                            type="button"
+                            className="q-select-chip-remove"
+                            onClick={(e) => handleRemoveItem(item, e)}
+                            aria-label={`Eliminar ${item.label}`}
+                        >
+                            <IoClose size={14} />
+                        </button>
+                    </div>
+                ))}
+                {remainingCount > 0 && (
+                    <div className="q-select-chip q-select-chip-more">
+                        +{remainingCount}
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    const normalizeText = (text) => {
+        return text
+            .toLowerCase()
+            .normalize('NFD') // Descompone caracteres acentuados
+            .replace(/[\u0300-\u036f]/g, ''); // Elimina diacríticos
+    };
+
+    const handleFilterChange = (value) => {
+        const normalizedValue = normalizeText(value);
+        const newFilteredOptions = options.filter(option => {
+            const normalizedLabel = normalizeText(option.label);
+            return normalizedLabel.split(' ').some(word => 
+                word.startsWith(normalizedValue)
+            );
+        });
+        setFilteredOptions(newFilteredOptions);
+    };
+
+    const closeModal = () => {
+        setIsOpen(false);
+        setFilteredOptions(options);
+        setFilterResetKey(prev => prev + 1); // Trigger filter reset
+    };
+
+    const toggleOpen = () => {
+        if (!disabled) {
+            setIsOpen(!isOpen);
+        }
+    };
+
+    // Función para obtener el texto del placeholder
+    const getPlaceholderText = () => {
+        if (multiple) {
+            const selected = Array.isArray(selectedValue) ? selectedValue : [];
+            if (selected.length === 0) {
+                return (
+                    <span className="q-select-placeholder-text">{placeholder}</span>
+                );
+            } else {
+                return (
+                    <div className="q-select-selected-container">
+                        {renderSelectedChips()}
+                    </div>
+                );
+            }
+        } else {
+            if (selectedValue) {
+                return (
+                    <span className="q-select-placeholder-text">
+                        {template ? template(selectedValue) : selectedValue.label}
+                    </span>
+                );
+            }
+            return (
+                <span className="q-select-placeholder-text">{placeholder}</span>
+            );
+        }
+    };
+
+    // Función para obtener el valor del input oculto
+    const getHiddenInputValue = () => {
+        if (multiple) {
+            const selected = Array.isArray(selectedValue) ? selectedValue : [];
+            return JSON.stringify(selected.map(item => item.value));
+        } else {
+            return selectedValue?.value || '';
+        }
+    };
+
+    // Update filtered options when options prop changes
+    useEffect(() => {
+        setFilteredOptions(options);
+    }, [options]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            const dropdown = document.querySelector('.q-select-dropdown');
+
+            if (selectRef.current && selectRef.current.contains(event.target)) {
+                return;
+            }
+            if (dropdown && !dropdown.contains(event.target)) {
+                closeModal();
+            }
+        };
+
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
+    let rootClassName = 'q-select-root';
+    if (className) rootClassName += ` ${className}`;
+    if (disabled) rootClassName += ' q-select-disabled';
+    	
+    console.log(isOpen)
+
+    return (
+        <div className={rootClassName} ref={selectRef} data-radius={radius} data-color={color} data-size={size} {...props}>
+            {label && (
+                <label htmlFor={name} className="q-select-label">
+                    {label}
+                </label>
+            )}
+
+            <button
+                type="button"
+                className='q-select-trigger'
+                onClick={toggleOpen}
+                disabled={disabled}
+                aria-expanded={isOpen}
+                aria-haspopup="listbox"
+            >
+                <div className='q-select-placeholder'>
+                    {getPlaceholderText()}
+                </div>
+               <IoChevronUpOutline size={20} />
+            </button>
+
+            {/* Input oculto para compatibilidad con formularios nativos y react-hook-form */}
+            <input
+                type="hidden"
+                name={name}
+                ref={field.ref}
+                value={getHiddenInputValue()}
+                {...field}
+            />
+
+            {isOpen && (
+                <Dropdown
+                    selectedValue={selectedValue}
+                    template={template}
+                    options={filteredOptions}
+                    filter={filter}
+                    onFilterChange={handleFilterChange}
+                    onChange={handleSelect}
+                    color={color}
+                    shouldResetFilter={filterResetKey}
+                    multiple={multiple}
+                />
+            )}
+        </div>
+    );
+}
+
+Select.propTypes = {
+    options: PropTypes.arrayOf(PropTypes.shape({
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+        label: PropTypes.string.isRequired
+    })).isRequired,
+    label: PropTypes.string,
+    template: PropTypes.func,
+    radius: PropTypes.oneOf(['none', 'sm', 'md', 'lg', 'full']),
+    color: PropTypes.string,
+    size: PropTypes.oneOf(['sm', 'md', 'lg']),
+    name: PropTypes.string,
+    form: PropTypes.object,
+    filter: PropTypes.bool,
+    multiple: PropTypes.bool,
+    disabled: PropTypes.bool,
+    placeholder: PropTypes.string,
+    defaultValue: PropTypes.oneOfType([
+        PropTypes.string, 
+        PropTypes.number, 
+        PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))
+    ]),
+    className: PropTypes.string,
+    onChange: PropTypes.func
+};

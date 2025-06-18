@@ -1,0 +1,164 @@
+.q-sidebar-root[data-position=left] .q-sidebar {
+  position: fixed;
+  z-index: 1000;
+  background-color: var(--background-sidebar, var(--hadr-surface-bg));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: var(--sidebar-size);
+  height: 100vh;
+  left: calc(var(--sidebar-size) * -1);
+  top: 0;
+  border-right: 1px solid var(--hadr-border-color);
+  box-shadow: 4px 0 6px -1px var(--hadr-shadow);
+}
+.q-sidebar-root[data-position=left][data-open=true] .q-sidebar {
+  left: 0;
+}
+.q-sidebar-root[data-position=left][data-open=true] .q-sidebar-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+.q-sidebar-root[data-position=left][data-open=false] .q-sidebar-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+.q-sidebar-root[data-position=right] .q-sidebar {
+  position: fixed;
+  z-index: 1000;
+  background-color: var(--background-sidebar, var(--hadr-surface-bg));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: var(--sidebar-size);
+  height: 100vh;
+  right: calc(var(--sidebar-size) * -1);
+  top: 0;
+  border-left: 1px solid var(--hadr-border-color);
+  box-shadow: -4px 0 6px -1px var(--hadr-shadow);
+}
+.q-sidebar-root[data-position=right][data-open=true] .q-sidebar {
+  right: 0;
+}
+.q-sidebar-root[data-position=right][data-open=true] .q-sidebar-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+.q-sidebar-root[data-position=right][data-open=false] .q-sidebar-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+.q-sidebar-root[data-position=top] .q-sidebar {
+  position: fixed;
+  z-index: 1000;
+  background-color: var(--background-sidebar, var(--hadr-surface-bg));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100vw;
+  height: var(--sidebar-size);
+  top: calc(var(--sidebar-size) * -1);
+  left: 0;
+  border-bottom: 1px solid var(--hadr-border-color);
+  box-shadow: 0 4px 6px -1px var(--hadr-shadow);
+}
+.q-sidebar-root[data-position=top][data-open=true] .q-sidebar {
+  top: 0;
+}
+.q-sidebar-root[data-position=top][data-open=true] .q-sidebar-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+.q-sidebar-root[data-position=top][data-open=false] .q-sidebar-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+.q-sidebar-root[data-position=bottom] .q-sidebar {
+  position: fixed;
+  z-index: 1000;
+  background-color: var(--background-sidebar, var(--hadr-surface-bg));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100vw;
+  height: var(--sidebar-size);
+  bottom: calc(var(--sidebar-size) * -1);
+  left: 0;
+  border-top: 1px solid var(--hadr-border-color);
+  box-shadow: 0 -4px 6px -1px var(--hadr-shadow);
+}
+.q-sidebar-root[data-position=bottom][data-open=true] .q-sidebar {
+  bottom: 0;
+}
+.q-sidebar-root[data-position=bottom][data-open=true] .q-sidebar-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+.q-sidebar-root[data-position=bottom][data-open=false] .q-sidebar-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.q-sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 999;
+  -webkit-backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
+}
+
+.q-sidebar {
+  position: relative;
+  box-sizing: border-box;
+  background-color: var(--background-sidebar, var(--hadr-surface-bg));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.q-sidebar-content {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.q-sidebar-content::-webkit-scrollbar {
+  width: 6px;
+}
+.q-sidebar-content::-webkit-scrollbar-track {
+  background: var(--hadr-border-light);
+}
+.q-sidebar-content::-webkit-scrollbar-thumb {
+  background: var(--hadr-text-muted);
+  border-radius: 3px;
+}
+.q-sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: var(--hadr-color);
+}
+
+.q-sidebar-close {
+  position: absolute !important;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+}
+.q-sidebar-close svg {
+  color: var(--hadr-color);
+}
+.q-sidebar-close:hover svg {
+  color: var(--hadr-color-danger);
+}
+
+[data-theme=dark] .q-sidebar {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+[data-theme=dark] .q-sidebar-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 768px) {
+  .q-sidebar-root[data-position=left] .q-sidebar,
+  .q-sidebar-root[data-position=right] .q-sidebar {
+    width: min(var(--sidebar-size), 90vw);
+  }
+  .q-sidebar-root[data-position=top] .q-sidebar,
+  .q-sidebar-root[data-position=bottom] .q-sidebar {
+    height: min(var(--sidebar-size), 90vh);
+  }
+}

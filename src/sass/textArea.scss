@@ -1,0 +1,205 @@
+@import 'partials/colors';
+@import 'partials/radius';
+@import 'partials/variables';
+
+@mixin textarea-size($size) {
+    $map: (
+        "sm": (padding: 0.5rem 0.75rem, font-size: 0.875rem, min-height: 80px),
+        "md": (padding: 0.625rem 1rem, font-size: 0.875rem, min-height: 100px),
+        "lg": (padding: 0.75rem 1.25rem, font-size: 1rem, min-height: 120px)
+    );
+    
+    $props: map-get($map, $size);
+    padding: map-get($props, padding);
+    font-size: map-get($props, font-size);
+    min-height: map-get($props, min-height);
+}
+
+.q-textarea-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    
+    &.q-textarea-disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        
+        .q-textarea-label {
+            cursor: not-allowed;
+        }
+    }
+}
+
+.q-textarea-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--#{$prefix}color);
+    line-height: 1.5;
+    
+    .q-textarea-required {
+        color: var(--#{$prefix}color-danger);
+        margin-left: 0.25rem;
+    }
+}
+
+.q-textarea-wrapper {
+    position: relative;
+    
+    // Radius variants
+    @each $name, $size in $radius {
+        &[data-radius="#{$name}"] .q-textarea {
+            border-radius: $size;
+        }
+    }
+    
+    // Resize variants
+    &[data-resize="none"] .q-textarea {
+        resize: none;
+    }
+    
+    &[data-resize="vertical"] .q-textarea {
+        resize: vertical;
+    }
+    
+    &[data-resize="horizontal"] .q-textarea {
+        resize: horizontal;
+    }
+    
+    &[data-resize="both"] .q-textarea {
+        resize: both;
+    }
+}
+
+.q-textarea {
+    width: 100%;
+    border: 1px solid var(--#{$prefix}border-color);
+    background-color: var(--#{$prefix}surface-bg);
+    color: var(--#{$prefix}color);
+    font-family: inherit;
+    line-height: 1.5;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    box-sizing: border-box;
+    
+    // Default size
+    @include textarea-size(md);
+    
+    // Size variants
+    @each $size in sm, md, lg {
+        .q-textarea-wrapper[data-size="#{$size}"] & {
+            @include textarea-size($size);
+        }
+    }
+    
+    &::placeholder {
+        color: var(--#{$prefix}text-subtle);
+        opacity: 1;
+    }
+    
+    &:hover:not(:disabled) {
+        border-color: var(--#{$prefix}text-muted);
+    }
+    
+    &:focus {
+        border-color: var(--#{$prefix}color-primary);
+        box-shadow: 0 0 0 3px var(--#{$prefix}color-primary-light);
+    }
+    
+    &:disabled {
+        cursor: not-allowed;
+        background-color: var(--#{$prefix}disabled);
+        color: var(--#{$prefix}text-subtle);
+        
+        &::placeholder {
+            color: var(--#{$prefix}text-subtle);
+        }
+    }
+    
+    // Remove autofill styles
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 1000px var(--#{$prefix}surface-bg) inset;
+        -webkit-text-fill-color: var(--#{$prefix}color);
+        transition: background-color 5000s ease-in-out 0s;
+    }
+}
+
+.q-textarea-counter {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--#{$prefix}text-muted);
+    background-color: var(--#{$prefix}surface-bg);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--#{$prefix}border-light);
+    font-variant-numeric: tabular-nums;
+    
+    &.near-limit {
+        color: var(--#{$prefix}color-warning);
+        border-color: var(--#{$prefix}color-warning);
+    }
+    
+    &.over-limit {
+        color: var(--#{$prefix}color-danger);
+        border-color: var(--#{$prefix}color-danger);
+        background-color: var(--#{$prefix}color-danger-light);
+    }
+}
+
+.q-textarea-help-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.q-textarea-help-text {
+    font-size: 0.75rem;
+    color: var(--#{$prefix}text-muted);
+    line-height: 1.4;
+    margin: 0;
+}
+
+.q-textarea-error-text {
+    font-size: 0.75rem;
+    color: var(--#{$prefix}color-danger);
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 500;
+}
+
+// Color variants
+@each $name, $color in $colors {
+    .q-textarea-wrapper[data-color="#{$name}"] .q-textarea {
+        &:focus {
+            border-color: var(--#{$prefix}color-#{$name});
+            box-shadow: 0 0 0 3px var(--#{$prefix}color-#{$name}-light);
+        }
+    }
+}
+
+// Error state
+.q-textarea-container.q-textarea-error {
+    .q-textarea {
+        border-color: var(--#{$prefix}color-danger);
+        
+        &:focus {
+            border-color: var(--#{$prefix}color-danger);
+            box-shadow: 0 0 0 3px var(--#{$prefix}color-danger-light);
+        }
+    }
+}
+
+// Dark mode adjustments
+[data-theme="dark"] {
+    .q-textarea:-webkit-autofill,
+    .q-textarea:-webkit-autofill:hover,
+    .q-textarea:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 1000px var(--#{$prefix}surface-bg) inset;
+        -webkit-text-fill-color: var(--#{$prefix}color);
+    }
+}

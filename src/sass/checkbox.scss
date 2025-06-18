@@ -1,0 +1,184 @@
+@import 'partials/colors';
+@import 'partials/variables';
+
+@mixin checkbox-size($size) {
+    $map: (
+        "sm": (width: 16px, height: 16px, font-size: 0.875rem),
+        "md": (width: 20px, height: 20px, font-size: 0.875rem),
+        "lg": (width: 24px, height: 24px, font-size: 1rem)
+    );
+    
+    $props: map-get($map, $size);
+    width: map-get($props, width);
+    height: map-get($props, height);
+    font-size: map-get($props, font-size);
+}
+
+.q-checkbox-root {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .q-checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        cursor: pointer;
+        width: fit-content;
+    }
+
+    .q-checkbox-input {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        margin: 0;
+        padding: 0;
+        border-radius: 4px;
+        background-color: var(--#{$prefix}surface-bg);
+        border: 2px solid var(--#{$prefix}border-color);
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        flex-shrink: 0;
+
+        // Sizes
+        @each $size in sm, md, lg {
+            &[data-size="#{$size}"] {
+                @include checkbox-size($size);
+            }
+        }
+
+        // Checkmark
+        &::after {
+            content: "";
+            position: absolute;
+            display: none;
+            width: 6px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            top: 1px;
+        }
+
+        // Indeterminate state
+        &:indeterminate {
+            @each $name, $color in $colors {
+                &[data-color="#{$name}"] {
+                    background-color: var(--#{$prefix}color-#{$name});
+                    border-color: var(--#{$prefix}color-#{$name});
+                }
+            }
+
+            &::after {
+                display: block;
+                width: 8px;
+                height: 2px;
+                border: none;
+                background-color: white;
+                transform: none;
+                top: 50%;
+                left: 50%;
+                margin-left: -4px;
+                margin-top: -1px;
+                border-radius: 1px;
+            }
+        }
+
+        // Checked state
+        &:checked {
+            @each $name, $color in $colors {
+                &[data-color="#{$name}"] {
+                    background-color: var(--#{$prefix}color-#{$name});
+                    border-color: var(--#{$prefix}color-#{$name});
+                }
+            }
+
+            &::after {
+                display: block;
+            }
+        }
+
+        // Hover state
+        &:hover:not(:disabled) {
+            border-color: var(--#{$prefix}color-primary);
+            box-shadow: 0 0 0 3px var(--#{$prefix}color-primary-light);
+        }
+
+        // Focus state
+        &:focus {
+            outline: none;
+            border-color: var(--#{$prefix}color-primary);
+            box-shadow: 0 0 0 3px var(--#{$prefix}color-primary-light);
+        }
+
+        // Disabled state
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+            background-color: var(--#{$prefix}disabled);
+            border-color: var(--#{$prefix}disabled);
+
+            &:checked {
+                background-color: var(--#{$prefix}disabled);
+                border-color: var(--#{$prefix}disabled);
+            }
+        }
+    }
+
+    .q-checkbox-label {
+        cursor: pointer;
+        color: var(--#{$prefix}color);
+        font-weight: 500;
+        line-height: 1.5;
+        user-select: none;
+        transition: color 0.2s ease-in-out;
+    }
+
+    .q-checkbox-help {
+        margin-left: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .q-help-text {
+        font-size: 0.75rem;
+        color: var(--#{$prefix}text-muted);
+        line-height: 1.4;
+    }
+
+    .q-error-text {
+        font-size: 0.75rem;
+        color: var(--#{$prefix}color-danger);
+        line-height: 1.4;
+    }
+
+    // Error state
+    &.q-checkbox-error {
+        .q-checkbox-input {
+            border-color: var(--#{$prefix}color-danger);
+            
+            &:hover:not(:disabled) {
+                border-color: var(--#{$prefix}color-danger);
+                box-shadow: 0 0 0 3px var(--#{$prefix}color-danger-light);
+            }
+
+            &:focus {
+                border-color: var(--#{$prefix}color-danger);
+                box-shadow: 0 0 0 3px var(--#{$prefix}color-danger-light);
+            }
+        }
+    }
+
+    // Disabled state
+    &.q-checkbox-disabled {
+        .q-checkbox-label {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+    }
+}

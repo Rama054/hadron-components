@@ -1,0 +1,70 @@
+@import "partials/variables";
+
+.q-modal-root{
+    width: fit-content;
+}
+
+.q-modal-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color 0.2s ease-in-out;
+    
+    &.q-modal-overlay-open {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+}
+
+.q-modal-content{
+    background-color: var(--#{$prefix}surface-bg);
+    border: 1px solid var(--#{$prefix}border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-y: auto;
+    transform: scale(0.95);
+    opacity: 0;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    &.q-modal-content-open {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .q-modal-header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+
+        span{
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--#{$prefix}color);
+            min-height: 20px;
+            padding: 5px 0;
+        }
+    }
+
+    .q-modal-close{
+        align-self: start;
+        cursor: pointer;
+        svg{
+            color: var(--#{$prefix}color);
+        }   
+    }
+
+    .q-modal-footer{
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+}

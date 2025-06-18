@@ -1,0 +1,311 @@
+:root,
+[data-theme=light] {
+  --hadr-body-font-size: 1rem;
+  --hadr-body-bg: #fafbfc;
+  --hadr-color: #2d3748;
+  --hadr-color-rgb: 45, 55, 72;
+  --hadr-surface-bg: #ffffff;
+  --hadr-text-muted: #718096;
+  --hadr-text-subtle: #a0aec0;
+  --hadr-selected: #edf2f7;
+  --hadr-hover-bg: #f7fafc;
+  --hadr-border-color: #e2e8f0;
+  --hadr-border-light: #edf2f7;
+  --hadr-disabled: #e2e8f0;
+  --hadr-shadow: rgba(0, 0, 0, 0.1);
+  --hadr-shadow-lg: rgba(0, 0, 0, 0.15);
+  --hadr-color-primary-rgb: 59, 130, 246;
+  --hadr-color-primary: #3b82f6;
+  --hadr-color-primary-hover: #0b63f3;
+  --hadr-color-primary-active: #0a59da;
+  --hadr-color-primary-light: rgba(59, 130, 246, 0.1);
+  --hadr-color-secondary: #64748b;
+  --hadr-color-secondary-hover: #4f5b6d;
+  --hadr-color-secondary-active: #444f5f;
+  --hadr-color-secondary-light: rgba(100, 116, 139, 0.1);
+  --hadr-color-accent: #8b5cf6;
+  --hadr-color-accent-hover: #692cf3;
+  --hadr-color-accent-active: #5714f2;
+  --hadr-color-accent-light: rgba(139, 92, 246, 0.1);
+  --hadr-color-success: #10b981;
+  --hadr-color-success-hover: #0c8a60;
+  --hadr-color-success-active: #0a7350;
+  --hadr-color-success-light: rgba(16, 185, 129, 0.1);
+  --hadr-color-warning: #f59e0b;
+  --hadr-color-warning-hover: #c57f08;
+  --hadr-color-warning-active: #ac6f07;
+  --hadr-color-warning-light: rgba(245, 158, 11, 0.1);
+  --hadr-color-danger: #ef4444;
+  --hadr-color-danger-hover: #eb1515;
+  --hadr-color-danger-active: #d41212;
+  --hadr-color-danger-light: rgba(239, 68, 68, 0.1);
+  --hadr-color-info: #0ea5e9;
+  --hadr-color-info-hover: #0b83b9;
+  --hadr-color-info-active: #0a72a1;
+  --hadr-color-info-light: rgba(14, 165, 233, 0.1);
+  --hadr-color-blue: #3b82f6;
+  --hadr-color-blue-hover: #0b63f3;
+  --hadr-color-blue-active: #0a59da;
+  --hadr-color-blue-light: rgba(59, 130, 246, 0.1);
+  --hadr-color-indigo: #6366f1;
+  --hadr-color-indigo-hover: #3438ed;
+  --hadr-color-indigo-active: #1d21eb;
+  --hadr-color-indigo-light: rgba(99, 102, 241, 0.1);
+  --hadr-color-purple: #8b5cf6;
+  --hadr-color-purple-hover: #692cf3;
+  --hadr-color-purple-active: #5714f2;
+  --hadr-color-purple-light: rgba(139, 92, 246, 0.1);
+  --hadr-color-pink: #ec4899;
+  --hadr-color-pink-hover: #e71a7f;
+  --hadr-color-pink-active: #d21673;
+  --hadr-color-pink-light: rgba(236, 72, 153, 0.1);
+  --hadr-color-red: #ef4444;
+  --hadr-color-red-hover: #eb1515;
+  --hadr-color-red-active: #d41212;
+  --hadr-color-red-light: rgba(239, 68, 68, 0.1);
+  --hadr-color-orange: #f97316;
+  --hadr-color-orange-hover: #d65b06;
+  --hadr-color-orange-active: #be5105;
+  --hadr-color-orange-light: rgba(249, 115, 22, 0.1);
+  --hadr-color-yellow: #eab308;
+  --hadr-color-yellow-hover: #b98d06;
+  --hadr-color-yellow-active: #a07a05;
+  --hadr-color-yellow-light: rgba(234, 179, 8, 0.1);
+  --hadr-color-green: #22c55e;
+  --hadr-color-green-hover: #1a9a49;
+  --hadr-color-green-active: #17843f;
+  --hadr-color-green-light: rgba(34, 197, 94, 0.1);
+  --hadr-color-emerald: #10b981;
+  --hadr-color-emerald-hover: #0c8a60;
+  --hadr-color-emerald-active: #0a7350;
+  --hadr-color-emerald-light: rgba(16, 185, 129, 0.1);
+  --hadr-color-teal: #14b8a6;
+  --hadr-color-teal-hover: #0f8a7d;
+  --hadr-color-teal-active: #0d7368;
+  --hadr-color-teal-light: rgba(20, 184, 166, 0.1);
+  --hadr-color-cyan: #06b6d4;
+  --hadr-color-cyan-hover: #058ba2;
+  --hadr-color-cyan-active: #04768a;
+  --hadr-color-cyan-light: rgba(6, 182, 212, 0.1);
+  --hadr-color-sky: #0ea5e9;
+  --hadr-color-sky-hover: #0b83b9;
+  --hadr-color-sky-active: #0a72a1;
+  --hadr-color-sky-light: rgba(14, 165, 233, 0.1);
+  --hadr-color-slate: #64748b;
+  --hadr-color-slate-hover: #4f5b6d;
+  --hadr-color-slate-active: #444f5f;
+  --hadr-color-slate-light: rgba(100, 116, 139, 0.1);
+  --hadr-color-gray: #6b7280;
+  --hadr-color-gray-hover: #545964;
+  --hadr-color-gray-active: #484d56;
+  --hadr-color-gray-light: rgba(107, 114, 128, 0.1);
+  --hadr-color-zinc: #71717a;
+  --hadr-color-zinc-hover: #585860;
+  --hadr-color-zinc-active: #4c4c52;
+  --hadr-color-zinc-light: rgba(113, 113, 122, 0.1);
+  --hadr-color-neutral: #737373;
+  --hadr-color-neutral-hover: #5a5a5a;
+  --hadr-color-neutral-active: #4d4d4d;
+  --hadr-color-neutral-light: rgba(115, 115, 115, 0.1);
+  --hadr-color-stone: #78716c;
+  --hadr-color-stone-hover: #5d5854;
+  --hadr-color-stone-active: #504b48;
+  --hadr-color-stone-light: rgba(120, 113, 108, 0.1);
+  --hadr-color-white: #ffffff;
+  --hadr-color-white-hover: #e6e6e6;
+  --hadr-color-white-active: #d9d9d9;
+  --hadr-color-white-light: rgba(255, 255, 255, 0.1);
+  --hadr-color-black: #000000;
+  --hadr-color-black-hover: black;
+  --hadr-color-black-active: black;
+  --hadr-color-black-light: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme=dark] {
+  color-scheme: dark;
+  --hadr-body-bg: #0d1117;
+  --hadr-color: #f0f6fc;
+  --hadr-color-rgb: 240, 246, 252;
+  --hadr-surface-bg: #161b22;
+  --hadr-text-muted: #8b949e;
+  --hadr-text-subtle: #6e7681;
+  --hadr-selected: #21262d;
+  --hadr-hover-bg: #1c2128;
+  --hadr-border-color: #30363d;
+  --hadr-border-light: #21262d;
+  --hadr-disabled: #484f58;
+  --hadr-shadow: rgba(0, 0, 0, 0.3);
+  --hadr-shadow-lg: rgba(0, 0, 0, 0.5);
+  --hadr-color-primary-rgb: 88, 166, 255;
+}
+
+body {
+  margin: 0;
+  background-color: var(--hadr-body-bg);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  font-family: "Roboto", sans-serif;
+  transition: background 0.2s, color 0.2s;
+  scroll-behavior: smooth;
+}
+
+.hr,
+hr {
+  margin: 2rem 0;
+  color: inherit;
+  border: 0;
+  border-top: var(--hadr-border-width) solid;
+  opacity: 0.16;
+}
+
+.h1,
+h1 {
+  font-size: 1.5rem;
+}
+
+.h2,
+h2 {
+  font-size: 1.25rem;
+}
+
+.h3,
+h3 {
+  font-size: 1rem;
+}
+
+.h4,
+h4 {
+  font-size: 0.875rem;
+}
+
+.h5,
+h5 {
+  font-size: 0.75rem;
+}
+
+.h6,
+h6 {
+  font-size: 0.625rem;
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--hadr-text-muted);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--hadr-color);
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--hadr-border-light);
+}
+
+.small,
+small {
+  font-size: 0.875em;
+}
+
+img,
+svg {
+  vertical-align: middle;
+}
+
+table {
+  caption-side: bottom;
+  border-collapse: collapse;
+}
+
+caption {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  color: var(--hadr-secondary-color);
+  text-align: left;
+}
+
+th {
+  text-align: inherit;
+  text-align: -webkit-match-parent;
+}
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+}
+
+label {
+  display: inline-block;
+}
+
+button {
+  border-radius: 0;
+}
+
+button:focus:not(:focus-visible) {
+  outline: 0;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+[role=button] {
+  cursor: pointer;
+}
+
+select {
+  word-wrap: normal;
+}
+
+select:disabled {
+  opacity: 1;
+}
+
+[type=button]:not(:disabled),
+[type=reset]:not(:disabled),
+[type=submit]:not(:disabled),
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+.img-thumbnail {
+  padding: 0.25rem;
+  background-color: var(--hadr-body-bg);
+  border: var(--hadr-border-width) solid var(--hadr-border-color);
+  border-radius: var(--hadr-border-radius);
+  box-shadow: var(--hadr-box-shadow-sm);
+  max-width: 100%;
+  height: auto;
+}

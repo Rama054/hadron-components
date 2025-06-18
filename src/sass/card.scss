@@ -1,0 +1,189 @@
+@import "partials/colors";
+@import 'partials/variables';
+
+@mixin card-padding($size) {
+    $map: (
+        "none": 0,
+        "sm": 0.75rem,
+        "md": 1rem,
+        "lg": 1.25rem,
+        "xl": 1.5rem
+    );
+    padding: map-get($map, $size);
+}
+
+@mixin card-radius($size) {
+    $map: (
+        "none": 0,
+        "sm": 6px,
+        "md": 8px,
+        "lg": 12px,
+        "xl": 16px
+    );
+    border-radius: map-get($map, $size);
+}
+
+@mixin card-shadow($size) {
+    $map: (
+        "none": none,
+        "sm": 0 1px 2px 0 var(--#{$prefix}shadow),
+        "md": 0 4px 6px -1px var(--#{$prefix}shadow),
+        "lg": 0 10px 15px -3px var(--#{$prefix}shadow),
+        "xl": 0 20px 25px -5px var(--#{$prefix}shadow)
+    );
+    box-shadow: map-get($map, $size);
+}
+
+.q-card-root {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    text-align: start;
+    background-color: var(--#{$prefix}surface-bg);
+    border: 1px solid var(--#{$prefix}border-color);
+    width: fit-content;
+    height: fit-content;
+    line-height: 1.5;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+    
+    // Default settings
+    @include card-padding(md);
+    @include card-radius(lg);
+    @include card-shadow(sm);
+
+    // Padding variants
+    @each $size in none, sm, md, lg, xl {
+        &[data-padding="#{$size}"] {
+            @include card-padding($size);
+        }
+    }
+
+    // Radius variants
+    @each $size in none, sm, md, lg, xl {
+        &[data-radius="#{$size}"] {
+            @include card-radius($size);
+        }
+    }
+
+    // Shadow variants
+    @each $size in none, sm, md, lg, xl {
+        &[data-shadow="#{$size}"] {
+            @include card-shadow($size);
+        }
+    }
+
+    // Variant styles
+    &[data-variant="outlined"] {
+        border: 2px solid var(--#{$prefix}border-color);
+        box-shadow: none;
+    }
+
+    &[data-variant="filled"] {
+        background-color: var(--#{$prefix}selected);
+        border: 1px solid transparent;
+    }
+
+    &[data-variant="ghost"] {
+        background-color: transparent;
+        border: 1px solid transparent;
+        box-shadow: none;
+    }
+
+    // Color variants
+    @each $name, $color in $colors {
+        &[data-color="#{$name}"] {
+            background-color: var(--#{$prefix}color-#{$name}-light);
+            border-color: var(--#{$prefix}color-#{$name});
+            color: var(--#{$prefix}color-#{$name});
+            
+            .q-card-header {
+                border-bottom-color: var(--#{$prefix}color-#{$name});
+            }
+            
+            .q-card-footer {
+                border-top-color: var(--#{$prefix}color-#{$name});
+            }
+        }
+    }
+
+    // Hoverable effect
+    &.q-card-hoverable {
+        cursor: pointer;
+        
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px var(--#{$prefix}shadow-lg);
+            border-color: var(--#{$prefix}color-primary-light);
+        }
+    }
+
+    // Header section
+    .q-card-header {
+        padding: 0 1rem 0.75rem 1rem;
+        border-bottom: 1px solid var(--#{$prefix}border-light);
+        margin: 0 -1rem 1rem -1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 600;
+        color: var(--#{$prefix}color);
+        
+        &.q-card-header-no-divider {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+    }
+
+    // Body section
+    .q-card-body {
+        color: var(--#{$prefix}color);
+        line-height: 1.6;
+        
+        // Remove margin from first and last elements
+        > *:first-child {
+            margin-top: 0;
+        }
+        
+        > *:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    // Footer section
+    .q-card-footer {
+        padding: 0.75rem 1rem 0 1rem;
+        border-top: 1px solid var(--#{$prefix}border-light);
+        margin: 1rem -1rem 0 -1rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        
+        &.q-card-footer-no-divider {
+            border-top: none;
+            margin-top: 0;
+            padding-top: 0;
+        }
+    }
+
+    // Responsive adjustments
+    @media (max-width: 768px) {
+        &[data-padding="lg"] {
+            @include card-padding(md);
+        }
+        
+        &[data-padding="xl"] {
+            @include card-padding(lg);
+        }
+        
+        .q-card-header,
+        .q-card-footer {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+            margin-left: -0.75rem;
+            margin-right: -0.75rem;
+        }
+    }
+}

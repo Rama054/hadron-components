@@ -1,0 +1,779 @@
+.q-accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+}
+.q-accordion .q-accordion-header {
+  padding: 1rem 1.25rem;
+}
+.q-accordion .q-accordion-content {
+  padding: 1rem 1.25rem;
+}
+.q-accordion .q-accordion-icon svg,
+.q-accordion .q-accordion-chevron svg {
+  width: 16px;
+  height: 16px;
+}
+.q-accordion[data-size=sm] {
+  font-size: 0.875rem;
+}
+.q-accordion[data-size=sm] .q-accordion-header {
+  padding: 0.75rem 1rem;
+}
+.q-accordion[data-size=sm] .q-accordion-content {
+  padding: 0.75rem 1rem;
+}
+.q-accordion[data-size=sm] .q-accordion-icon svg,
+.q-accordion[data-size=sm] .q-accordion-chevron svg {
+  width: 14px;
+  height: 14px;
+}
+.q-accordion[data-size=md] {
+  font-size: 1rem;
+}
+.q-accordion[data-size=md] .q-accordion-header {
+  padding: 1rem 1.25rem;
+}
+.q-accordion[data-size=md] .q-accordion-content {
+  padding: 1rem 1.25rem;
+}
+.q-accordion[data-size=md] .q-accordion-icon svg,
+.q-accordion[data-size=md] .q-accordion-chevron svg {
+  width: 16px;
+  height: 16px;
+}
+.q-accordion[data-size=lg] {
+  font-size: 1.125rem;
+}
+.q-accordion[data-size=lg] .q-accordion-header {
+  padding: 1.25rem 1.5rem;
+}
+.q-accordion[data-size=lg] .q-accordion-content {
+  padding: 1.25rem 1.5rem;
+}
+.q-accordion[data-size=lg] .q-accordion-icon svg,
+.q-accordion[data-size=lg] .q-accordion-chevron svg {
+  width: 18px;
+  height: 18px;
+}
+.q-accordion.q-accordion-disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.q-accordion-tab {
+  border: 1px solid var(--hadr-border-color);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  background-color: var(--hadr-surface-bg);
+  transition: all 0.2s ease-in-out;
+}
+.q-accordion-tab:last-child {
+  margin-bottom: 0;
+}
+.q-accordion-tab.q-accordion-tab-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.q-accordion-tab.q-accordion-tab-disabled .q-accordion-header {
+  cursor: not-allowed;
+  background-color: var(--hadr-disabled);
+}
+.q-accordion[data-variant=bordered] .q-accordion-tab {
+  border: 2px solid var(--hadr-border-color);
+}
+.q-accordion[data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-primary);
+}
+.q-accordion[data-variant=filled] .q-accordion-tab {
+  background-color: var(--hadr-hover-bg);
+  border: 1px solid transparent;
+}
+.q-accordion[data-variant=filled] .q-accordion-tab .q-accordion-header {
+  background-color: transparent;
+}
+.q-accordion[data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-primary-light);
+  border-color: var(--hadr-color-primary);
+}
+.q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  border-radius: 8px 8px 0 0;
+}
+
+.q-accordion-header {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+  background-color: var(--hadr-surface-bg);
+  border-radius: 8px;
+}
+.q-accordion-header:hover:not(:disabled) {
+  background-color: var(--hadr-hover-bg);
+}
+.q-accordion-header:focus-visible {
+  outline: 2px solid var(--hadr-color-primary);
+  outline-offset: -2px;
+  z-index: 1;
+  position: relative;
+}
+.q-accordion-header:disabled {
+  cursor: not-allowed;
+}
+
+.q-accordion-header-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.q-accordion-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--hadr-text-muted);
+  transition: color 0.2s ease-in-out;
+}
+
+.q-accordion-title {
+  font-weight: 500;
+  color: var(--hadr-color);
+  line-height: 1.5;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.q-accordion-chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--hadr-text-muted);
+  transition: all 0.2s ease-in-out;
+  margin-left: 0.5rem;
+}
+.q-accordion-chevron.q-accordion-chevron-open {
+  transform: rotate(180deg);
+}
+
+.q-accordion-content-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-in-out;
+  border-top: 1px solid transparent;
+}
+.q-accordion-content-wrapper.q-accordion-content-open {
+  max-height: 1000px;
+  border-top-color: var(--hadr-border-light);
+}
+
+.q-accordion-content {
+  padding: 1rem 1.25rem;
+  color: var(--hadr-text-muted);
+  line-height: 1.6;
+}
+.q-accordion-content p {
+  margin: 0 0 1rem 0;
+}
+.q-accordion-content p:last-child {
+  margin-bottom: 0;
+}
+.q-accordion-content ul,
+.q-accordion-content ol {
+  margin: 0 0 1rem 0;
+  padding-left: 1.5rem;
+}
+.q-accordion-content ul:last-child,
+.q-accordion-content ol:last-child {
+  margin-bottom: 0;
+}
+.q-accordion-content li {
+  margin-bottom: 0.25rem;
+}
+
+.q-accordion[data-color=primary] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-primary-light);
+}
+.q-accordion[data-color=primary] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=primary] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-primary);
+}
+.q-accordion[data-color=primary] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-primary);
+}
+.q-accordion[data-color=primary] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-primary);
+}
+.q-accordion[data-color=primary][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-primary);
+}
+.q-accordion[data-color=primary][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-primary-light);
+  border-color: var(--hadr-color-primary);
+}
+
+.q-accordion[data-color=secondary] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-secondary-light);
+}
+.q-accordion[data-color=secondary] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=secondary] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-secondary);
+}
+.q-accordion[data-color=secondary] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-secondary);
+}
+.q-accordion[data-color=secondary] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-secondary);
+}
+.q-accordion[data-color=secondary][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-secondary);
+}
+.q-accordion[data-color=secondary][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-secondary-light);
+  border-color: var(--hadr-color-secondary);
+}
+
+.q-accordion[data-color=accent] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-accent-light);
+}
+.q-accordion[data-color=accent] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=accent] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-accent);
+}
+.q-accordion[data-color=accent] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-accent);
+}
+.q-accordion[data-color=accent] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-accent);
+}
+.q-accordion[data-color=accent][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-accent);
+}
+.q-accordion[data-color=accent][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-accent-light);
+  border-color: var(--hadr-color-accent);
+}
+
+.q-accordion[data-color=success] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-success-light);
+}
+.q-accordion[data-color=success] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=success] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-success);
+}
+.q-accordion[data-color=success] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-success);
+}
+.q-accordion[data-color=success] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-success);
+}
+.q-accordion[data-color=success][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-success);
+}
+.q-accordion[data-color=success][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-success-light);
+  border-color: var(--hadr-color-success);
+}
+
+.q-accordion[data-color=warning] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-warning-light);
+}
+.q-accordion[data-color=warning] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=warning] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-warning);
+}
+.q-accordion[data-color=warning] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-warning);
+}
+.q-accordion[data-color=warning] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-warning);
+}
+.q-accordion[data-color=warning][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-warning);
+}
+.q-accordion[data-color=warning][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-warning-light);
+  border-color: var(--hadr-color-warning);
+}
+
+.q-accordion[data-color=danger] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-danger-light);
+}
+.q-accordion[data-color=danger] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=danger] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-danger);
+}
+.q-accordion[data-color=danger] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-danger);
+}
+.q-accordion[data-color=danger] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-danger);
+}
+.q-accordion[data-color=danger][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-danger);
+}
+.q-accordion[data-color=danger][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-danger-light);
+  border-color: var(--hadr-color-danger);
+}
+
+.q-accordion[data-color=info] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-info-light);
+}
+.q-accordion[data-color=info] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=info] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-info);
+}
+.q-accordion[data-color=info] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-info);
+}
+.q-accordion[data-color=info] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-info);
+}
+.q-accordion[data-color=info][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-info);
+}
+.q-accordion[data-color=info][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-info-light);
+  border-color: var(--hadr-color-info);
+}
+
+.q-accordion[data-color=blue] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-blue-light);
+}
+.q-accordion[data-color=blue] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=blue] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-blue);
+}
+.q-accordion[data-color=blue] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-blue);
+}
+.q-accordion[data-color=blue] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-blue);
+}
+.q-accordion[data-color=blue][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-blue);
+}
+.q-accordion[data-color=blue][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-blue-light);
+  border-color: var(--hadr-color-blue);
+}
+
+.q-accordion[data-color=indigo] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-indigo-light);
+}
+.q-accordion[data-color=indigo] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=indigo] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-indigo);
+}
+.q-accordion[data-color=indigo] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-indigo);
+}
+.q-accordion[data-color=indigo] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-indigo);
+}
+.q-accordion[data-color=indigo][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-indigo);
+}
+.q-accordion[data-color=indigo][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-indigo-light);
+  border-color: var(--hadr-color-indigo);
+}
+
+.q-accordion[data-color=purple] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-purple-light);
+}
+.q-accordion[data-color=purple] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=purple] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-purple);
+}
+.q-accordion[data-color=purple] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-purple);
+}
+.q-accordion[data-color=purple] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-purple);
+}
+.q-accordion[data-color=purple][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-purple);
+}
+.q-accordion[data-color=purple][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-purple-light);
+  border-color: var(--hadr-color-purple);
+}
+
+.q-accordion[data-color=pink] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-pink-light);
+}
+.q-accordion[data-color=pink] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=pink] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-pink);
+}
+.q-accordion[data-color=pink] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-pink);
+}
+.q-accordion[data-color=pink] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-pink);
+}
+.q-accordion[data-color=pink][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-pink);
+}
+.q-accordion[data-color=pink][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-pink-light);
+  border-color: var(--hadr-color-pink);
+}
+
+.q-accordion[data-color=red] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-red-light);
+}
+.q-accordion[data-color=red] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=red] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-red);
+}
+.q-accordion[data-color=red] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-red);
+}
+.q-accordion[data-color=red] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-red);
+}
+.q-accordion[data-color=red][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-red);
+}
+.q-accordion[data-color=red][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-red-light);
+  border-color: var(--hadr-color-red);
+}
+
+.q-accordion[data-color=orange] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-orange-light);
+}
+.q-accordion[data-color=orange] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=orange] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-orange);
+}
+.q-accordion[data-color=orange] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-orange);
+}
+.q-accordion[data-color=orange] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-orange);
+}
+.q-accordion[data-color=orange][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-orange);
+}
+.q-accordion[data-color=orange][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-orange-light);
+  border-color: var(--hadr-color-orange);
+}
+
+.q-accordion[data-color=yellow] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-yellow-light);
+}
+.q-accordion[data-color=yellow] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=yellow] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-yellow);
+}
+.q-accordion[data-color=yellow] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-yellow);
+}
+.q-accordion[data-color=yellow] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-yellow);
+}
+.q-accordion[data-color=yellow][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-yellow);
+}
+.q-accordion[data-color=yellow][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-yellow-light);
+  border-color: var(--hadr-color-yellow);
+}
+
+.q-accordion[data-color=green] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-green-light);
+}
+.q-accordion[data-color=green] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=green] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-green);
+}
+.q-accordion[data-color=green] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-green);
+}
+.q-accordion[data-color=green] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-green);
+}
+.q-accordion[data-color=green][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-green);
+}
+.q-accordion[data-color=green][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-green-light);
+  border-color: var(--hadr-color-green);
+}
+
+.q-accordion[data-color=emerald] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-emerald-light);
+}
+.q-accordion[data-color=emerald] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=emerald] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-emerald);
+}
+.q-accordion[data-color=emerald] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-emerald);
+}
+.q-accordion[data-color=emerald] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-emerald);
+}
+.q-accordion[data-color=emerald][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-emerald);
+}
+.q-accordion[data-color=emerald][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-emerald-light);
+  border-color: var(--hadr-color-emerald);
+}
+
+.q-accordion[data-color=teal] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-teal-light);
+}
+.q-accordion[data-color=teal] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=teal] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-teal);
+}
+.q-accordion[data-color=teal] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-teal);
+}
+.q-accordion[data-color=teal] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-teal);
+}
+.q-accordion[data-color=teal][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-teal);
+}
+.q-accordion[data-color=teal][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-teal-light);
+  border-color: var(--hadr-color-teal);
+}
+
+.q-accordion[data-color=cyan] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-cyan-light);
+}
+.q-accordion[data-color=cyan] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=cyan] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-cyan);
+}
+.q-accordion[data-color=cyan] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-cyan);
+}
+.q-accordion[data-color=cyan] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-cyan);
+}
+.q-accordion[data-color=cyan][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-cyan);
+}
+.q-accordion[data-color=cyan][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-cyan-light);
+  border-color: var(--hadr-color-cyan);
+}
+
+.q-accordion[data-color=sky] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-sky-light);
+}
+.q-accordion[data-color=sky] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=sky] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-sky);
+}
+.q-accordion[data-color=sky] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-sky);
+}
+.q-accordion[data-color=sky] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-sky);
+}
+.q-accordion[data-color=sky][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-sky);
+}
+.q-accordion[data-color=sky][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-sky-light);
+  border-color: var(--hadr-color-sky);
+}
+
+.q-accordion[data-color=slate] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-slate-light);
+}
+.q-accordion[data-color=slate] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=slate] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-slate);
+}
+.q-accordion[data-color=slate] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-slate);
+}
+.q-accordion[data-color=slate] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-slate);
+}
+.q-accordion[data-color=slate][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-slate);
+}
+.q-accordion[data-color=slate][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-slate-light);
+  border-color: var(--hadr-color-slate);
+}
+
+.q-accordion[data-color=gray] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-gray-light);
+}
+.q-accordion[data-color=gray] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=gray] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-gray);
+}
+.q-accordion[data-color=gray] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-gray);
+}
+.q-accordion[data-color=gray] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-gray);
+}
+.q-accordion[data-color=gray][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-gray);
+}
+.q-accordion[data-color=gray][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-gray-light);
+  border-color: var(--hadr-color-gray);
+}
+
+.q-accordion[data-color=zinc] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-zinc-light);
+}
+.q-accordion[data-color=zinc] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=zinc] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-zinc);
+}
+.q-accordion[data-color=zinc] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-zinc);
+}
+.q-accordion[data-color=zinc] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-zinc);
+}
+.q-accordion[data-color=zinc][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-zinc);
+}
+.q-accordion[data-color=zinc][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-zinc-light);
+  border-color: var(--hadr-color-zinc);
+}
+
+.q-accordion[data-color=neutral] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-neutral-light);
+}
+.q-accordion[data-color=neutral] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=neutral] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-neutral);
+}
+.q-accordion[data-color=neutral] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-neutral);
+}
+.q-accordion[data-color=neutral] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-neutral);
+}
+.q-accordion[data-color=neutral][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-neutral);
+}
+.q-accordion[data-color=neutral][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-neutral-light);
+  border-color: var(--hadr-color-neutral);
+}
+
+.q-accordion[data-color=stone] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-stone-light);
+}
+.q-accordion[data-color=stone] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=stone] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-stone);
+}
+.q-accordion[data-color=stone] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-stone);
+}
+.q-accordion[data-color=stone] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-stone);
+}
+.q-accordion[data-color=stone][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-stone);
+}
+.q-accordion[data-color=stone][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-stone-light);
+  border-color: var(--hadr-color-stone);
+}
+
+.q-accordion[data-color=white] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-white-light);
+}
+.q-accordion[data-color=white] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=white] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-white);
+}
+.q-accordion[data-color=white] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-white);
+}
+.q-accordion[data-color=white] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-white);
+}
+.q-accordion[data-color=white][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-white);
+}
+.q-accordion[data-color=white][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-white-light);
+  border-color: var(--hadr-color-white);
+}
+
+.q-accordion[data-color=black] .q-accordion-tab.q-accordion-tab-active .q-accordion-header {
+  background-color: var(--hadr-color-black-light);
+}
+.q-accordion[data-color=black] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-icon,
+.q-accordion[data-color=black] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-chevron {
+  color: var(--hadr-color-black);
+}
+.q-accordion[data-color=black] .q-accordion-tab.q-accordion-tab-active .q-accordion-header .q-accordion-title {
+  color: var(--hadr-color-black);
+}
+.q-accordion[data-color=black] .q-accordion-header:focus-visible {
+  outline-color: var(--hadr-color-black);
+}
+.q-accordion[data-color=black][data-variant=bordered] .q-accordion-tab.q-accordion-tab-active {
+  border-color: var(--hadr-color-black);
+}
+.q-accordion[data-color=black][data-variant=filled] .q-accordion-tab.q-accordion-tab-active {
+  background-color: var(--hadr-color-black-light);
+  border-color: var(--hadr-color-black);
+}
+
+@media (max-width: 640px) {
+  .q-accordion .q-accordion-header {
+    padding: 0.75rem 1rem;
+  }
+  .q-accordion .q-accordion-content {
+    padding: 0.75rem 1rem;
+  }
+  .q-accordion .q-accordion-title {
+    font-size: 0.875rem;
+  }
+}
+[data-theme=dark] .q-accordion-content-wrapper.q-accordion-content-open {
+  border-top-color: var(--hadr-border-color);
+}
+
+@media print {
+  .q-accordion .q-accordion-content-wrapper {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  .q-accordion .q-accordion-chevron {
+    display: none;
+  }
+}

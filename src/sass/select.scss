@@ -1,0 +1,344 @@
+@import 'partials/colors';
+@import 'partials/radius';
+@import 'partials/variables';
+
+@mixin select-size($size) {
+    $map: (
+        "sm": (height: 36px, padding: 0.5rem 0.75rem, font-size: 0.875rem),
+        "md": (height: 40px, padding: 0.625rem 1rem, font-size: 0.875rem),
+        "lg": (height: 44px, padding: 0.75rem 1.25rem, font-size: 1rem)
+    );
+    
+    $props: map-get($map, $size);
+    height: map-get($props, height);
+    padding: map-get($props, padding);
+    font-size: map-get($props, font-size);
+}
+
+.q-select-root {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+
+    &.q-select-disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        
+        .q-select-trigger {
+            cursor: not-allowed;
+            background-color: var(--#{$prefix}disabled);
+        }
+    }
+}
+
+.q-select-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--#{$prefix}color);
+    line-height: 1.5;
+}
+
+.q-select-trigger {
+    appearance: none;
+    background-color: var(--#{$prefix}surface-bg);
+    border: 1px solid var(--#{$prefix}border-color);
+    color: var(--#{$prefix}color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+    transition: all 0.2s ease-in-out;
+    font-family: inherit;
+    outline: none;
+    
+    // Default size
+    @include select-size(md);
+    
+    // Sizes
+    @each $size in sm, md, lg {
+        [data-size="#{$size}"] & {
+            @include select-size($size);
+        }
+    }
+    
+    // Radius
+    @each $name, $size in $radius {
+        [data-radius="#{$name}"] & {
+            border-radius: $size;
+        }
+    }
+    
+    &:hover:not(:disabled) {
+        border-color: var(--#{$prefix}text-muted);
+    }
+    
+    &:focus {
+        border-color: var(--#{$prefix}color-primary);
+        box-shadow: 0 0 0 3px var(--#{$prefix}color-primary-light);
+    }
+    
+    &:disabled {
+        cursor: not-allowed;
+        background-color: var(--#{$prefix}disabled);
+        color: var(--#{$prefix}text-subtle);
+    }
+    
+    svg {
+        flex-shrink: 0;
+        transition: transform 0.2s ease-in-out;
+        color: var(--#{$prefix}text-muted);
+    }
+    
+    &[aria-expanded="true"] > svg {
+        transform: rotate(180deg);
+    }
+}
+
+.q-select-placeholder {
+    flex: 1;
+    text-align: left;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    min-height: 1.25rem;
+    
+    .q-select-placeholder-text {
+        color: var(--#{$prefix}color);
+        
+        &:empty::before {
+            content: attr(data-placeholder);
+            color: var(--#{$prefix}text-subtle);
+        }
+    }
+    
+    .q-select-selected-container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.q-select-chips {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    flex: 1;
+}
+
+.q-select-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background-color: var(--#{$prefix}color-primary-light);
+    color: var(--#{$prefix}color-primary);
+    padding: 0.125rem 0.5rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    max-width: 120px;
+    
+    &.q-select-chip-more {
+        background-color: var(--#{$prefix}text-subtle);
+        color: var(--#{$prefix}surface-bg);
+        padding: 0.125rem 0.375rem;
+        font-size: 0.625rem;
+    }
+    
+    .q-select-chip-label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 80px;
+    }
+    
+    .q-select-chip-remove {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: inherit;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+        
+        &:hover {
+            opacity: 1;
+        }
+        
+        &:focus {
+            outline: none;
+            opacity: 1;
+        }
+    }
+}
+
+.q-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--#{$prefix}surface-bg);
+    border: 1px solid var(--#{$prefix}border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px var(--#{$prefix}shadow), 0 2px 4px -1px var(--#{$prefix}shadow);
+    z-index: 50;
+    margin-top: 0.25rem;
+    padding: 0.5rem;
+    max-height: 300px;
+    overflow: hidden;
+    
+    // Radius inheritance
+    @each $name, $size in $radius {
+        [data-radius="#{$name}"] & {
+            border-radius: $size;
+        }
+    }
+}
+
+.q-select-filter-container {
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+
+.q-select-filter-input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    border: 1px solid var(--#{$prefix}border-color);
+    border-radius: 6px;
+    background-color: var(--#{$prefix}surface-bg);
+    color: var(--#{$prefix}color);
+    outline: none;
+    transition: all 0.2s ease-in-out;
+    font-family: inherit;
+    
+    &::placeholder {
+        color: var(--#{$prefix}text-subtle);
+    }
+    
+    &:focus {
+        border-color: var(--#{$prefix}color-primary);
+        box-shadow: 0 0 0 2px var(--#{$prefix}color-primary-light);
+    }
+    
+    &:hover {
+        border-color: var(--#{$prefix}text-muted);
+    }
+}
+
+.q-select-filter {
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+
+.q-select-options {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 240px;
+    
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background: var(--#{$prefix}border-light);
+        border-radius: 2px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background: var(--#{$prefix}text-muted);
+        border-radius: 2px;
+        
+        &:hover {
+            background: var(--#{$prefix}color);
+        }
+    }
+}
+
+.q-select-option {
+    padding: 0.5rem 0.75rem;
+    margin: 0 -0.25rem;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--#{$prefix}color);
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.2s ease-in-out;
+    user-select: none;
+    
+    &:hover:not(.disabled) {
+        background-color: var(--#{$prefix}hover-bg);
+    }
+    
+    &.selected {
+        background-color: var(--#{$prefix}color-primary-light);
+        color: var(--#{$prefix}color-primary);
+        font-weight: 500;
+    }
+    
+    &.disabled {
+        color: var(--#{$prefix}text-subtle);
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+    
+    .q-select-checkbox-wrapper {
+        display: flex;
+        align-items: center;
+        margin: 0;
+        
+        .q-checkbox-root {
+            margin: 0;
+            
+            .q-checkbox-container {
+                margin: 0;
+                
+                .q-checkbox-label {
+                    display: none; // Ocultar el label del checkbox
+                }
+            }
+        }
+    }
+    
+    .q-select-option-label {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+}
+
+// Color variants
+@each $name, $color in $colors {
+    .q-select-root[data-color="#{$name}"] {
+        .q-select-trigger:focus {
+            border-color: var(--#{$prefix}color-#{$name});
+            box-shadow: 0 0 0 3px var(--#{$prefix}color-#{$name}-light);
+        }
+        
+        .q-select-option.selected {
+            background-color: var(--#{$prefix}color-#{$name}-light);
+            color: var(--#{$prefix}color-#{$name});
+        }
+    }
+}
+
+// Dark mode adjustments
+[data-theme="dark"] {
+    .q-select-dropdown {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    }
+}

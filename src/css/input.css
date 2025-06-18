@@ -1,0 +1,789 @@
+.q-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.q-input-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--hadr-color);
+  line-height: 1.5;
+}
+.q-input-label .q-input-required {
+  color: var(--hadr-color-danger);
+  margin-left: 0.25rem;
+}
+
+.q-input-root {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: var(--hadr-surface-bg);
+  border: 1px solid var(--hadr-border-color);
+  transition: all 0.2s ease-in-out;
+  cursor: text;
+  overflow: hidden;
+  height: 40px;
+  font-size: 0.875rem;
+}
+.q-input-root:has(.q-input-slot) {
+  padding: 0;
+}
+.q-input-root[data-size=sm] {
+  height: 36px;
+  font-size: 0.875rem;
+}
+.q-input-root[data-size=md] {
+  height: 40px;
+  font-size: 0.875rem;
+}
+.q-input-root[data-size=lg] {
+  height: 44px;
+  font-size: 1rem;
+}
+.q-input-root[data-variant=default] {
+  background-color: var(--hadr-surface-bg);
+  border-color: var(--hadr-border-color);
+}
+.q-input-root[data-variant=filled] {
+  background-color: var(--hadr-selected);
+  border-color: transparent;
+}
+.q-input-root[data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom: 1px solid var(--hadr-border-color);
+  border-radius: 0;
+}
+.q-input-root[data-radius=none] {
+  border-radius: 0;
+}
+.q-input-root[data-radius=none][data-variant=ghost] {
+  border-radius: 0;
+}
+.q-input-root[data-radius=sm] {
+  border-radius: 4px;
+}
+.q-input-root[data-radius=sm][data-variant=ghost] {
+  border-radius: 0;
+}
+.q-input-root[data-radius=md] {
+  border-radius: 8px;
+}
+.q-input-root[data-radius=md][data-variant=ghost] {
+  border-radius: 0;
+}
+.q-input-root[data-radius=lg] {
+  border-radius: 12px;
+}
+.q-input-root[data-radius=lg][data-variant=ghost] {
+  border-radius: 0;
+}
+.q-input-root[data-radius=xl] {
+  border-radius: 16px;
+}
+.q-input-root[data-radius=xl][data-variant=ghost] {
+  border-radius: 0;
+}
+.q-input-root[data-radius=full] {
+  border-radius: 9999px;
+}
+.q-input-root[data-radius=full][data-variant=ghost] {
+  border-radius: 0;
+}
+.q-input-root:focus-within {
+  outline: none;
+  border-color: var(--hadr-color-primary);
+  box-shadow: 0 0 0 3px var(--hadr-color-primary-light);
+}
+.q-input-root:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-primary);
+}
+.q-input-root[data-color=primary] {
+  background-color: var(--hadr-color-primary-light);
+  border-color: var(--hadr-color-primary);
+}
+.q-input-root[data-color=primary][data-variant=filled] {
+  background-color: var(--hadr-color-primary-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=primary][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-primary);
+}
+.q-input-root[data-color=primary]:focus-within {
+  border-color: var(--hadr-color-primary);
+  box-shadow: 0 0 0 3px var(--hadr-color-primary-light);
+}
+.q-input-root[data-color=primary]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-primary);
+}
+.q-input-root[data-color=secondary] {
+  background-color: var(--hadr-color-secondary-light);
+  border-color: var(--hadr-color-secondary);
+}
+.q-input-root[data-color=secondary][data-variant=filled] {
+  background-color: var(--hadr-color-secondary-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=secondary][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-secondary);
+}
+.q-input-root[data-color=secondary]:focus-within {
+  border-color: var(--hadr-color-secondary);
+  box-shadow: 0 0 0 3px var(--hadr-color-secondary-light);
+}
+.q-input-root[data-color=secondary]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-secondary);
+}
+.q-input-root[data-color=accent] {
+  background-color: var(--hadr-color-accent-light);
+  border-color: var(--hadr-color-accent);
+}
+.q-input-root[data-color=accent][data-variant=filled] {
+  background-color: var(--hadr-color-accent-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=accent][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-accent);
+}
+.q-input-root[data-color=accent]:focus-within {
+  border-color: var(--hadr-color-accent);
+  box-shadow: 0 0 0 3px var(--hadr-color-accent-light);
+}
+.q-input-root[data-color=accent]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-accent);
+}
+.q-input-root[data-color=success] {
+  background-color: var(--hadr-color-success-light);
+  border-color: var(--hadr-color-success);
+}
+.q-input-root[data-color=success][data-variant=filled] {
+  background-color: var(--hadr-color-success-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=success][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-success);
+}
+.q-input-root[data-color=success]:focus-within {
+  border-color: var(--hadr-color-success);
+  box-shadow: 0 0 0 3px var(--hadr-color-success-light);
+}
+.q-input-root[data-color=success]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-success);
+}
+.q-input-root[data-color=warning] {
+  background-color: var(--hadr-color-warning-light);
+  border-color: var(--hadr-color-warning);
+}
+.q-input-root[data-color=warning][data-variant=filled] {
+  background-color: var(--hadr-color-warning-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=warning][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-warning);
+}
+.q-input-root[data-color=warning]:focus-within {
+  border-color: var(--hadr-color-warning);
+  box-shadow: 0 0 0 3px var(--hadr-color-warning-light);
+}
+.q-input-root[data-color=warning]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-warning);
+}
+.q-input-root[data-color=danger] {
+  background-color: var(--hadr-color-danger-light);
+  border-color: var(--hadr-color-danger);
+}
+.q-input-root[data-color=danger][data-variant=filled] {
+  background-color: var(--hadr-color-danger-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=danger][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-danger);
+}
+.q-input-root[data-color=danger]:focus-within {
+  border-color: var(--hadr-color-danger);
+  box-shadow: 0 0 0 3px var(--hadr-color-danger-light);
+}
+.q-input-root[data-color=danger]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-danger);
+}
+.q-input-root[data-color=info] {
+  background-color: var(--hadr-color-info-light);
+  border-color: var(--hadr-color-info);
+}
+.q-input-root[data-color=info][data-variant=filled] {
+  background-color: var(--hadr-color-info-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=info][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-info);
+}
+.q-input-root[data-color=info]:focus-within {
+  border-color: var(--hadr-color-info);
+  box-shadow: 0 0 0 3px var(--hadr-color-info-light);
+}
+.q-input-root[data-color=info]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-info);
+}
+.q-input-root[data-color=blue] {
+  background-color: var(--hadr-color-blue-light);
+  border-color: var(--hadr-color-blue);
+}
+.q-input-root[data-color=blue][data-variant=filled] {
+  background-color: var(--hadr-color-blue-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=blue][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-blue);
+}
+.q-input-root[data-color=blue]:focus-within {
+  border-color: var(--hadr-color-blue);
+  box-shadow: 0 0 0 3px var(--hadr-color-blue-light);
+}
+.q-input-root[data-color=blue]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-blue);
+}
+.q-input-root[data-color=indigo] {
+  background-color: var(--hadr-color-indigo-light);
+  border-color: var(--hadr-color-indigo);
+}
+.q-input-root[data-color=indigo][data-variant=filled] {
+  background-color: var(--hadr-color-indigo-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=indigo][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-indigo);
+}
+.q-input-root[data-color=indigo]:focus-within {
+  border-color: var(--hadr-color-indigo);
+  box-shadow: 0 0 0 3px var(--hadr-color-indigo-light);
+}
+.q-input-root[data-color=indigo]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-indigo);
+}
+.q-input-root[data-color=purple] {
+  background-color: var(--hadr-color-purple-light);
+  border-color: var(--hadr-color-purple);
+}
+.q-input-root[data-color=purple][data-variant=filled] {
+  background-color: var(--hadr-color-purple-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=purple][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-purple);
+}
+.q-input-root[data-color=purple]:focus-within {
+  border-color: var(--hadr-color-purple);
+  box-shadow: 0 0 0 3px var(--hadr-color-purple-light);
+}
+.q-input-root[data-color=purple]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-purple);
+}
+.q-input-root[data-color=pink] {
+  background-color: var(--hadr-color-pink-light);
+  border-color: var(--hadr-color-pink);
+}
+.q-input-root[data-color=pink][data-variant=filled] {
+  background-color: var(--hadr-color-pink-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=pink][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-pink);
+}
+.q-input-root[data-color=pink]:focus-within {
+  border-color: var(--hadr-color-pink);
+  box-shadow: 0 0 0 3px var(--hadr-color-pink-light);
+}
+.q-input-root[data-color=pink]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-pink);
+}
+.q-input-root[data-color=red] {
+  background-color: var(--hadr-color-red-light);
+  border-color: var(--hadr-color-red);
+}
+.q-input-root[data-color=red][data-variant=filled] {
+  background-color: var(--hadr-color-red-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=red][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-red);
+}
+.q-input-root[data-color=red]:focus-within {
+  border-color: var(--hadr-color-red);
+  box-shadow: 0 0 0 3px var(--hadr-color-red-light);
+}
+.q-input-root[data-color=red]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-red);
+}
+.q-input-root[data-color=orange] {
+  background-color: var(--hadr-color-orange-light);
+  border-color: var(--hadr-color-orange);
+}
+.q-input-root[data-color=orange][data-variant=filled] {
+  background-color: var(--hadr-color-orange-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=orange][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-orange);
+}
+.q-input-root[data-color=orange]:focus-within {
+  border-color: var(--hadr-color-orange);
+  box-shadow: 0 0 0 3px var(--hadr-color-orange-light);
+}
+.q-input-root[data-color=orange]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-orange);
+}
+.q-input-root[data-color=yellow] {
+  background-color: var(--hadr-color-yellow-light);
+  border-color: var(--hadr-color-yellow);
+}
+.q-input-root[data-color=yellow][data-variant=filled] {
+  background-color: var(--hadr-color-yellow-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=yellow][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-yellow);
+}
+.q-input-root[data-color=yellow]:focus-within {
+  border-color: var(--hadr-color-yellow);
+  box-shadow: 0 0 0 3px var(--hadr-color-yellow-light);
+}
+.q-input-root[data-color=yellow]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-yellow);
+}
+.q-input-root[data-color=green] {
+  background-color: var(--hadr-color-green-light);
+  border-color: var(--hadr-color-green);
+}
+.q-input-root[data-color=green][data-variant=filled] {
+  background-color: var(--hadr-color-green-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=green][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-green);
+}
+.q-input-root[data-color=green]:focus-within {
+  border-color: var(--hadr-color-green);
+  box-shadow: 0 0 0 3px var(--hadr-color-green-light);
+}
+.q-input-root[data-color=green]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-green);
+}
+.q-input-root[data-color=emerald] {
+  background-color: var(--hadr-color-emerald-light);
+  border-color: var(--hadr-color-emerald);
+}
+.q-input-root[data-color=emerald][data-variant=filled] {
+  background-color: var(--hadr-color-emerald-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=emerald][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-emerald);
+}
+.q-input-root[data-color=emerald]:focus-within {
+  border-color: var(--hadr-color-emerald);
+  box-shadow: 0 0 0 3px var(--hadr-color-emerald-light);
+}
+.q-input-root[data-color=emerald]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-emerald);
+}
+.q-input-root[data-color=teal] {
+  background-color: var(--hadr-color-teal-light);
+  border-color: var(--hadr-color-teal);
+}
+.q-input-root[data-color=teal][data-variant=filled] {
+  background-color: var(--hadr-color-teal-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=teal][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-teal);
+}
+.q-input-root[data-color=teal]:focus-within {
+  border-color: var(--hadr-color-teal);
+  box-shadow: 0 0 0 3px var(--hadr-color-teal-light);
+}
+.q-input-root[data-color=teal]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-teal);
+}
+.q-input-root[data-color=cyan] {
+  background-color: var(--hadr-color-cyan-light);
+  border-color: var(--hadr-color-cyan);
+}
+.q-input-root[data-color=cyan][data-variant=filled] {
+  background-color: var(--hadr-color-cyan-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=cyan][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-cyan);
+}
+.q-input-root[data-color=cyan]:focus-within {
+  border-color: var(--hadr-color-cyan);
+  box-shadow: 0 0 0 3px var(--hadr-color-cyan-light);
+}
+.q-input-root[data-color=cyan]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-cyan);
+}
+.q-input-root[data-color=sky] {
+  background-color: var(--hadr-color-sky-light);
+  border-color: var(--hadr-color-sky);
+}
+.q-input-root[data-color=sky][data-variant=filled] {
+  background-color: var(--hadr-color-sky-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=sky][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-sky);
+}
+.q-input-root[data-color=sky]:focus-within {
+  border-color: var(--hadr-color-sky);
+  box-shadow: 0 0 0 3px var(--hadr-color-sky-light);
+}
+.q-input-root[data-color=sky]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-sky);
+}
+.q-input-root[data-color=slate] {
+  background-color: var(--hadr-color-slate-light);
+  border-color: var(--hadr-color-slate);
+}
+.q-input-root[data-color=slate][data-variant=filled] {
+  background-color: var(--hadr-color-slate-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=slate][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-slate);
+}
+.q-input-root[data-color=slate]:focus-within {
+  border-color: var(--hadr-color-slate);
+  box-shadow: 0 0 0 3px var(--hadr-color-slate-light);
+}
+.q-input-root[data-color=slate]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-slate);
+}
+.q-input-root[data-color=gray] {
+  background-color: var(--hadr-color-gray-light);
+  border-color: var(--hadr-color-gray);
+}
+.q-input-root[data-color=gray][data-variant=filled] {
+  background-color: var(--hadr-color-gray-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=gray][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-gray);
+}
+.q-input-root[data-color=gray]:focus-within {
+  border-color: var(--hadr-color-gray);
+  box-shadow: 0 0 0 3px var(--hadr-color-gray-light);
+}
+.q-input-root[data-color=gray]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-gray);
+}
+.q-input-root[data-color=zinc] {
+  background-color: var(--hadr-color-zinc-light);
+  border-color: var(--hadr-color-zinc);
+}
+.q-input-root[data-color=zinc][data-variant=filled] {
+  background-color: var(--hadr-color-zinc-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=zinc][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-zinc);
+}
+.q-input-root[data-color=zinc]:focus-within {
+  border-color: var(--hadr-color-zinc);
+  box-shadow: 0 0 0 3px var(--hadr-color-zinc-light);
+}
+.q-input-root[data-color=zinc]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-zinc);
+}
+.q-input-root[data-color=neutral] {
+  background-color: var(--hadr-color-neutral-light);
+  border-color: var(--hadr-color-neutral);
+}
+.q-input-root[data-color=neutral][data-variant=filled] {
+  background-color: var(--hadr-color-neutral-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=neutral][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-neutral);
+}
+.q-input-root[data-color=neutral]:focus-within {
+  border-color: var(--hadr-color-neutral);
+  box-shadow: 0 0 0 3px var(--hadr-color-neutral-light);
+}
+.q-input-root[data-color=neutral]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-neutral);
+}
+.q-input-root[data-color=stone] {
+  background-color: var(--hadr-color-stone-light);
+  border-color: var(--hadr-color-stone);
+}
+.q-input-root[data-color=stone][data-variant=filled] {
+  background-color: var(--hadr-color-stone-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=stone][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-stone);
+}
+.q-input-root[data-color=stone]:focus-within {
+  border-color: var(--hadr-color-stone);
+  box-shadow: 0 0 0 3px var(--hadr-color-stone-light);
+}
+.q-input-root[data-color=stone]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-stone);
+}
+.q-input-root[data-color=white] {
+  background-color: var(--hadr-color-white-light);
+  border-color: var(--hadr-color-white);
+}
+.q-input-root[data-color=white][data-variant=filled] {
+  background-color: var(--hadr-color-white-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=white][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-white);
+}
+.q-input-root[data-color=white]:focus-within {
+  border-color: var(--hadr-color-white);
+  box-shadow: 0 0 0 3px var(--hadr-color-white-light);
+}
+.q-input-root[data-color=white]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-white);
+}
+.q-input-root[data-color=black] {
+  background-color: var(--hadr-color-black-light);
+  border-color: var(--hadr-color-black);
+}
+.q-input-root[data-color=black][data-variant=filled] {
+  background-color: var(--hadr-color-black-light);
+  border-color: transparent;
+}
+.q-input-root[data-color=black][data-variant=ghost] {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--hadr-color-black);
+}
+.q-input-root[data-color=black]:focus-within {
+  border-color: var(--hadr-color-black);
+  box-shadow: 0 0 0 3px var(--hadr-color-black-light);
+}
+.q-input-root[data-color=black]:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-black);
+}
+.q-input-root.q-input-error {
+  border-color: var(--hadr-color-danger);
+}
+.q-input-root.q-input-error:focus-within {
+  border-color: var(--hadr-color-danger);
+  box-shadow: 0 0 0 3px var(--hadr-color-danger-light);
+}
+.q-input-root.q-input-error:focus-within[data-variant=ghost] {
+  box-shadow: none;
+  border-bottom-color: var(--hadr-color-danger);
+}
+.q-input-root.q-input-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--hadr-disabled);
+}
+.q-input-root.q-input-disabled .q-input {
+  cursor: not-allowed;
+}
+.q-input-root:hover:not(.q-input-disabled):not(:focus-within) {
+  border-color: var(--hadr-text-muted);
+}
+.q-input-root:hover:not(.q-input-disabled):not(:focus-within)[data-variant=ghost] {
+  border-bottom-color: var(--hadr-text-muted);
+}
+
+.q-input {
+  flex: 1;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--hadr-color);
+  min-width: 0;
+  padding: 0.625rem 1rem;
+}
+.q-input-root:has(.q-input-slot) .q-input {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.q-input-root:has(.q-input-prepend):not(:has(.q-input-append)) .q-input {
+  padding-left: 0;
+  padding-right: 1rem;
+}
+.q-input-root:has(.q-input-append):not(:has(.q-input-prepend)) .q-input {
+  padding-left: 1rem;
+  padding-right: 0;
+}
+.q-input-root:has(.q-input-prepend):has(.q-input-append) .q-input {
+  padding-left: 0;
+  padding-right: 0;
+}
+.q-input::-moz-placeholder {
+  color: var(--hadr-text-subtle);
+  opacity: 1;
+}
+.q-input::placeholder {
+  color: var(--hadr-text-subtle);
+  opacity: 1;
+}
+.q-input:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+}
+.q-input:-webkit-autofill, .q-input:-webkit-autofill:hover, .q-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--hadr-surface-bg) inset;
+  -webkit-text-fill-color: var(--hadr-color);
+  -webkit-transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.q-input-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--hadr-text-muted);
+  height: 100%;
+}
+.q-input-slot.q-input-prepend {
+  padding: 0 0.5rem 0 0.75rem;
+}
+.q-input-slot.q-input-append {
+  padding: 0 0.75rem 0 0.5rem;
+}
+
+.q-slot-text {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 0.75rem;
+  background-color: var(--hadr-selected);
+  color: var(--hadr-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.q-slot-text[data-side=left] {
+  border-right: 1px solid var(--hadr-border-light);
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+.q-slot-text[data-side=right] {
+  border-left: 1px solid var(--hadr-border-light);
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.q-input-help-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.q-input-help-text {
+  font-size: 0.75rem;
+  color: var(--hadr-text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.q-input-error-text {
+  font-size: 0.75rem;
+  color: var(--hadr-color-danger);
+  line-height: 1.4;
+  margin: 0;
+  font-weight: 500;
+}
+
+[data-theme=dark] .q-input:-webkit-autofill,
+[data-theme=dark] .q-input:-webkit-autofill:hover,
+[data-theme=dark] .q-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--hadr-surface-bg) inset;
+  -webkit-text-fill-color: var(--hadr-color);
+}

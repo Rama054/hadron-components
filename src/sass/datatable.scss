@@ -1,0 +1,177 @@
+@import "partials/variables";
+@import "partials/colors";
+
+.q-datatable {
+    font-family: inherit;
+    box-sizing: border-box;
+    color: var(--#{$prefix}color);
+    position: relative;
+    border: 1px solid var(--#{$prefix}border-color);
+    border-radius: 12px;
+    background-color: var(--#{$prefix}surface-bg);
+    overflow: hidden;
+
+    .q-datatable-header {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: var(--#{$prefix}surface-bg);
+        flex-wrap: wrap;
+        gap: 1rem;
+        border-bottom: 1px solid var(--#{$prefix}border-color);
+        padding: 1.25rem 1.5rem;
+        font-weight: 500;
+
+        .q-datatable-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .q-datatable-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            font-weight: 700;
+
+            &::before {
+                content: "";
+                position: absolute;
+                background-color: var(--#{$prefix}color-primary);
+                height: 1.25rem;
+                width: 4px;
+                inset-inline-start: -0.75rem;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    .q-datatable-body {
+        overflow-y: visible !important;
+        overflow-x: auto;
+        width: 100%;
+        display: block;
+        background-color: var(--#{$prefix}surface-bg);
+
+        table {
+            position: relative;
+            min-width: 100%;
+            white-space: nowrap;
+            display: table;
+            border-collapse: collapse;
+        }
+
+        td,
+        th {
+            padding: 1rem;
+            text-align: start;
+            vertical-align: middle;
+            font-size: 0.875rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            background-color: var(--#{$prefix}surface-bg);
+            z-index: 10;
+            border-bottom: 2px solid var(--#{$prefix}border-color);
+
+            th div {
+                display: flex;
+                font-weight: 600;
+                align-items: center;
+                gap: .25rem;
+            }
+            
+            th:first-child {
+                padding-left: 1rem;
+            }
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--#{$prefix}border-color);
+
+            &.selected {
+                background-color: rgba(var(--#{$prefix}color-primary-rgb), 0.08);
+                position: relative;
+
+                td:first-child::before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    width: 3px;
+                    background-color: var(--#{$prefix}color-primary);
+                }
+
+                &:hover {
+                    background-color: rgba(var(--#{$prefix}color-primary-rgb), 0.12);
+                }
+            }
+
+            &:hover:not(.selected) {
+                background-color: var(--#{$prefix}hover-bg);
+                transition: background-color 0.2s ease;
+            }
+            
+        }
+
+        .sortActive {
+            background-color: var(--#{$prefix}hover-bg);
+            position: relative;
+            
+            &::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background-color: var(--#{$prefix}color-primary);
+            }
+        }
+
+
+
+    }
+
+    .q-datatable-footer {
+        background-color: var(--#{$prefix}surface-bg);
+        border-top: 1px solid var(--#{$prefix}border-color);
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 1rem 1.5rem;
+        font-weight: 500;
+    }
+    
+    // Checkbox column styles
+    .q-datatable-checkbox-column {
+        width: 48px;
+        padding: 0.5rem 1rem;
+        text-align: center;
+        
+        .q-checkbox-root {
+            margin: 0 auto;
+            justify-content: center;
+        }
+        
+        .q-checkbox-container {
+            margin: 0;
+        }
+    }
+    
+    // Custom row hover colors
+    tbody tr {
+        &:hover:not(.selected) {
+            background-color: rgba(var(--#{$prefix}color-rgb), 0.02);
+        }
+    }
+}

@@ -1,0 +1,141 @@
+@import 'partials/radius';
+@import 'partials/variables';
+
+@keyframes skeleton-pulse {
+    0% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes skeleton-wave {
+    0% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.q-skeleton {
+    display: inline-block;
+    width: var(--skeleton-width);
+    height: var(--skeleton-height);
+    background-color: var(--#{$prefix}border-color);
+    position: relative;
+    overflow: hidden;
+    
+    // Base animation
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+    
+    // Remove default properties
+    background-image: none;
+    background-clip: initial;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    pointer-events: none;
+    user-select: none;
+    cursor: default;
+    color: transparent;
+    
+    // Wave effect overlay
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: translateX(-100%);
+        background: linear-gradient(
+            90deg,
+            transparent,
+            var(--#{$prefix}surface-bg),
+            transparent
+        );
+        animation: skeleton-wave 2s infinite;
+    }
+    
+    // Radius variants
+    @each $name, $value in $radius {
+        &[data-radius="#{$name}"] {
+            border-radius: $value;
+        }
+    }
+    
+    // Shape variants
+    &[data-variant="circular"] {
+        border-radius: 50%;
+        aspect-ratio: 1;
+    }
+    
+    &[data-variant="text"] {
+        border-radius: 4px;
+        height: 1em;
+        margin: 0.125em 0;
+    }
+    
+    /* &[data-variant="rectangular"] {
+        // Default rectangular shape
+    } */
+}
+
+// Dark mode adjustments
+[data-theme="dark"] {
+    .q-skeleton {
+        background-color: var(--#{$prefix}border-light);
+        
+        &::after {
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--#{$prefix}surface-bg),
+                transparent
+            );
+        }
+    }
+}
+
+// Utility classes for common skeleton patterns
+.q-skeleton-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.q-skeleton-title {
+    height: 1.5em;
+    width: 60%;
+    margin-bottom: 0.5em;
+}
+
+.q-skeleton-text {
+    height: 1em;
+    width: 100%;
+    margin: 0.25em 0;
+    
+    &:last-child {
+        width: 80%;
+    }
+}
+
+.q-skeleton-button {
+    height: 40px;
+    width: 120px;
+    border-radius: 8px;
+}
+
+.q-skeleton-card {
+    height: 200px;
+    width: 100%;
+    border-radius: 12px;
+}

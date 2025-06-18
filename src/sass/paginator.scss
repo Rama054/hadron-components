@@ -1,0 +1,88 @@
+@import 'partials/colors';
+@import 'partials/radius';
+@import 'partials/variables';
+
+.q-paginator {
+    width: fit-content;
+    font-family: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+
+    .q-list-paginator {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border: 1px solid var(--#{$prefix}border-color);
+        background-color: var(--#{$prefix}surface-bg);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    // Radius variants
+    @each $name, $size in $radius {
+        &[data-radius="#{$name}"] {
+            .q-list-paginator {
+                border-radius: #{$size};
+            }
+        }
+    }
+
+    .q-page {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 36px;
+        min-width: 36px;
+        padding: 0.5rem;
+        user-select: none;
+        background-color: transparent;
+        color: var(--#{$prefix}color);
+        border: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease-in-out;
+
+        &:not(:last-child) {
+            border-right: 1px solid var(--#{$prefix}border-color);
+        }
+
+        &:hover:not(.disabled):not(.active) {
+            background-color: var(--#{$prefix}hover-bg);
+            color: var(--#{$prefix}color);
+        }
+
+        &.disabled {
+            pointer-events: none;
+            cursor: not-allowed;
+            color: var(--#{$prefix}text-subtle);
+            opacity: 0.5;
+        }
+
+        &.active {
+            background-color: var(--#{$prefix}color-primary);
+            color: white;
+            font-weight: 600;
+        }
+    }
+
+    // Info text
+    > span {
+        font-size: 0.875rem;
+        color: var(--#{$prefix}text-muted);
+        user-select: none;
+    }
+
+    // Color variants
+    @each $name, $color in $colors {
+        &[data-color="#{$name}"] {
+            .q-page.active {
+                background-color: var(--#{$prefix}color-#{$name});
+                color: white;
+            }
+        }
+    }
+}

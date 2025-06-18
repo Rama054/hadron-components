@@ -1,0 +1,34 @@
+.q-inset {
+    img {
+        display: block;
+    }
+
+    &[data-side="bottom"] {
+        margin: 0 -1rem -1rem -1rem;
+    }
+
+    &[data-side="top"] {
+        margin: -1rem -1rem 0 -1rem;
+    }
+
+    &[data-side="left"] {
+        margin: -1rem -1rem -1rem 0;
+    }
+
+    &[data-side="right"] {
+        margin: -1rem 0 -1rem -1rem;
+    }
+
+    &[data-side="all"] {
+        margin: -1rem;
+    }
+
+    &[data-side="x"] {
+        margin: 0 -1rem;
+    }
+
+    &[data-side="y"] {
+        margin: -1rem 0;
+    }
+
+}

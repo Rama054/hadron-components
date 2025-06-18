@@ -1,0 +1,134 @@
+@import "partials/variables";
+@import "partials/colors";
+
+@function avatar-radius($size) {
+    $map: (
+        "none": 0,
+        "sm": 6px,
+        "md": 8px,
+        "lg": 12px,
+        "xl": 16px,
+        "full": 50%
+    );
+    @return map-get($map, $size);
+}
+
+@function avatar-font-size($size) {
+    $map: (
+        "xs": 0.625rem,
+        "sm": 0.75rem,
+        "md": 0.875rem,
+        "lg": 1rem,
+        "xl": 1.125rem,
+        "xxl": 1.5rem
+    );
+    @return map-get($map, $size);
+}
+
+@mixin avatar-size($size) {
+    $map: (
+        "xs": 24px,
+        "sm": 32px,
+        "md": 40px,
+        "lg": 48px,
+        "xl": 56px,
+        "xxl": 72px
+    );
+    
+    width: map-get($map, $size);
+    height: map-get($map, $size);
+}
+
+.q-avatar {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+
+    img,
+    span {
+        border: 1px solid var(--#{$prefix}border-color);
+        object-fit: cover;
+        transition: all 0.2s ease-in-out;
+    }
+
+    span {
+        background-color: var(--#{$prefix}surface-bg);
+        color: var(--#{$prefix}text-muted);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    // Color variants para fallback
+    @each $name, $color in $colors {
+        &[data-color="#{$name}"] span {
+            background-color: var(--#{$prefix}color-#{$name}-light);
+            color: var(--#{$prefix}color-#{$name});
+            border-color: var(--#{$prefix}color-#{$name}-light);
+        }
+    }
+
+    // Status indicator
+    .q-avatar-status {
+        position: absolute;
+        bottom: -2px;
+        right: -2px;
+        width: 30%;
+        height: 30%;
+        border: 2px solid var(--#{$prefix}surface-bg);
+        border-radius: 50%;
+        min-width: 10px;
+        min-height: 10px;
+        max-width: 16px;
+        max-height: 16px;
+
+        &[data-status="online"] {
+            background-color: var(--#{$prefix}color-success);
+        }
+        
+        &[data-status="offline"] {
+            background-color: var(--#{$prefix}text-subtle);
+        }
+        
+        &[data-status="away"] {
+            background-color: var(--#{$prefix}color-warning);
+        }
+        
+        &[data-status="busy"] {
+            background-color: var(--#{$prefix}color-danger);
+        }
+    }
+
+    // Sizes
+    @each $size in xs, sm, md, lg, xl, xxl {
+        &[data-size="#{$size}"] {
+            img,
+            span {
+                @include avatar-size($size);
+                font-size: avatar-font-size($size);
+            }
+        }
+    }
+
+    // Radius
+    @each $radius in none, sm, md, lg, full {
+        &[data-radius="#{$radius}"] {
+            img,
+            span {
+                border-radius: avatar-radius($radius);
+            }
+        }
+    }
+
+    // Hover effect
+    &:hover {
+        img,
+        span {
+            border-color: var(--#{$prefix}border-color);
+            box-shadow: 0 0 0 2px var(--#{$prefix}color-primary-light);
+        }
+    }
+}

@@ -1,0 +1,150 @@
+@import 'partials/colors';
+@import 'partials/variables';
+
+.q-spinner-root {
+    width: var(--spinner-size);
+    height: var(--spinner-size);
+    position: relative;
+    display: inline-block;
+    
+    // Color variants
+    @each $name, $color in $colors {
+        &[data-color="#{$name}"] {
+            --spinner-color: var(--#{$prefix}color-#{$name});
+        }
+    }
+}
+
+// Classic spinner (border spinner)
+.q-spinner-classic {
+    --spinner-width: calc(var(--spinner-size) / 8);
+    width: calc(var(--spinner-size) - calc(var(--spinner-width) * 2));
+    height: calc(var(--spinner-size) - calc(var(--spinner-width) * 2));
+    display: inline-block;
+    animation: spin 1s linear infinite;
+    border-width: var(--spinner-width);
+    border-radius: 50%;
+    border-color: transparent var(--spinner-color, var(--#{$prefix}color-primary)) var(--spinner-color, var(--#{$prefix}color-primary));
+    border-style: solid;
+}
+
+// Fading circle spinner
+.q-spinner-circle {
+    width: 12.5%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: calc(50% - 6.25%);
+
+    &::before {
+        content: "";
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        height: 30%;
+        background-color: var(--spinner-color, var(--#{$prefix}color-primary));
+        border-radius: 50px;
+        animation: fadeAnimation 0.8s infinite ease-in-out both;
+        animation-delay: var(--animation-delay);
+    }
+}
+
+// Cubic spinner
+.q-spinner-cube {
+    background-color: var(--spinner-color, var(--#{$prefix}color-primary));
+    width: calc(var(--spinner-size) / 3);
+    height: calc(var(--spinner-size) / 3);
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 2px;
+    animation: cubeMove 1.8s infinite ease-in-out;
+
+    &:last-child {
+        animation-delay: -0.9s;
+    }
+}
+
+// Dots spinner
+.q-spinner-dots {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+.q-spinner-dot {
+    width: calc(var(--spinner-size) / 4);
+    height: calc(var(--spinner-size) / 4);
+    background-color: var(--spinner-color, var(--#{$prefix}color-primary));
+    border-radius: 50%;
+    animation: dotBounce 0.6s infinite alternate;
+    animation-delay: var(--delay);
+}
+
+// Animations
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeAnimation {
+    0%, 39%, 100% {
+        opacity: 0;
+    }
+    40% {
+        opacity: 1;
+    }
+}
+
+@keyframes cubeMove {
+    25% {
+        transform: translateX(calc(var(--spinner-size) * 2/3)) rotate(-90deg) scale(0.5);
+    }
+    50% {
+        transform: translateX(calc(var(--spinner-size) * 2/3)) translateY(calc(var(--spinner-size) * 2/3)) rotate(-180deg);
+    }
+    75% {
+        transform: translateX(0px) translateY(calc(var(--spinner-size) * 2/3)) rotate(-270deg) scale(0.5);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes dotBounce {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+}
+
+// Size variants for consistent spacing
+.q-spinner-root[data-size="xs"] {
+    --spinner-size: 12px;
+}
+
+.q-spinner-root[data-size="sm"] {
+    --spinner-size: 16px;
+}
+
+.q-spinner-root[data-size="md"] {
+    --spinner-size: 24px;
+}
+
+.q-spinner-root[data-size="lg"] {
+    --spinner-size: 32px;
+}
+
+.q-spinner-root[data-size="xl"] {
+    --spinner-size: 48px;
+}

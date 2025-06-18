@@ -1,0 +1,118 @@
+@import 'partials/colors';
+@import 'partials/variables';
+
+.q-tooltip-trigger {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.q-tooltip {
+    background-color: var(--#{$prefix}gray-800, #374151);
+    color: white;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    pointer-events: auto;
+    animation: tooltipFadeIn 0.2s ease-out;
+    word-wrap: break-word;
+    position: relative;
+    
+    // Color variants con flecha del mismo color
+    @each $name, $color in $colors {
+        &[data-color="#{$name}"] {
+            background-color: #{$color};
+            color: white;
+            
+            .q-tooltip-arrow {
+                background-color: #{$color};
+            }
+        }
+    }
+    
+    // Arrow styles 
+    &[data-arrow="true"] {
+        .q-tooltip-arrow {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: inherit; 
+            transform: rotate(45deg);
+            pointer-events: none;
+            z-index: -1; 
+        }
+        
+        // Arrow positioning con mejor centrado y espaciado
+        &[data-placement="top"] {
+            .q-tooltip-arrow {
+                bottom: -4px;
+                left: 50%;
+                margin-left: -4px; // Centrado perfecto
+            }
+        }
+        
+        &[data-placement="bottom"] {
+            .q-tooltip-arrow {
+                top: -4px;
+                left: 50%;
+                margin-left: -4px; // Centrado perfecto
+            }
+        }
+        
+        &[data-placement="left"] {
+            .q-tooltip-arrow {
+                right: -4px;
+                top: 50%;
+                margin-top: -4px; // Centrado perfecto
+            }
+        }
+        
+        &[data-placement="right"] {
+            .q-tooltip-arrow {
+                left: -4px;
+                top: 50%;
+                margin-top: -4px; // Centrado perfecto
+            }
+        }
+    }
+}
+
+.q-tooltip-content {
+    position: relative;
+    z-index: 1;
+}
+
+// Animations
+@keyframes tooltipFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+// Dark mode adjustments
+[data-theme="dark"] {
+    .q-tooltip {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+    .q-tooltip {
+        border: 1px solid var(--#{$prefix}border-color);
+    }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+    .q-tooltip {
+        animation: none;
+    }
+}

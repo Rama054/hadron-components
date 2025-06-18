@@ -1,0 +1,206 @@
+@import 'partials/colors';
+@import 'partials/variables';
+@import 'partials/radius';
+
+// Size mixin
+@mixin progress-size($size) {
+    $map: (
+        "xs": 4px,
+        "sm": 6px,
+        "md": 8px,
+        "lg": 12px,
+        "xl": 16px
+    );
+    height: map-get($map, $size);
+}
+
+// Progress wrapper for external labels
+.q-progress-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+// Main progress container
+.q-progress {
+    position: relative;
+    width: 100%;
+    background-color: var(--#{$prefix}border-light);
+    overflow: hidden;
+    transition: all 0.2s ease;
+    
+    // Default size
+    @include progress-size(md);
+    
+    // Sizes
+    @each $size in xs, sm, md, lg, xl {
+        &[data-size="#{$size}"] {
+            @include progress-size($size);
+        }
+    }
+    
+    // Border radius
+    @each $name, $value in $radius {
+        &[data-radius="#{$name}"] {
+            border-radius: $value;
+            
+            .q-progress-bar {
+                border-radius: $value;
+            }
+        }
+    }
+    
+    // Striped pattern
+    &.q-progress-striped {
+        .q-progress-bar {
+            background-image: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.15) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.15) 50%,
+                rgba(255, 255, 255, 0.15) 75%,
+                transparent 75%,
+                transparent
+            );
+            background-size: 1rem 1rem;
+        }
+    }
+    
+    // Animated stripes
+    &.q-progress-animated {
+        .q-progress-bar {
+            animation: progress-stripes 1s linear infinite;
+        }
+    }
+}
+
+// Progress bar (filled portion)
+.q-progress-bar {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.3s ease;
+    position: relative;
+    
+    // Colors
+    @each $name, $color in $colors {
+        &[data-color="#{$name}"] {
+            background-color: var(--#{$prefix}color-#{$name});
+        }
+    }
+}
+
+// Progress labels
+.q-progress-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    user-select: none;
+    
+    &-inside {
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        padding: 0 0.5rem;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        
+        // Hide label if progress is too small
+        @at-root {
+            .q-progress-bar[style*="width: 0%"] &,
+            .q-progress-bar[style*="width: 1%"] &,
+            .q-progress-bar[style*="width: 2%"] &,
+            .q-progress-bar[style*="width: 3%"] &,
+            .q-progress-bar[style*="width: 4%"] &,
+            .q-progress-bar[style*="width: 5%"] &,
+            .q-progress-bar[style*="width: 6%"] &,
+            .q-progress-bar[style*="width: 7%"] &,
+            .q-progress-bar[style*="width: 8%"] &,
+            .q-progress-bar[style*="width: 9%"] & {
+                display: none;
+            }
+        }
+    }
+    
+    &-outside {
+        color: var(--#{$prefix}text-muted);
+        min-width: 3rem;
+        text-align: center;
+    }
+}
+
+// Animation for striped progress bars
+@keyframes progress-stripes {
+    from {
+        background-position: 1rem 0;
+    }
+    to {
+        background-position: 0 0;
+    }
+}
+
+// Special styles for circular progress (future enhancement)
+.q-progress-circular {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    
+    svg {
+        transform: rotate(-90deg);
+    }
+    
+    .q-progress-circle-bg {
+        fill: none;
+        stroke: var(--#{$prefix}border-light);
+        stroke-width: 8;
+    }
+    
+    .q-progress-circle-fill {
+        fill: none;
+        stroke-width: 8;
+        stroke-linecap: round;
+        transition: stroke-dasharray 0.3s ease;
+        
+        @each $name, $color in $colors {
+            &[data-color="#{$name}"] {
+                stroke: var(--#{$prefix}color-#{$name});
+            }
+        }
+    }
+    
+    .q-progress-circular-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--#{$prefix}color);
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .q-progress-wrapper {
+        gap: 0.5rem;
+    }
+    
+    .q-progress-label-outside {
+        min-width: 2.5rem;
+        font-size: 0.7rem;
+    }
+}
+
+// Dark mode adjustments
+[data-theme="dark"] {
+    .q-progress {
+        background-color: var(--#{$prefix}border-color);
+    }
+    
+    .q-progress-label-inside {
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+}
