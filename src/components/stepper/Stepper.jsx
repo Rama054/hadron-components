@@ -187,7 +187,6 @@ function Root({
                         color={color}
                         size={size}
                         onClick={prevStep}
-                        leftIcon={<IoChevronBack size={16} />}
                     >
                         {backButtonText}
                     </Button>

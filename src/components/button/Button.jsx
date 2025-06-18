@@ -17,18 +17,7 @@ export default function Button({
     ...props 
 }) {
   
-    const isIconOnly = () => {
-        return React.Children.count(children) === 1 && 
-               React.isValidElement(children) && 
-               !leftIcon && 
-               !rightIcon;
-    };
-  
     let buttonClass = 'q-button';
-
-    if (isIconOnly()) {
-        buttonClass += ' q-button-icon';
-    }
 
     if (fullWidth) {
         buttonClass += ' q-button-full';
@@ -65,8 +54,6 @@ Button.propTypes = {
     radius: PropTypes.oneOf(['none', 'sm', 'md', 'lg', 'full']),
     loading: PropTypes.bool,
     fullWidth: PropTypes.bool,
-    leftIcon: PropTypes.node,
-    rightIcon: PropTypes.node,
     className: PropTypes.string
 };
 
