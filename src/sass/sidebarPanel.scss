@@ -15,7 +15,7 @@
   
   // Desktop version - hidden on mobile
   &--desktop {
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       display: none;
     }
   }
@@ -283,7 +283,7 @@
 // MOBILE STYLES
 // =============================================================================
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   // Ensure mobile sidebar takes full width
   .q-sidebar-panel--mobile {
     .q-sidebar {
@@ -317,7 +317,7 @@
     &__header {
       padding: 1rem;
       font-size: 1rem;
-      border-bottom: none;
+      border-bottom: 0;
       margin-bottom: 0;
     }
   }

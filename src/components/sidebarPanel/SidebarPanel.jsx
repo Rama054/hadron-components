@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FiChevronDown, FiChevronRight, FiMenu, FiX } from "react-icons/fi";
+import { FiChevronDown, FiChevronRight } from "react-icons/fi";
 import Sidebar from '../sidebar/Sidebar';
 import '../../css/sidebarPanel.css';
 import PropTypes from 'prop-types';
@@ -34,11 +34,12 @@ export default function SidebarPanel({
     onItemClick,
     onToggleExpand,
     showGroupHeadings = true,
+    mobileMenuOpen = false,
+    setMobileMenuOpen = () => {},
     className,
     ...props
 }) {
     const [internalExpandedItems, setInternalExpandedItems] = useState(expandedItems);
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const location = useSafeLocation();
 
     const isExpanded = (itemIndex, sectionIndex) => {
@@ -196,17 +197,6 @@ export default function SidebarPanel({
 
     return (
         <>
-            {/* Botón para abrir menú móvil */}
-            <button
-                className="q-sidebar-panel__mobile-toggle"
-                onClick={() => {
-                    setMobileMenuOpen(true)
-                }}
-                aria-label="Abrir menú"
-            >
-                <FiMenu size={24} />
-            </button>
-
             {/* Sidebar Desktop */}
             <aside
                 className={`${containerClass} q-sidebar-panel--desktop`}
@@ -229,7 +219,9 @@ export default function SidebarPanel({
             {/* Sidebar Mobile */}
             <Sidebar
                 open={mobileMenuOpen}
-                onClose={() => setMobileMenuOpen(false)}
+                onClose={() => {
+                    setMobileMenuOpen(false)
+                }}
                 className="q-sidebar-panel--mobile"
             >
 

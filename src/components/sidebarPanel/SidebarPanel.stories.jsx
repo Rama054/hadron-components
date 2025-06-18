@@ -105,6 +105,7 @@ const sampleMenu = [
     }
 ];
 
+
 export const Default = {
     args: {
         menu: sampleMenu,
@@ -149,6 +150,7 @@ export const ColorCustomizer = () => {
     const [backgroundColor, setBackgroundColor] = useState('#3b82f6');
     const [textColor, setTextColor] = useState('#ffffff');
     const [logoText, setLogoText] = useState('MI EMPRESA');
+    const [open, setOpen] = useState(false);
 
     return (
         <>
@@ -158,8 +160,14 @@ export const ColorCustomizer = () => {
                 textColor={textColor}
                 logoContent={logoText}
                 showGroupHeadings={true}
+                mobileMenuOpen={open}
+                setMobileMenuOpen={setOpen}
             />
             <div style={{ flex: 1, padding: '2rem 2rem 2rem 5rem', background: '#f8fafc' }}>
+                <button onClick={() => setOpen(!open)} style={{ marginBottom: '1rem', padding: '0.5rem 1rem', background: '#3b82f6', color: '#ffffff', border: 'none', borderRadius: '4px' }}>
+                    abrir sidebar
+                </button>
+                
                 <h2>Personalizador de Colores</h2>
 
                 <div style={{ marginBottom: '2rem' }}>
