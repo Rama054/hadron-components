@@ -21,6 +21,18 @@ export default {
         color: {
             control: { type: 'select' },
             options: ['primary', 'secondary', 'success', 'warning', 'danger', 'info']
+        },
+        icon: {
+            control: { type: 'boolean' }
+        },
+        loading: {
+            control: { type: 'boolean' }
+        },
+        disabled: {
+            control: { type: 'boolean' }
+        },
+        fullWidth: {
+            control: { type: 'boolean' }
         }
     }
 };
@@ -122,11 +134,22 @@ export const Sizes = () => {
             </div>
 
             <div>
-                <h3>Icon Buttons</h3>
+                <h3>Icon Buttons (data-icon="true")</h3>
                 <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                     {sizes.map(size => (
-                        <Button key={size} size={size} color="primary">
+                        <Button key={size} size={size} color="primary" icon>
                             ⚙️
+                        </Button>
+                    ))}
+                </div>
+            </div>
+
+            <div>
+                <h3>Text Buttons with Icons</h3>
+                <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+                    {sizes.map(size => (
+                        <Button key={size} size={size} color="primary">
+                            ⚙️ {size.toUpperCase()}
                         </Button>
                     ))}
                 </div>
@@ -143,32 +166,43 @@ export const WithIcons = () => {
             <button onClick={toggleTheme} style={{ width: 'fit-content' }}>Toggle Theme</button>
             
             <div>
-                <h3>Left Icons</h3>
+                <h3>Text with Icons (in children)</h3>
                 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                    <Button color="primary" leftIcon="📁">Open File</Button>
-                    <Button color="success" leftIcon="💾" variant="outline">Save</Button>
-                    <Button color="danger" leftIcon="🗑️" variant="soft">Delete</Button>
-                    <Button color="info" leftIcon="📧" variant="ghost">Send Email</Button>
+                    <Button color="primary">📁 Open File</Button>
+                    <Button color="success" variant="outline">💾 Save</Button>
+                    <Button color="danger" variant="soft">🗑️ Delete</Button>
+                    <Button color="info" variant="ghost">📧 Send Email</Button>
                 </div>
             </div>
 
             <div>
-                <h3>Right Icons</h3>
-                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                    <Button color="primary" rightIcon="→">Next</Button>
-                    <Button color="secondary" rightIcon="↗️" variant="outline">External Link</Button>
-                    <Button color="success" rightIcon="✓" variant="soft">Confirm</Button>
-                    <Button color="warning" rightIcon="⚠️" variant="ghost">Warning</Button>
+                <h3>Icon Buttons (data-icon="true")</h3>
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+                    <Button color="primary" icon>⚙️</Button>
+                    <Button color="secondary" variant="outline" icon>❤️</Button>
+                    <Button color="success" variant="soft" icon>✓</Button>
+                    <Button color="danger" variant="ghost" icon>✕</Button>
                 </div>
             </div>
 
             <div>
-                <h3>Icon Only</h3>
-                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                    <Button color="primary">⚙️</Button>
-                    <Button color="secondary" variant="outline">❤️</Button>
-                    <Button color="success" variant="soft">✓</Button>
-                    <Button color="danger" variant="ghost">✕</Button>
+                <h3>Icon Buttons - Different Sizes</h3>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <Button size="xs" color="primary" icon>⚙️</Button>
+                    <Button size="sm" color="primary" icon>⚙️</Button>
+                    <Button size="md" color="primary" icon>⚙️</Button>
+                    <Button size="lg" color="primary" icon>⚙️</Button>
+                    <Button size="xl" color="primary" icon>⚙️</Button>
+                </div>
+            </div>
+
+            <div>
+                <h3>Icon Buttons - Circular (radius="full")</h3>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <Button color="primary" icon radius="full">📁</Button>
+                    <Button color="success" variant="outline" icon radius="full">💾</Button>
+                    <Button color="danger" variant="soft" icon radius="full">🗑️</Button>
+                    <Button color="info" variant="ghost" icon radius="full">📧</Button>
                 </div>
             </div>
         </div>
@@ -184,10 +218,40 @@ export const States = () => {
             
             <div>
                 <h3>Loading States</h3>
-                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
                     <Button color="primary">Normal</Button>
-                    <Button color="primary" loading>Loading</Button>
-                    <Button color="primary" loading leftIcon="📁">Loading with Icon</Button>
+                    <Button color="primary" loading>Loading Text</Button>
+                    <Button color="primary" loading>📁 Loading with Icon</Button>
+                </div>
+            </div>
+
+            <div>
+                <h3>Loading States - Different Variants</h3>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <Button color="primary" variant="solid" loading>Solid Loading</Button>
+                    <Button color="primary" variant="outline" loading>Outline Loading</Button>
+                    <Button color="primary" variant="soft" loading>Soft Loading</Button>
+                    <Button color="primary" variant="ghost" loading>Ghost Loading</Button>
+                </div>
+            </div>
+
+            <div>
+                <h3>Loading Icon Buttons</h3>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <Button color="primary" icon loading>⚙️</Button>
+                    <Button color="success" variant="outline" icon loading>💾</Button>
+                    <Button color="danger" variant="soft" icon loading radius="full">🗑️</Button>
+                </div>
+            </div>
+
+            <div>
+                <h3>Disabled States</h3>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <Button color="primary" disabled>Disabled Solid</Button>
+                    <Button color="primary" variant="outline" disabled>Disabled Outline</Button>
+                    <Button color="primary" variant="soft" disabled>Disabled Soft</Button>
+                    <Button color="primary" variant="ghost" disabled>Disabled Ghost</Button>
+                    <Button color="primary" icon disabled>⚙️</Button>
                 </div>
             </div>
 
@@ -196,7 +260,8 @@ export const States = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '400px' }}>
                     <Button color="primary" fullWidth>Full Width Button</Button>
                     <Button color="secondary" variant="outline" fullWidth>Full Width Outline</Button>
-                    <Button color="success" variant="soft" fullWidth leftIcon="✓">Full Width with Icon</Button>
+                    <Button color="success" variant="soft" fullWidth>✓ Full Width with Icon</Button>
+                    <Button color="danger" fullWidth loading>Full Width Loading</Button>
                 </div>
             </div>
         </div>
@@ -238,25 +303,45 @@ export const DashboardActions = () => {
             <div>
                 <h3>Dashboard Actions</h3>
                 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                    <Button color="primary" leftIcon="📊">Generate Report</Button>
-                    <Button color="success" variant="outline" leftIcon="💾">Export Data</Button>
-                    <Button color="info" variant="soft" leftIcon="🔄">Refresh</Button>
-                    <Button color="warning" variant="ghost" leftIcon="⚙️">Settings</Button>
-                    <Button color="danger" variant="outline" size="sm">🗑️</Button>
-                    <Button color="secondary" variant="ghost" size="sm">📝</Button>
+                    <Button color="primary">📊 Generate Report</Button>
+                    <Button color="success" variant="outline">💾 Export Data</Button>
+                    <Button color="info" variant="soft">🔄 Refresh</Button>
+                    <Button color="warning" variant="ghost">⚙️ Settings</Button>
+                    <Button color="danger" variant="outline" size="sm" icon>🗑️</Button>
+                    <Button color="secondary" variant="ghost" size="sm" icon>📝</Button>
                 </div>
             </div>
 
             <div>
                 <h3>Toolbar Actions</h3>
                 <div style={{ display: 'flex', gap: '8px', padding: '12px', backgroundColor: 'var(--hadr-selected)', borderRadius: '8px' }}>
-                    <Button size="sm" variant="ghost" color="secondary">📁</Button>
-                    <Button size="sm" variant="ghost" color="secondary">💾</Button>
-                    <Button size="sm" variant="ghost" color="secondary">📋</Button>
-                    <Button size="sm" variant="ghost" color="secondary">✂️</Button>
+                    <Button size="sm" variant="ghost" color="secondary" icon>📁</Button>
+                    <Button size="sm" variant="ghost" color="secondary" icon>💾</Button>
+                    <Button size="sm" variant="ghost" color="secondary" icon>📋</Button>
+                    <Button size="sm" variant="ghost" color="secondary" icon>✂️</Button>
                     <div style={{ width: '1px', backgroundColor: 'var(--hadr-border-color)', margin: '0 8px' }}></div>
-                    <Button size="sm" variant="ghost" color="secondary">↶</Button>
-                    <Button size="sm" variant="ghost" color="secondary">↷</Button>
+                    <Button size="sm" variant="ghost" color="secondary" icon>↶</Button>
+                    <Button size="sm" variant="ghost" color="secondary" icon>↷</Button>
+                </div>
+            </div>
+
+            <div>
+                <h3>Action Bar with Loading States</h3>
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                    <Button color="primary" loading>📊 Generating...</Button>
+                    <Button color="success" variant="outline">💾 Export Data</Button>
+                    <Button color="info" variant="soft" icon loading>🔄</Button>
+                    <Button color="warning" variant="ghost" disabled>⚙️ Settings</Button>
+                </div>
+            </div>
+
+            <div>
+                <h3>Floating Action Buttons</h3>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <Button color="primary" icon radius="full">+</Button>
+                    <Button color="success" icon radius="full" variant="soft">✓</Button>
+                    <Button color="danger" icon radius="full" variant="outline">×</Button>
+                    <Button color="info" icon radius="full" variant="ghost" loading>⚙️</Button>
                 </div>
             </div>
         </div>
@@ -279,5 +364,6 @@ Interactive.args = {
     radius: "md",
     disabled: false,
     loading: false,
-    fullWidth: false
+    fullWidth: false,
+    icon: false
 }

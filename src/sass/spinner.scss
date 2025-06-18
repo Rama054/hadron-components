@@ -18,8 +18,8 @@
 // Classic spinner (border spinner)
 .q-spinner-classic {
     --spinner-width: calc(var(--spinner-size) / 8);
-    width: calc(var(--spinner-size) - calc(var(--spinner-width) * 2));
-    height: calc(var(--spinner-size) - calc(var(--spinner-width) * 2));
+    width: calc(var(--spinner-size) - calc(var(--spinner-width)));
+    height: calc(var(--spinner-size) - calc(var(--spinner-width)));
     display: inline-block;
     animation: spin 1s linear infinite;
     border-width: var(--spinner-width);

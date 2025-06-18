@@ -12,8 +12,7 @@ export default function Button({
     radius = 'md', 
     loading = false, 
     fullWidth = false,
-    leftIcon,
-    rightIcon,
+    icon = false,
     className, 
     ...props 
 }) {
@@ -38,7 +37,7 @@ export default function Button({
     if (className) {
         buttonClass += ` ${className}`;
     }
-
+/* {loading && <Spinner type="classic" />} */
     return (
         <button 
             className={buttonClass} 
@@ -46,13 +45,13 @@ export default function Button({
             data-variant={variant} 
             data-color={color}
             data-size={size}
+            data-icon={icon}
+            data-loading={loading}
             disabled={disabled || loading} 
             {...props}
         >
-            {loading && <Spinner size="sm" />}
-            {leftIcon && !loading && leftIcon}
+            {loading && <Spinner color={color} type="classic" size="md" className="q-spinner" />}
             {children}
-            {rightIcon && !loading && rightIcon}
         </button>
     );
 }

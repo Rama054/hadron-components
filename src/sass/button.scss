@@ -178,9 +178,37 @@ $variants: 'solid' 'outline' 'soft' 'ghost';
     // States
     &[disabled] {
         cursor: not-allowed;
-        opacity: 0.5;
         transform: none !important;
         box-shadow: none !important;
+        position: relative;
+        
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: inherit;
+            z-index: 1;
+        }
+    }
+
+    // Loading state
+    &[data-loading="true"] {
+        position: relative;
+        color: transparent!important;
+        
+        // Show and center the spinner
+        .q-spinner {
+            visibility: visible;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
     }
 
     &:focus-visible {
@@ -189,7 +217,7 @@ $variants: 'solid' 'outline' 'soft' 'ghost';
     }
 
     // Modifiers
-    &.q-button-icon {
+    &[data-icon="true"] {
         aspect-ratio: 1;
         padding: 0.5rem !important;
         
