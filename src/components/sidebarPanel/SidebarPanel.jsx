@@ -4,26 +4,7 @@ import Sidebar from '../sidebar/Sidebar';
 import '../../css/sidebarPanel.css';
 import PropTypes from 'prop-types';
 
-// Intentamos importar Link, pero puede no estar disponible
-let Link;
-try {
-    const reactRouterDom = require('react-router-dom');
-    Link = reactRouterDom.Link;
-} catch (error) {
-    // Si react-router-dom no está disponible, usamos un componente mock
-    Link = ({ to, children, ...props }) => <a href={to} {...props}>{children}</a>;
-}
-
-// Hook personalizado para usar location de forma segura
-const useSafeLocation = () => {
-    try {
-        const { useLocation } = require('react-router-dom');
-        return useLocation();
-    } catch (error) {
-        // Si no estamos dentro de un Router context, retornamos un objeto mock
-        return { pathname: '' };
-    }
-};
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 
 export default function SidebarPanel({
     menu = [],
@@ -40,7 +21,7 @@ export default function SidebarPanel({
     ...props
 }) {
     const [internalExpandedItems, setInternalExpandedItems] = useState(expandedItems);
-    const location = useSafeLocation();
+    const location = useLocation();
 
     const isExpanded = (itemIndex, sectionIndex) => {
         const key = `${sectionIndex}-${itemIndex}`;
@@ -62,8 +43,6 @@ export default function SidebarPanel({
 
     const isActive = (item) => {
         if (!item.to || !location.pathname) return false;
-        // Solo verificar rutas activas si tenemos un pathname válido
-        if (location.pathname === '') return false;
         return location.pathname === item.to || location.pathname.startsWith(item.to + '/');
     };
 
@@ -78,7 +57,6 @@ export default function SidebarPanel({
         if (item.click) {
             item.click(event);
         }
-        // Cerrar menú móvil al hacer click en un item
         if (window.innerWidth <= 768) {
             setMobileMenuOpen(false);
         }
@@ -87,18 +65,10 @@ export default function SidebarPanel({
     const renderIcon = (iconName) => {
         if (!iconName) return null;
 
-        // Si es un string, asumir que es un icono de react-icons
         if (typeof iconName === 'string') {
-            try {
-                // Esto requeriría un mapeo de iconos o importación dinámica
-                // Por ahora retornamos un placeholder
-                return <span className="q-sidebar-panel__icon-placeholder">{iconName.slice(-1)}</span>;
-            } catch {
-                return null;
-            }
+            return <span className="q-sidebar-panel__icon-placeholder">{iconName.slice(-1)}</span>;
         }
 
-        // Si es un componente React
         if (React.isValidElement(iconName)) {
             return iconName;
         }
@@ -119,8 +89,7 @@ export default function SidebarPanel({
                 <li key={`${sectionIndex}-${itemIndex}`} className={itemClass}>
                     <button
                         type="button"
-                        className={`q-sidebar-panel__link q-sidebar-panel__link--expandable ${childActive ? 'q-sidebar-panel__link--has-active-child' : ''
-                            }`}
+                        className={`q-sidebar-panel__link q-sidebar-panel__link--expandable ${childActive ? 'q-sidebar-panel__link--has-active-child' : ''}`}
                         onClick={() => toggleExpand(itemIndex, sectionIndex)}
                         data-level={level}
                         style={{ color: textColor }}
@@ -145,16 +114,10 @@ export default function SidebarPanel({
             );
         }
 
-        // Elemento simple (hoja)
-        const LinkComponent = item.to && location.pathname !== '' ? Link : 'button';
-        const linkProps = item.to && location.pathname !== ''
-            ? { to: item.to }
-            : { type: 'button' };
-
         return (
             <li key={`${sectionIndex}-${itemIndex}`} className={itemClass}>
-                <LinkComponent
-                    {...linkProps}
+                <RouterLink
+                    to={item.to}
                     className={`q-sidebar-panel__link ${active ? 'q-sidebar-panel__link--active' : ''}`}
                     onClick={(e) => handleItemClick(item, e)}
                     data-level={level}
@@ -164,7 +127,7 @@ export default function SidebarPanel({
                         {renderIcon(item.icon)}
                         <span className="q-sidebar-panel__link-text">{item.title}</span>
                     </div>
-                </LinkComponent>
+                </RouterLink>
             </li>
         );
     };
@@ -197,13 +160,11 @@ export default function SidebarPanel({
 
     return (
         <>
-            {/* Sidebar Desktop */}
             <aside
                 className={`${containerClass} q-sidebar-panel--desktop`}
                 style={{ backgroundColor }}
                 {...props}
             >
-                {/* Logo/Header */}
                 {logoContent && (
                     <div
                         className="q-sidebar-panel__header"
@@ -216,7 +177,6 @@ export default function SidebarPanel({
                 {renderMenuContent()}
             </aside>
 
-            {/* Sidebar Mobile */}
             <Sidebar
                 open={mobileMenuOpen}
                 onClose={() => {
