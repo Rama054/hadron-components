@@ -3,6 +3,7 @@
   display: inline-block;
   overflow: hidden;
   cursor: pointer;
+  width: 100%;
 }
 .hadr-image-preview img {
   display: block;

@@ -29,6 +29,7 @@ export default function Button({
 /* {loading && <Spinner type="classic" />} */
     return (
         <button 
+            type={props.type || 'button'}
             className={buttonClass} 
             data-radius={radius} 
             data-variant={variant} 

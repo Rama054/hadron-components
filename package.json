@@ -1,6 +1,6 @@
 {
   "name": "hadron-components",
-  "version": "1.1.8",
+  "version": "1.1.16",
   "main": "dist/hadron-components.umd.js",
   "module": "dist/hadron-components.es.js",
   "github": "https://github.com/Rama054/hadron-components",
@@ -23,11 +23,11 @@
     "react-dom": "^18.0.0 || ^19.0.0",
     "react-hook-form": "^7.55.0",
     "react-icons": "^5.5.0",
+    "react-router-dom": "^7.6.2",
     "styled-components": "^6.1.16"
   },
   "dependencies": {
     "cooltipz-css": "^2.3.1",
-    "react-router-dom": "^7.6.2",
     "swapy": "^1.0.5"
   },
   "devDependencies": {

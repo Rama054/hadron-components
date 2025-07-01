@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../../css/breadcrumb.css';
 import { IoChevronForward } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 
 export default function BreadCrumb({
     items = [],
@@ -12,6 +13,7 @@ export default function BreadCrumb({
     homeIcon,
     className,
     onItemClick,
+    toHome = '/',
     ...props
 }) {
     const handleItemClick = (item, index) => {
@@ -64,9 +66,9 @@ export default function BreadCrumb({
         if (isClickable && !isLast && !item.disabled) {
             if (item.href) {
                 return (
-                    <a
+                    <Link
                         key={index}
-                        href={item.href}
+                        to={item.href}
                         className={`q-breadcrumb-item q-breadcrumb-link ${item.disabled ? 'q-breadcrumb-disabled' : ''}`}
                         onClick={(e) => {
                             if (item.onClick) {
@@ -79,7 +81,7 @@ export default function BreadCrumb({
                         rel={item.target === '_blank' ? 'noopener noreferrer' : undefined}
                     >
                         {content}
-                    </a>
+                    </Link>
                 );
             } else {
                 return (
@@ -129,8 +131,8 @@ export default function BreadCrumb({
                 {showHome && items.length > 0 && items[0].label !== 'Home' && (
                     <>
                         <li className="q-breadcrumb-list-item">
-                            <button
-                                type="button"
+                            <Link
+                                to={toHome}
                                 className="q-breadcrumb-item q-breadcrumb-button q-breadcrumb-home"
                                 onClick={() => handleItemClick({ label: 'Home', isHome: true }, -1)}
                             >
@@ -140,7 +142,7 @@ export default function BreadCrumb({
                                     </span>
                                 )}
                                 <span className="q-breadcrumb-label">Home</span>
-                            </button>
+                            </Link>
                         </li>
                         {renderSeparator(-1)}
                     </>
@@ -176,5 +178,6 @@ BreadCrumb.propTypes = {
     showHome: PropTypes.bool,
     homeIcon: PropTypes.node,
     className: PropTypes.string,
-    onItemClick: PropTypes.func
+    onItemClick: PropTypes.func,
+    toHome: PropTypes.string
 };

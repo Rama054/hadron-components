@@ -46,6 +46,10 @@
     line-height: 1.5;
     box-sizing: border-box;
     transition: all 0.2s ease-in-out;
+
+    &[data-fullwidth="true"] {
+        width: 100%;
+    }
     
     // Default settings
     @include card-padding(md);

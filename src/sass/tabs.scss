@@ -17,6 +17,7 @@
 .q-tabs-root {
     display: flex;
     width: 100%;
+    overflow: auto;
     
     // Orientation
     &[data-orientation="horizontal"] {

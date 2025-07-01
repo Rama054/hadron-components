@@ -11,6 +11,7 @@ function CardRoot({
     radius = 'lg',
     shadow = 'sm',
     hoverable = false,
+    fullwidth = false,
     ...props 
 }) {
     let classCard = `q-card-root ${className}`.trim();
@@ -26,6 +27,7 @@ function CardRoot({
             data-variant={variant}
             data-padding={padding}
             data-radius={radius}
+            data-fullwidth={fullwidth}
             data-shadow={shadow}
             style={{ maxWidth: maxWidth }} 
             {...props}

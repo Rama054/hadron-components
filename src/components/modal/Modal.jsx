@@ -5,7 +5,7 @@ import Button from "../button/Button";
 
 const ModalContext = createContext();
 
-function Root({ children, open, onOpenChange }) {
+function Root({ children, open, onOpenChange, ...props }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const values = {
@@ -53,7 +53,7 @@ function Root({ children, open, onOpenChange }) {
 
     return (
         <ModalContext.Provider value={values}>
-            <div className="q-modal-root">{children}</div>
+            <div className={`q-modal-root ${props.className ? props.className : ''}`} {...props}>{children}</div>
         </ModalContext.Provider>
     )
 }
@@ -93,14 +93,14 @@ function Content({ children, title }) {
         <div className={`q-modal-overlay ${isAnimating ? 'q-modal-overlay-open' : ''}`}>
             <div 
                 className={`q-modal-content ${isAnimating ? 'q-modal-content-open' : ''}`} 
-                style={{ width: "500px" }}
+                
             >
                 <div className="q-modal-header">
                     {
                         title && <span>{title}</span>
                     }
 
-                    <Button className="q-modal-close" radius="full" variant="ghost" color="secondary" onClick={() => setIsOpen(false)}>
+                    <Button className="q-modal-close" radius="full" variant="ghost" color="secondary" icon onClick={() => setIsOpen(false)}>
                         <PiX size={20} />
                     </Button>
                 </div>

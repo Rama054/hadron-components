@@ -1,6 +1,7 @@
 .q-tabs-root {
   display: flex;
   width: 100%;
+  overflow: auto;
 }
 .q-tabs-root[data-orientation=horizontal] {
   flex-direction: column;

@@ -10,11 +10,22 @@ export default defineConfig({
       fileName: (format) => `hadron-components.${format}.js`,
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: [
+        "react", 
+        "react-dom", 
+        "react-router-dom",  
+        "react-icons",       
+        "react-hook-form",   
+        "styled-components"  
+      ],
       output: {
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
+          "react-router-dom": "ReactRouterDOM",     
+          "react-icons": "ReactIcons",              
+          "react-hook-form": "ReactHookForm",
+          "styled-components": "StyledComponents"
         },
       },
     },
