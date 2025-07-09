@@ -205,7 +205,7 @@ export const DashboardActions = () => {
             
             <div>
                 <h3>Dashboard Context Menus</h3>
-                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', height: 'fit-content', overflow: 'hidden' }}>
                     
                     {/* Table Row Actions */}
                     <DropdownMenu.Root>

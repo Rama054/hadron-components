@@ -25,8 +25,6 @@
 }
 
 .q-dropdown-content {
-  position: absolute;
-  z-index: 50;
   min-width: 220px;
   background-color: var(--hadr-surface-bg);
   border: 1px solid var(--hadr-border-color);
@@ -35,31 +33,10 @@
   box-shadow: var(--hadr-shadow-lg);
   animation: dropdown-appear 0.15s ease-out;
 }
-.q-dropdown-content[data-side=bottom] {
-  top: 100%;
-  margin-top: var(--side-offset, 8px);
-}
-.q-dropdown-content[data-side=top] {
-  bottom: 100%;
-  margin-bottom: var(--side-offset, 8px);
-}
-.q-dropdown-content[data-side=left] {
-  right: 100%;
-  margin-right: var(--side-offset, 8px);
-}
-.q-dropdown-content[data-side=right] {
-  left: 100%;
-  margin-left: var(--side-offset, 8px);
-}
-.q-dropdown-content[data-align=start] {
-  left: var(--align-offset, 0);
-}
-.q-dropdown-content[data-align=center] {
-  left: 50%;
-  transform: translateX(-50%);
-}
-.q-dropdown-content[data-align=end] {
-  right: var(--align-offset, 0);
+.q-dropdown-content.q-dropdown-content-portal {
+  position: absolute;
+  z-index: 9999;
+  pointer-events: all;
 }
 
 .q-dropdown-item {

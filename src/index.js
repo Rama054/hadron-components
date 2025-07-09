@@ -11,7 +11,7 @@ export { default as Card } from "./components/card/Card";
 export { default as Checkbox } from "./components/checkbox/Checkbox";
 export { default as Chips } from "./components/chips/Chips";
 export { default as CheckboxCards } from "./components/checkboxCards/CheckboxCards";
-export { default as DataTable } from "./components/datatable/DataTable";
+export { default as DataTable } from "./components/datatable/Datatable";
 export { default as Dropdown } from "./components/dropdownMenu/DropdownMenu";
 export { default as ImagePreview } from "./components/imagePreview/ImagePreview";
 export { default as Input } from "./components/input/Input";

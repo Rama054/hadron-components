@@ -17,7 +17,9 @@ export default function SidebarPanel({
     showGroupHeadings = true,
     mobileMenuOpen = false,
     setMobileMenuOpen = () => {},
+    size = '320px',
     className,
+    style,
     ...props
 }) {
     const [internalExpandedItems, setInternalExpandedItems] = useState(expandedItems);
@@ -40,6 +42,15 @@ export default function SidebarPanel({
             onToggleExpand(key, !isExpanded(itemIndex, sectionIndex));
         }
     };
+
+    let sidebarStyle = { 
+        "--sidebar-size": size, 
+        "--background-sidebar": backgroundColor 
+    };
+
+    if (style) {
+        sidebarStyle = { ...sidebarStyle, ...style };
+    }
 
     const isActive = (item) => {
         if (!item.to || !location.pathname) return false;
@@ -162,7 +173,7 @@ export default function SidebarPanel({
         <>
             <aside
                 className={`${containerClass} q-sidebar-panel--desktop`}
-                style={{ backgroundColor }}
+                style={sidebarStyle}
                 {...props}
             >
                 {logoContent && (

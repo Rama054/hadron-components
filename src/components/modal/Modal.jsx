@@ -68,7 +68,7 @@ function Trigger({ children }) {
     )
 }
 
-function Content({ children, title }) {
+function Content({ children, title, subtitle, width, maxWidth, ...props }) {
     const { isOpen, setIsOpen } = useContext(ModalContext);
     const [isAnimating, setIsAnimating] = useState(false);
     const [shouldRender, setShouldRender] = useState(false);
@@ -92,13 +92,14 @@ function Content({ children, title }) {
     return (
         <div className={`q-modal-overlay ${isAnimating ? 'q-modal-overlay-open' : ''}`}>
             <div 
-                className={`q-modal-content ${isAnimating ? 'q-modal-content-open' : ''}`} 
-                
+                className={`q-modal-content ${props.className ? props.className : ''} ${isAnimating ? 'q-modal-content-open' : ''}`} 
+                style={ props.style ? props.style : { width: width || '100%', maxWidth: maxWidth || '450px' } }
             >
                 <div className="q-modal-header">
-                    {
-                        title && <span>{title}</span>
-                    }
+                    <div >
+                    { title && <p className="q-modal-title">{title}</p> }
+                    { subtitle && <span className="q-modal-subtitle">{subtitle}</span> }
+                    </div>
 
                     <Button className="q-modal-close" radius="full" variant="ghost" color="secondary" icon onClick={() => setIsOpen(false)}>
                         <PiX size={20} />

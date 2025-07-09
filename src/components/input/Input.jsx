@@ -82,11 +82,13 @@ export default function Input({
                     <div className="q-input-slot q-input-append">
                         <Button 
                             variant="ghost" 
+                            type="button"
                             size="sm"
-                            radius={radius} 
+                            radius="full" 
                             onClick={handleTogglePassword}
                             disabled={disabled}
                             tabIndex={-1}
+                            icon
                         >
                             {showPassword ? <PiEye size={16} /> : <PiEyeSlash size={16} />}
                         </Button>

@@ -6,7 +6,8 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 280px;
+  width: var(--sidebar-size, 320px);
+  background-color: var(--background-sidebar);
   overflow: hidden;
   box-shadow: var(--hadr-shadow-lg);
   transition: all 0.3s ease;

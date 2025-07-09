@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 export default function Badge({
     children,
     color = "primary",
+    loading = false,
     variant = "solid",
     content,
     pill = false,

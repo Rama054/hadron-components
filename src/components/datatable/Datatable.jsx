@@ -7,12 +7,21 @@ import Paginator from '../paginator/Paginator';
 import Badge from '../badge/Badge';
 import Button from '../button/Button';
 import Checkbox from '../checkbox/Checkbox';
+import Spinner from '../spinner/Spinner';
+import Skeleton from '../skeleton/Skeleton';
 
 
 
 
 
-export default function Datatable({ headerButtons, noDataMessage, data, paginator = false, rows, rowClick, filterPlaceholder, columns, selectedRows: selectedRowsRef, height, title = "Tabla de datos", filter = false }) {
+export default function Datatable({
+    headerButtons,
+    noDataMessage,
+    data,
+    loading = false,
+    paginator = false,
+    rows,
+    rowClick, filterPlaceholder, columns, selectedRows: selectedRowsRef, height, title = "Tabla de datos", filter = false }) {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [sortColumn, setSortColumn] = useState(null);
@@ -113,17 +122,91 @@ export default function Datatable({ headerButtons, noDataMessage, data, paginato
         }
     }
 
+    const loadingBody = (
+        <tbody>
+            {Array.from({ length: 5 }, (_, index) => (
+                <tr key={index}>
+                    {selectedRowsRef && (
+                        <td className="q-datatable-checkbox-column">
+                            <Checkbox
+                                label=""
+                                checked={false}
+                                onChange={() => {}}
+                                size="sm"
+                                color="primary"
+                                disabled
+                            />
+                        </td>
+                    )}
+                    {columns.map((column) => (
+                        <td key={column.field}>
+                            <Skeleton width="100%" height="20px" />
+                        </td>
+                    ))}
+                </tr>
+            ))}
+        </tbody>
+    )
+
+    const dataBody = (
+        <tbody>
+            {(() => {
+                const filteredRows = paginator
+                    ? sortedData.slice((currentPage - 1) * rows, currentPage * rows)
+                    : sortedData;
+
+                if (filteredRows.length === 0) {
+                    return (
+                        <tr>
+                            <td colSpan={columns.length + (selectedRowsRef ? 1 : 0)} style={{ textAlign: "center", padding: "10px" }}>
+                                {noDataMessage || "No hay datos para mostrar"}
+                            </td>
+                        </tr>
+                    );
+                }
+
+                return filteredRows.map((row, index) => (
+                    <tr
+                        key={index}
+                        style={{ cursor: rowClick ? "pointer" : "default" }}
+                        onClick={(e) => rowClick && handleRowClick(e, row)}
+                        className={selectedVisibleRows.includes(row.id) ? "selected" : undefined}
+                    >
+                        {selectedRowsRef && (
+                            <td className="q-datatable-checkbox-column" data-role="checkbox">
+                                <Checkbox
+                                    label=""
+                                    checked={selectedVisibleRows.includes(row.id)}
+                                    onChange={() => handleSelectRow(row.id)}
+                                    size="sm"
+                                    color="primary"
+                                />
+                            </td>
+                        )}
+                        {columns.map((column) => (
+                            <td key={column.field} style={ column.field === "actions" ? { width: "100px", textAlign: "center", ...column.style } : {...column.style} }>
+                                {column.body ? column.body(row) : getNestedValue(row, column.field)}
+                            </td>
+                        ))}
+                    </tr>
+                ));
+            })()}
+        </tbody>
+    )
+
+
     return (
         <div className="q-datatable">
             <div className="q-datatable-header">
                 <div className="q-datatable-title">
                     <span>{title}</span>
-                    <Badge color="primary" content={data.length} variant="soft" />
+                    <Badge color="primary" content={loading ? <Spinner size="sm" type='classic' /> : data.length} variant="soft" />
                 </div>
                 <div className="q-datatable-actions">
                     {
                         filter && (
                             <Input
+                                disabled={loading}
                                 placeholder={filterPlaceholder}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -172,54 +255,11 @@ export default function Datatable({ headerButtons, noDataMessage, data, paginato
                             ))}
                         </tr>
                     </thead>
-                    <tbody>
-                        {(() => {
-                            const filteredRows = paginator
-                                ? sortedData.slice((currentPage - 1) * rows, currentPage * rows)
-                                : sortedData;
-
-                            if (filteredRows.length === 0) {
-                                return (
-                                    <tr>
-                                        <td colSpan={columns.length + (selectedRowsRef ? 1 : 0)} style={{ textAlign: "center", padding: "10px" }}>
-                                            {noDataMessage || "No hay datos para mostrar"}
-                                        </td>
-                                    </tr>
-                                );
-                            }
-
-                            return filteredRows.map((row, index) => (
-                                <tr
-                                    key={index}
-                                    style={{ cursor: rowClick ? "pointer" : "default" }}
-                                    onClick={(e) => rowClick && handleRowClick(e, row)}
-                                    className={selectedVisibleRows.includes(row.id) ? "selected" : undefined}
-                                >
-                                    {selectedRowsRef && (
-                                        <td className="q-datatable-checkbox-column" data-role="checkbox">
-                                            <Checkbox
-                                                label=""
-                                                checked={selectedVisibleRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id)}
-                                                size="sm"
-                                                color="primary"
-                                            />
-                                        </td>
-                                    )}
-                                    {columns.map((column) => (
-                                        <td key={column.field}>
-                                            {column.body ? column.body(row) : getNestedValue(row, column.field)}
-                                        </td>
-                                    ))}
-                                </tr>
-                            ));
-                        })()}
-                    </tbody>
-
+                    {loading ? loadingBody : dataBody}
                 </table>
             </div>
             <div className="q-datatable-footer">
-                {paginator && (
+                {!loading && paginator && (
                     <Paginator
                         currentPage={currentPage}
                         maxVisible={7}

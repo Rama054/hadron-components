@@ -128,6 +128,7 @@ export default function Sidebar({
                         onClick={onClose} 
                         className='q-sidebar-close'
                         aria-label="Cerrar sidebar"
+                        icon
                     >
                         <PiX size={20} />
                     </Button>

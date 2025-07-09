@@ -43,7 +43,7 @@ export const Default = () => {
                     <Modal.Trigger>
                         <Button>Abri modal owo</Button>
                     </Modal.Trigger>
-                    <Modal.Content title="Title super mega largo tan ">
+                    <Modal.Content title="Title super mega largo tan sadsad awsd sad asdasd asd as dasd as" subtitle="Subtitle super mega largo tan sadsad awsd sad asdasd asd as dasd as">
                         <p>Modal Content</p>
                         <Modal.Footer>
                             <Button onClick={() => setOpen(false)}>Cerrar</Button>

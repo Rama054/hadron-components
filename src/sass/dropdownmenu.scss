@@ -30,8 +30,6 @@
 }
 
 .q-dropdown-content {
-    position: absolute;
-    z-index: 50;
     min-width: 220px;
     background-color: var(--#{$prefix}surface-bg);
     border: 1px solid var(--#{$prefix}border-color);
@@ -40,39 +38,11 @@
     box-shadow: var(--#{$prefix}shadow-lg);
     animation: dropdown-appear 0.15s ease-out;
     
-    // Positioning
-    &[data-side="bottom"] {
-        top: 100%;
-        margin-top: var(--side-offset, 8px);
-    }
-    
-    &[data-side="top"] {
-        bottom: 100%;
-        margin-bottom: var(--side-offset, 8px);
-    }
-    
-    &[data-side="left"] {
-        right: 100%;
-        margin-right: var(--side-offset, 8px);
-    }
-    
-    &[data-side="right"] {
-        left: 100%;
-        margin-left: var(--side-offset, 8px);
-    }
-    
-    // Alignment
-    &[data-align="start"] {
-        left: var(--align-offset, 0);
-    }
-    
-    &[data-align="center"] {
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-    &[data-align="end"] {
-        right: var(--align-offset, 0);
+    // Portal version with fixed positioning
+    &.q-dropdown-content-portal {
+        position: absolute;
+        z-index: 9999;
+        pointer-events: all;
     }
 }
 
@@ -156,11 +126,27 @@
 @keyframes dropdown-appear {
     from {
         opacity: 0;
-        transform: scale(0.95) translateY(-8px);
+        transform: scale(0.95);
     }
     to {
         opacity: 1;
-        transform: scale(1) translateY(0);
+        transform: scale(1);
+    }
+}
+
+// Enhanced animations for portal dropdowns
+.q-dropdown-content-portal {
+    animation: dropdown-appear-portal 0.15s ease-out;
+}
+
+@keyframes dropdown-appear-portal {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 

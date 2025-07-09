@@ -269,13 +269,3 @@ select:disabled {
 button:not(:disabled) {
   cursor: pointer;
 }
-
-.img-thumbnail {
-  padding: 0.25rem;
-  background-color: var(--hadr-body-bg);
-  border: var(--hadr-border-width) solid var(--hadr-border-color);
-  border-radius: var(--hadr-border-radius);
-  box-shadow: var(--hadr-box-shadow-sm);
-  max-width: 100%;
-  height: auto;
-}

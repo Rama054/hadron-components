@@ -35,12 +35,19 @@
   align-items: center;
   position: relative;
 }
-.q-modal-content .q-modal-header span {
-  font-size: 1.5rem;
-  font-weight: 600;
+.q-modal-content .q-modal-header .q-modal-title {
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 700;
   color: var(--hadr-color);
   min-height: 20px;
-  padding: 5px 0;
+  margin: 0;
+}
+.q-modal-content .q-modal-header .q-modal-subtitle {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--hadr-text-muted);
+  margin-top: 4px;
 }
 .q-modal-content .q-modal-close {
   align-self: start;

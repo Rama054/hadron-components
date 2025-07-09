@@ -2,7 +2,6 @@
 
 .q-modal-root{
     //width: fit-content;
-    
 }
 
 .q-modal-overlay{
@@ -44,13 +43,23 @@
         align-items: center;
         position: relative;
 
-        span{
-            font-size: 1.5rem;
-            font-weight: 600;
+        .q-modal-title{
+            font-size: 20px;
+            line-height: 26px; 
+            font-weight: 700;
             color: var(--#{$prefix}color);
             min-height: 20px;
-            padding: 5px 0;
+            margin: 0;
+            
         }
+
+        .q-modal-subtitle{
+            font-size: 14px;
+            line-height: 20px;
+            color: var(--#{$prefix}text-muted);
+            margin-top: 4px;
+        }
+
     }
 
     .q-modal-close{

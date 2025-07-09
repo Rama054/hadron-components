@@ -14,6 +14,7 @@ export default function Button({
     fullWidth = false,
     icon = false,
     className, 
+    type = 'button',
     ...props 
 }) {
   
@@ -29,7 +30,7 @@ export default function Button({
 /* {loading && <Spinner type="classic" />} */
     return (
         <button 
-            type={props.type || 'button'}
+            type={type}
             className={buttonClass} 
             data-radius={radius} 
             data-variant={variant} 
@@ -55,7 +56,8 @@ Button.propTypes = {
     radius: PropTypes.oneOf(['none', 'sm', 'md', 'lg', 'full']),
     loading: PropTypes.bool,
     fullWidth: PropTypes.bool,
-    className: PropTypes.string
+    className: PropTypes.string,
+    type: PropTypes.oneOf(['button', 'submit', 'reset']),
 };
 
 
