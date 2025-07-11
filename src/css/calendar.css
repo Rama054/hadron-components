@@ -1,0 +1,304 @@
+.q-calendar {
+  max-width: 96rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: var(--hadr-color-white);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.q-calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 768px) {
+  .q-calendar__header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+.q-calendar__navigation {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.q-calendar__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--hadr-color-gray-800, #1f2937);
+  margin: 0;
+  min-width: 200px;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .q-calendar__title {
+    font-size: 1.25rem;
+    min-width: auto;
+  }
+}
+.q-calendar__view-selector {
+  display: flex;
+  gap: 0.5rem;
+}
+.q-calendar__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+  margin-bottom: 0rem;
+}
+.q-calendar__weekday {
+  padding: 0.75rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--hadr-color-gray-600, #4b5563);
+  font-size: 0.875rem;
+}
+.q-calendar__month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+.q-calendar__day {
+  min-height: 6rem;
+  padding: 0.5rem;
+  border: 1px solid var(--hadr-color-gray-200, #e5e7eb);
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  position: relative;
+}
+.q-calendar__day--valid:hover {
+  background-color: var(--hadr-color-blue-50, #eff6ff);
+}
+.q-calendar__day--invalid {
+  background-color: var(--hadr-color-gray-100, #f3f4f6);
+  cursor: default;
+}
+.q-calendar__day--today {
+  background-color: var(--hadr-color-blue-100, #dbeafe);
+  border-color: var(--hadr-color-blue-300, #93c5fd);
+}
+.q-calendar__day-number {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: var(--hadr-color-gray-800, #1f2937);
+}
+.q-calendar__day-number--today {
+  color: var(--hadr-color-blue-600, #2563eb);
+}
+.q-calendar__events {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.q-calendar__event {
+  font-size: 0.75rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--hadr-color-white);
+  background-color: var(--hadr-color-blue-500, #3b82f6);
+}
+.q-calendar__more-events {
+  font-size: 0.75rem;
+  color: var(--hadr-color-gray-500, #6b7280);
+}
+.q-calendar__week-view {
+  overflow-x: auto;
+}
+.q-calendar__week-container {
+  min-width: 50rem;
+}
+.q-calendar__week-header {
+  display: grid;
+  grid-template-columns: 120px repeat(7, 1fr);
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+.q-calendar__time-header {
+  padding: 0.75rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--hadr-color-gray-600, #4b5563);
+  font-size: 0.875rem;
+}
+.q-calendar__week-day-header {
+  padding: 0.75rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 0.5rem;
+  color: var(--hadr-color-gray-600, #4b5563);
+}
+.q-calendar__week-day-header:hover {
+  background-color: var(--hadr-color-gray-50, #f9fafb);
+}
+.q-calendar__week-day-header--today {
+  background-color: var(--hadr-color-blue-100, #dbeafe);
+  color: var(--hadr-color-blue-600, #2563eb);
+}
+.q-calendar__week-day-name {
+  font-size: 0.75rem;
+}
+.q-calendar__week-day-number {
+  font-size: 1.125rem;
+}
+.q-calendar__week-day-number--today {
+  font-weight: 700;
+}
+.q-calendar__week-grid {
+  border: 1px solid var(--hadr-color-gray-200, #e5e7eb);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.q-calendar__time-row {
+  display: grid;
+  grid-template-columns: 120px repeat(7, 1fr);
+  border-bottom: 1px solid var(--hadr-color-gray-100, #f3f4f6);
+}
+.q-calendar__time-row:last-child {
+  border-bottom: none;
+}
+.q-calendar__time-slot {
+  padding: 0.75rem;
+  background-color: var(--hadr-color-gray-50, #f9fafb);
+  border-right: 1px solid var(--hadr-color-gray-200, #e5e7eb);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--hadr-color-gray-600, #4b5563);
+  display: flex;
+  align-items: center;
+}
+.q-calendar__time-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-right: 0.25rem;
+}
+.q-calendar__time-cell {
+  padding: 0.5rem;
+  border-right: 1px solid var(--hadr-color-gray-100, #f3f4f6);
+  min-height: 3.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  position: relative;
+}
+.q-calendar__time-cell:last-child {
+  border-right: none;
+}
+.q-calendar__time-cell:hover {
+  background-color: var(--hadr-color-gray-50, #f9fafb);
+}
+.q-calendar__time-cell--with-event {
+  background-color: var(--hadr-color-blue-50, #eff6ff);
+}
+.q-calendar__time-cell--multi-day {
+  background-color: var(--hadr-color-purple-50, #faf5ff);
+}
+.q-calendar__time-cell--today {
+  background-color: var(--hadr-color-blue-50, #eff6ff);
+}
+.q-calendar__time-event {
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+  right: 0rem;
+  z-index: 10;
+  color: var(--hadr-color-white);
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  min-height: 100%;
+  overflow: hidden;
+}
+.q-calendar__time-event--single-day {
+  background-color: var(--hadr-color-blue-500, #3b82f6);
+}
+.q-calendar__time-event--multi-day {
+  background-color: var(--hadr-color-purple-500, #8b5cf6);
+}
+.q-calendar__time-event-client {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.q-calendar__time-event-service {
+  opacity: 0.9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.75rem;
+}
+.q-calendar__time-event-time {
+  font-size: 0.75rem;
+  opacity: 0.75;
+  margin-top: 0.25rem;
+}
+@media (max-width: 1024px) {
+  .q-calendar {
+    padding: 1rem;
+  }
+  .q-calendar__week-container {
+    min-width: 40rem;
+  }
+  .q-calendar__week-header {
+    grid-template-columns: 100px repeat(7, 1fr);
+  }
+  .q-calendar__time-row {
+    grid-template-columns: 100px repeat(7, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .q-calendar {
+    padding: 0.75rem;
+  }
+  .q-calendar__title {
+    font-size: 1rem;
+  }
+  .q-calendar__view-button {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+  }
+  .q-calendar__day {
+    min-height: 4rem;
+    padding: 0.25rem;
+  }
+  .q-calendar__event {
+    font-size: 0.625rem;
+    padding: 0.125rem 0.25rem;
+  }
+  .q-calendar__week-container {
+    min-width: 35rem;
+  }
+  .q-calendar__week-header {
+    grid-template-columns: 80px repeat(7, 1fr);
+  }
+  .q-calendar__time-row {
+    grid-template-columns: 80px repeat(7, 1fr);
+  }
+  .q-calendar__time-slot {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.75rem;
+  }
+  .q-calendar__time-cell {
+    padding: 0.25rem;
+    min-height: 3rem;
+  }
+  .q-calendar__time-event {
+    padding: 0.25rem;
+    min-height: 2.5rem;
+  }
+  .q-calendar__time-event-client {
+    font-size: 0.75rem;
+  }
+  .q-calendar__time-event-service {
+    font-size: 0.625rem;
+  }
+  .q-calendar__time-event-time {
+    font-size: 0.625rem;
+  }
+}

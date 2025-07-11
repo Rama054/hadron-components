@@ -249,7 +249,7 @@ function Content({
         };
     }, [isOpen, side, align, sideOffset, alignOffset]);
 
-    useEffect(() => {
+    /* useEffect(() => {
         if (isOpen && contentRef.current) {
             // Focus first item when opened
             const firstItem = contentRef.current.querySelector('[role="menuitem"]');
@@ -257,7 +257,7 @@ function Content({
                 firstItem.focus();
             }
         }
-    }, [isOpen]);
+    }, [isOpen]); */
 
     if (!isOpen) return null;
 
@@ -279,6 +279,7 @@ function Content({
             data-side={side}
             style={contentStyle}
             role="menu"
+            tabIndex={-1}
         >
             {children}
         </div>

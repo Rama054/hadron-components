@@ -173,7 +173,7 @@ export const UserMenu = () => {
                             />
                         </div>
                     </DropdownMenu.Trigger>
-                    <DropdownMenu.Content align="end">
+                    <DropdownMenu.Content align="start">
                         <DropdownMenu.Label>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                                 <span style={{ fontWeight: 600 }}>John Doe</span>

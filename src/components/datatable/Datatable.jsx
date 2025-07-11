@@ -242,7 +242,7 @@ export default function Datatable({
                                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "5px" }}>
                                         <span>{header}</span>
                                         {sorteable && (
-                                            <Button onClick={() => sorteable && handleSort(field)} variant="ghost" color="azure" icon>
+                                            <Button size='sm' radius='full' onClick={() => sorteable && handleSort(field)} variant="ghost" color="azure" icon>
                                                 {
                                                     sortColumn === field
                                                         ? (sortOrder === "asc" ? <BiSortUp size={16} /> : <BiSortDown size={16} />)

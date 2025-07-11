@@ -1,0 +1,372 @@
+@import 'partials/colors';
+@import 'partials/radius';
+@import 'partials/variables';
+@import 'partials/breakpoints';
+
+.q-calendar {
+  max-width: 96rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: var(--#{$prefix}color-white);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  // Header del calendario
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+
+  &__navigation {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--#{$prefix}color-gray-800, #1f2937);
+    margin: 0;
+    min-width: 200px;
+    text-align: center;
+
+    @media (max-width: 768px) {
+      font-size: 1.25rem;
+      min-width: auto;
+    }
+  }
+
+  &__view-selector {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  // Días de la semana (vista mensual)
+  &__weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+    margin-bottom: 0rem;
+  }
+
+  &__weekday {
+    padding: 0.75rem;
+    text-align: center;
+    font-weight: 600;
+    color: var(--#{$prefix}color-gray-600, #4b5563);
+    font-size: 0.875rem;
+  }
+
+  // Vista mensual
+  &__month-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+  }
+
+  &__day {
+    min-height: 6rem;
+    padding: 0.5rem;
+    border: 1px solid var(--#{$prefix}color-gray-200, #e5e7eb);
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    position: relative;
+
+    &--valid {
+      &:hover {
+        background-color: var(--#{$prefix}color-blue-50, #eff6ff);
+      }
+    }
+
+    &--invalid {
+      background-color: var(--#{$prefix}color-gray-100, #f3f4f6);
+      cursor: default;
+    }
+
+    &--today {
+      background-color: var(--#{$prefix}color-blue-100, #dbeafe);
+      border-color: var(--#{$prefix}color-blue-300, #93c5fd);
+    }
+  }
+
+  &__day-number {
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: var(--#{$prefix}color-gray-800, #1f2937);
+
+    &--today {
+      color: var(--#{$prefix}color-blue-600, #2563eb);
+    }
+  }
+
+  &__events {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__event {
+    font-size: 0.75rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--#{$prefix}color-white);
+    background-color: var(--#{$prefix}color-blue-500, #3b82f6);
+    
+  }
+
+  &__more-events {
+    font-size: 0.75rem;
+    color: var(--#{$prefix}color-gray-500, #6b7280);
+  }
+
+  // Vista semanal
+  &__week-view {
+    overflow-x: auto;
+  }
+
+  &__week-container {
+    min-width: 50rem;
+  }
+
+  &__week-header {
+    display: grid;
+    grid-template-columns: 120px repeat(7, 1fr);
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__time-header {
+    padding: 0.75rem;
+    text-align: center;
+    font-weight: 600;
+    color: var(--#{$prefix}color-gray-600, #4b5563);
+    font-size: 0.875rem;
+  }
+
+  &__week-day-header {
+    padding: 0.75rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    border-radius: 0.5rem;
+    color: var(--#{$prefix}color-gray-600, #4b5563);
+
+    &:hover {
+      background-color: var(--#{$prefix}color-gray-50, #f9fafb);
+    }
+
+    &--today {
+      background-color: var(--#{$prefix}color-blue-100, #dbeafe);
+      color: var(--#{$prefix}color-blue-600, #2563eb);
+    }
+  }
+
+  &__week-day-name {
+    font-size: 0.75rem;
+  }
+
+  &__week-day-number {
+    font-size: 1.125rem;
+
+    &--today {
+      font-weight: 700;
+    }
+  }
+
+  &__week-grid {
+    border: 1px solid var(--#{$prefix}color-gray-200, #e5e7eb);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  &__time-row {
+    display: grid;
+    grid-template-columns: 120px repeat(7, 1fr);
+    border-bottom: 1px solid var(--#{$prefix}color-gray-100, #f3f4f6);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__time-slot {
+    padding: 0.75rem;
+    background-color: var(--#{$prefix}color-gray-50, #f9fafb);
+    border-right: 1px solid var(--#{$prefix}color-gray-200, #e5e7eb);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--#{$prefix}color-gray-600, #4b5563);
+    display: flex;
+    align-items: center;
+  }
+
+  &__time-icon {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-right: 0.25rem;
+  }
+
+  &__time-cell {
+    padding: 0.5rem;
+    border-right: 1px solid var(--#{$prefix}color-gray-100, #f3f4f6);
+    min-height: 3.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    position: relative;
+
+    &:last-child {
+      border-right: none;
+    }
+
+    &:hover {
+      background-color: var(--#{$prefix}color-gray-50, #f9fafb);
+    }
+
+    &--with-event {
+      background-color: var(--#{$prefix}color-blue-50, #eff6ff);
+    }
+
+    &--multi-day {
+      background-color: var(--#{$prefix}color-purple-50, #faf5ff);
+    }
+
+    &--today {
+      background-color: var(--#{$prefix}color-blue-50, #eff6ff);
+    }
+  }
+
+  &__time-event {
+    position: absolute;
+    top: 0rem;
+    left: 0rem;
+    right: 0rem;
+    z-index: 10;
+    color: var(--#{$prefix}color-white);
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    min-height: 100%;
+    overflow: hidden;
+
+    &--single-day {
+      background-color: var(--#{$prefix}color-blue-500, #3b82f6);
+    }
+
+    &--multi-day {
+      background-color: var(--#{$prefix}color-purple-500, #8b5cf6);
+    }
+  }
+
+  &__time-event-client {
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__time-event-service {
+    opacity: 0.9;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.75rem;
+  }
+
+  &__time-event-time {
+    font-size: 0.75rem;
+    opacity: 0.75;
+    margin-top: 0.25rem;
+  }
+
+  // Responsive design
+  @media (max-width: 1024px) {
+    padding: 1rem;
+
+    &__week-container {
+      min-width: 40rem;
+    }
+
+    &__week-header {
+      grid-template-columns: 100px repeat(7, 1fr);
+    }
+
+    &__time-row {
+      grid-template-columns: 100px repeat(7, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.75rem;
+
+    &__title {
+      font-size: 1rem;
+    }
+
+    &__view-button {
+      padding: 0.375rem 0.75rem;
+      font-size: 0.875rem;
+    }
+
+    &__day {
+      min-height: 4rem;
+      padding: 0.25rem;
+    }
+
+    &__event {
+      font-size: 0.625rem;
+      padding: 0.125rem 0.25rem;
+    }
+
+    &__week-container {
+      min-width: 35rem;
+    }
+
+    &__week-header {
+      grid-template-columns: 80px repeat(7, 1fr);
+    }
+
+    &__time-row {
+      grid-template-columns: 80px repeat(7, 1fr);
+    }
+
+    &__time-slot {
+      padding: 0.5rem 0.25rem;
+      font-size: 0.75rem;
+    }
+
+    &__time-cell {
+      padding: 0.25rem;
+      min-height: 3rem;
+    }
+
+    &__time-event {
+      padding: 0.25rem;
+      min-height: 2.5rem;
+    }
+
+    &__time-event-client {
+      font-size: 0.75rem;
+    }
+
+    &__time-event-service {
+      font-size: 0.625rem;
+    }
+
+    &__time-event-time {
+      font-size: 0.625rem;
+    }
+  }
+}

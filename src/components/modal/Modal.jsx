@@ -1,4 +1,4 @@
-import { useState, createContext, useContext, useEffect } from "react";
+import { useState, createContext, useContext, useEffect, useRef, useCallback } from "react";
 import { PiX } from "react-icons/pi";
 import '../../css/modal.css'
 import Button from "../button/Button";
@@ -7,6 +7,7 @@ const ModalContext = createContext();
 
 function Root({ children, open, onOpenChange, ...props }) {
     const [isOpen, setIsOpen] = useState(false);
+    const mouseDownTargetRef = useRef(null);
 
     const values = {
         isOpen: open !== undefined ? open : isOpen,
@@ -19,37 +20,49 @@ function Root({ children, open, onOpenChange, ...props }) {
         }
     }
 
-    useEffect(() => {
-        const handleKeyDown = (event) => {
-            if (event.key === "Escape") {
-                values.setIsOpen(false);
-            }
-        };
-
-        const handleClickOutside = (event) => {
-            if (event.target.classList.contains("q-modal-overlay")) {
-                values.setIsOpen(false);
-            }
-        };
-        
-        const handleClickClose = (event) => {
-            if (event.target.getAttribute("data-close") !== null) {
-                values.setIsOpen(false);
-            }
+    const handleKeyDown = useCallback((event) => {
+        if (event.key === "Escape") {
+            values.setIsOpen(false);
         }
+    }, [values]);
 
+    const handleMouseDown = useCallback((event) => {
+        // Guardar dónde empezó el click
+        mouseDownTargetRef.current = event.target;
+    }, []);
 
+    const handleClickOutside = useCallback((event) => {
+        // Solo cerrar si el click empezó y terminó en el overlay
+        const clickStartedOnOverlay = mouseDownTargetRef.current && mouseDownTargetRef.current.classList.contains("q-modal-overlay");
+        const clickEndedOnOverlay = event.target.classList.contains("q-modal-overlay");
+        
+        if (clickStartedOnOverlay && clickEndedOnOverlay) {
+            values.setIsOpen(false);
+        }
+        
+        // Limpiar la referencia
+        mouseDownTargetRef.current = null;
+    }, [values]);
+        
+    const handleClickClose = useCallback((event) => {
+        if (event.target.getAttribute("data-close") !== null) {
+            values.setIsOpen(false);
+        }
+    }, [values]);
+
+    useEffect(() => {
         document.addEventListener("keydown", handleKeyDown);
+        document.addEventListener("mousedown", handleMouseDown);
         document.addEventListener("click", handleClickOutside);
         document.addEventListener("click", handleClickClose);
 
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
+            document.removeEventListener("mousedown", handleMouseDown);
             document.removeEventListener("click", handleClickOutside);
             document.removeEventListener("click", handleClickClose);
         };
-    }, [values]);
-
+    }, [handleKeyDown, handleMouseDown, handleClickOutside, handleClickClose]);
 
     return (
         <ModalContext.Provider value={values}>
@@ -121,7 +134,6 @@ function Footer({ children }) {
         </div>
     )
 }
-
 
 const Modal = {
     Root,

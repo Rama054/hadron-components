@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import '../../css/alert.css';
 import Button from "../button/Button";
 import { PiInfo, PiWarning, PiX, PiCheck } from "react-icons/pi";
 import PropTypes from 'prop-types';
-
 const AlertIcons = {
     info: <PiInfo size={20} />,
     warning: <PiWarning size={20} />,
@@ -28,6 +27,7 @@ export default function Alert({
 }) {
     const [isAnimating, setIsAnimating] = useState(false);
     const [shouldRender, setShouldRender] = useState(false);
+    const mouseDownTargetRef = useRef(null);
 
     // Manejar animaciones de entrada y salida
     useEffect(() => {
@@ -72,10 +72,25 @@ export default function Alert({
     }, [shouldRender]);
 
     // Manejar click en overlay
+    const handleMouseDown = (e) => {
+        // Guardar dónde empezó el click
+        mouseDownTargetRef.current = e.target;
+    };
+
     const handleOverlayClick = (e) => {
-        if (e.target === e.currentTarget && closeOnOverlay && onCancel) {
+        // Solo cerrar si:
+        // 1. El click empezó en el overlay (mousedown)
+        // 2. El click terminó en el overlay (mouseup/click)
+        // 3. Es el mismo elemento (overlay)
+        const clickStartedOnOverlay = mouseDownTargetRef.current === e.currentTarget;
+        const clickEndedOnOverlay = e.target === e.currentTarget;
+
+        if (clickStartedOnOverlay && clickEndedOnOverlay && closeOnOverlay && onCancel) {
             onCancel();
         }
+
+        // Limpiar la referencia
+        mouseDownTargetRef.current = null;
     };
 
     if (!shouldRender) return null;
@@ -83,12 +98,13 @@ export default function Alert({
 
 
     return (
-        <div 
+        <div
             className={`q-alert-overlay ${isAnimating ? 'q-alert-overlay-open' : ''}`}
+            onMouseDown={handleMouseDown}
             onClick={handleOverlayClick}
             {...props}
         >
-            <div 
+            <div
                 className={`q-alert ${isAnimating ? 'q-alert-open' : ''} ${className || ''}`.trim()}
                 data-variant={variant}
                 role="alertdialog"

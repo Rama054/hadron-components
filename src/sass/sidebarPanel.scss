@@ -125,7 +125,7 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
   }
   
   // Section container
@@ -139,7 +139,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     padding: 0 0.75rem;
   }
   
@@ -150,7 +150,6 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
   }
   
   // Menu item
@@ -269,11 +268,10 @@
   // Submenu
   &__submenu {
     list-style: none;
-    margin: 0.5rem 0 0 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0rem;
     border-left: 2px solid rgba(255, 255, 255, 0.1);
     margin-left: 1.5rem;
     padding-left: .5rem;

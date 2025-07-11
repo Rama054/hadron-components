@@ -1,6 +1,7 @@
 import '../../css/theme.css';
 import Input from './Input';
 import useThemeMode from '../../hooks/useThemeMode';
+import Button from '../button/Button';
 
 export default {
     title: "Components/Input",
@@ -123,6 +124,32 @@ export const WithIcons = () => {
                         placeholder="user@example.com" 
                         prependIcon="📧"
                         appendIcon="✅"
+                    />
+                    <Input 
+                        label="Password" 
+                        type="password"
+                        placeholder="user@example.com" 
+                        appendButton={
+                            <Button 
+                                type="button"
+                                size="sm"
+                            >
+                                Generar Contraseña
+                            </Button>
+                        }
+                    />
+                    <Input 
+                        label="Password" 
+                        type="password"
+                        placeholder="user@example.com" 
+                        prependButton={
+                            <Button 
+                                type="button"
+                                size="sm"
+                            >
+                                Generar Contraseña
+                            </Button>
+                        }
                     />
                 </div>
             </div>

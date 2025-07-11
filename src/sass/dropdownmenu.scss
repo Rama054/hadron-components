@@ -30,6 +30,9 @@
 }
 
 .q-dropdown-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
     min-width: 220px;
     background-color: var(--#{$prefix}surface-bg);
     border: 1px solid var(--#{$prefix}border-color);

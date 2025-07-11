@@ -10,6 +10,8 @@ export default function Input({
     prependIcon = null,
     appendText = null,
     prependText = null,
+    appendButton = null,
+    prependButton = null,
     type = "text",
     placeholder = null,
     label = null,
@@ -56,55 +58,59 @@ export default function Input({
                     {required && <span className="q-input-required">*</span>}
                 </label>
             )}
-            <div
-                className={inputClassName}
-                data-radius={radius}
-                data-color={color}
-                data-size={size}
-                data-variant={variant}
-                onClick={handleFocus}
-            >
-                {prependIcon && <div className="q-input-slot q-input-prepend">{prependIcon}</div>}
-                {prependText && <span className="q-slot-text" data-side='left'>{prependText}</span>}
+            <div class="q-input-wrapper">
+                {prependButton && <div>{prependButton}</div>}
+                <div
+                    className={inputClassName}
+                    data-radius={radius}
+                    data-color={color}
+                    data-size={size}
+                    data-variant={variant}
+                    onClick={handleFocus}
+                >
+                    {prependIcon && <div className="q-input-slot q-input-prepend">{prependIcon}</div>}
+                    {prependText && <span className="q-slot-text" data-side='left'>{prependText}</span>}
 
-                <input
-                    ref={inputRef}
-                    id={uniqueId}
-                    type={type === "password" ? (showPassword ? "text" : "password") : type}
-                    placeholder={placeholder}
-                    disabled={loading || disabled}
-                    required={required}
-                    className="q-input"
-                    {...props}
-                />
+                    <input
+                        ref={inputRef}
+                        id={uniqueId}
+                        type={type === "password" ? (showPassword ? "text" : "password") : type}
+                        placeholder={placeholder}
+                        disabled={loading || disabled}
+                        required={required}
+                        className="q-input"
+                        {...props}
+                    />
 
-                {type === "password" && (
-                    <div className="q-input-slot q-input-append">
-                        <Button 
-                            variant="ghost" 
-                            type="button"
-                            size="sm"
-                            radius="full" 
-                            onClick={handleTogglePassword}
-                            disabled={disabled}
-                            tabIndex={-1}
-                            icon
-                        >
-                            {showPassword ? <PiEye size={16} /> : <PiEyeSlash size={16} />}
-                        </Button>
-                    </div>
-                )}
+                    {type === "password" && (
+                        <div className="q-input-slot q-input-append">
+                            <Button
+                                variant="ghost"
+                                type="button"
+                                size="sm"
+                                radius="full"
+                                onClick={handleTogglePassword}
+                                disabled={disabled}
+                                tabIndex={-1}
+                                icon
+                            >
+                                {showPassword ? <PiEye size={16} /> : <PiEyeSlash size={16} />}
+                            </Button>
+                        </div>
+                    )}
 
-                {loading && (
-                    <div className="q-input-slot q-input-append">
-                        <Spinner size="sm" color={color || 'primary'} />
-                    </div>
-                )}
-                
-                {appendIcon && <div className="q-input-slot q-input-append">{appendIcon}</div>}
-                {appendText && <span className="q-slot-text" data-side='right'>{appendText}</span>}
+                    {loading && (
+                        <div className="q-input-slot q-input-append">
+                            <Spinner size="sm" color={color || 'primary'} />
+                        </div>
+                    )}
+
+                    {appendIcon && <div className="q-input-slot q-input-append">{appendIcon}</div>}
+                    {appendText && <span className="q-slot-text" data-side='right'>{appendText}</span>}
+                </div>
+                {appendButton && <div className="">{appendButton}</div>}
             </div>
-            
+
             {(helpText || errorText) && (
                 <div className="q-input-help-container">
                     {helpText && <small className="q-input-help-text">{helpText}</small>}

@@ -25,6 +25,9 @@
 }
 
 .q-dropdown-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
   min-width: 220px;
   background-color: var(--hadr-surface-bg);
   border: 1px solid var(--hadr-border-color);
@@ -113,11 +116,25 @@
 @keyframes dropdown-appear {
   from {
     opacity: 0;
-    transform: scale(0.95) translateY(-8px);
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: scale(1);
+  }
+}
+.q-dropdown-content-portal {
+  animation: dropdown-appear-portal 0.15s ease-out;
+}
+
+@keyframes dropdown-appear-portal {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 [data-theme=dark] .q-dropdown-content {
