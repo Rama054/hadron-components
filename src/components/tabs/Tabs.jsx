@@ -115,6 +115,7 @@ function Trigger({ children, value, disabled = false, className, ...props }) {
             id={`trigger-${value}`}
             tabIndex={isActive ? 0 : -1}
             data-state={isActive ? 'active' : 'inactive'}
+            type="button"
             {...props}
         >
             {children}

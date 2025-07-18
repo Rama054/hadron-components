@@ -29,6 +29,7 @@
   display: flex;
   position: relative;
   background-color: var(--hadr-surface-bg);
+  overflow-x: auto;
 }
 .q-tabs-root[data-variant=line] .q-tabs-list {
   border-bottom: 2px solid var(--hadr-border-color);

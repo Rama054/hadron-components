@@ -7,6 +7,7 @@ export { default as Avatar } from "./components/avatar/Avatar";
 export { default as Badge } from "./components/badge/Badge";
 export { default as BreadCrumb } from "./components/breadcrumb/BreadCrumb";
 export { default as Button } from "./components/button/Button";
+export { default as Calendar } from "./components/calendar/Calendar";
 export { default as Card } from "./components/card/Card";
 export { default as Checkbox } from "./components/checkbox/Checkbox";
 export { default as Chips } from "./components/chips/Chips";

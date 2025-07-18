@@ -65,7 +65,6 @@
   color: var(--hadr-color);
   font-family: inherit;
   line-height: 1.5;
-  transition: all 0.2s ease-in-out;
   outline: none;
   box-sizing: border-box;
   padding: 0.625rem 1rem;
@@ -116,8 +115,6 @@
 .q-textarea:-webkit-autofill, .q-textarea:-webkit-autofill:hover, .q-textarea:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px var(--hadr-surface-bg) inset;
   -webkit-text-fill-color: var(--hadr-color);
-  -webkit-transition: background-color 5000s ease-in-out 0s;
-  transition: background-color 5000s ease-in-out 0s;
 }
 
 .q-textarea-counter {

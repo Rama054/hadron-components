@@ -10,7 +10,8 @@ const Calendar = ({
     initialDate = new Date(),
     initialViewMode = 'month',
     timeSlotInterval = 30,
-    workingHours = { start: '08:00', end: '22:00' }
+    workingHours = { start: '08:00', end: '22:00' },
+    ...props
 }) => {
     const [currentDate, setCurrentDate] = useState(initialDate);
     const [viewMode, setViewMode] = useState(initialViewMode);
@@ -439,7 +440,7 @@ const Calendar = ({
     };
 
     return (
-        <div className="q-calendar">
+        <div className={`q-calendar ${props.className || ''}`}>
             {/* Header del calendario */}
             <div className="q-calendar__header">
                 <div className="q-calendar__navigation">

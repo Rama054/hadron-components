@@ -2,17 +2,13 @@ import '../../css/datatable.css';
 import { BiSort, BiSortDown, BiSortUp } from "react-icons/bi";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import Input from '../input/Input';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import Paginator from '../paginator/Paginator';
 import Badge from '../badge/Badge';
 import Button from '../button/Button';
 import Checkbox from '../checkbox/Checkbox';
 import Spinner from '../spinner/Spinner';
 import Skeleton from '../skeleton/Skeleton';
-
-
-
-
 
 export default function Datatable({
     headerButtons,
@@ -21,29 +17,58 @@ export default function Datatable({
     loading = false,
     paginator = false,
     rows,
-    rowClick, filterPlaceholder, columns, selectedRows: selectedRowsRef, height, title = "Tabla de datos", filter = false }) {
+    rowClick, 
+    filterPlaceholder, 
+    columns, 
+    selectedRows: selectedRowsRef, 
+    height, 
+    title = "Tabla de datos", 
+    filter = false,
+    // Nuevas props para paginación del servidor
+    serverSide = false,
+    totalRecords = 0,
+    onPageChange,
+    onSort,
+    onSearch,
+    searchValue = "",
+    currentPage: externalCurrentPage = 1,
+    sortField = null,
+    sortOrder = null
+}) {
 
-    const [searchTerm, setSearchTerm] = useState("");
-    const [sortColumn, setSortColumn] = useState(null);
-    const [sortOrder, setSortOrder] = useState(null);
+    // Estados para paginación del cliente (modo legacy)
+    const [clientSearchTerm, setClientSearchTerm] = useState("");
+    const [clientSortColumn, setClientSortColumn] = useState(null);
+    const [clientSortOrder, setClientSortOrder] = useState(null);
+    const [clientCurrentPage, setClientCurrentPage] = useState(1);
 
+    // Estados para selección
     const [selectedVisibleRows, setSelectedVisibleRows] = useState([]);
     const [selectedAll, setSelectedAll] = useState(false);
 
-    const handleSelectAll = () => {
-        const isSelectingAll = !selectedAll; // Nuevo estado
+    // Determinar qué valores usar según el modo
+    const searchTerm = serverSide ? searchValue : clientSearchTerm;
+    const currentPage = serverSide ? externalCurrentPage : clientCurrentPage;
+    const activeSortField = serverSide ? sortField : clientSortColumn;
+    const activeSortOrder = serverSide ? sortOrder : clientSortOrder;
 
+    // Efecto para resetear página cuando cambia la búsqueda en modo servidor
+    useEffect(() => {
+        if (serverSide && searchValue !== searchTerm && onPageChange) {
+            onPageChange(1);
+        }
+    }, [searchValue, serverSide]);
+
+    const handleSelectAll = () => {
+        const isSelectingAll = !selectedAll;
         setSelectedAll(isSelectingAll);
 
         if (isSelectingAll) {
-            // Seleccionar TODOS en el servidor
-            selectedRowsRef.current = new Set(["ALL"]); // Marcar todos sin guardarlos en el cliente
+            selectedRowsRef.current = new Set(["ALL"]);
         } else {
-            // Deseleccionar todo
             selectedRowsRef.current.clear();
         }
 
-        // Marcar visualmente todos los elementos en la página actual
         setSelectedVisibleRows(isSelectingAll ? data.map(row => row.id) : []);
     };
 
@@ -61,57 +86,96 @@ export default function Datatable({
         setSelectedVisibleRows(Array.from(newSelection));
     };
 
-
-
-
     const getNestedValue = (obj, path) => {
         return path.split('.').reduce((acc, key) => acc?.[key], obj) || "-";
     };
 
     const handleSort = (column) => {
-        if (sortColumn === column) {
-            setSortOrder(sortOrder === "asc" ? "desc" : sortOrder === "desc" ? null : "asc");
-            if (sortOrder === "desc") setSortColumn(null);
+        if (serverSide) {
+            // Modo servidor: delegar al padre
+            if (onSort) {
+                let newSortOrder;
+                if (activeSortField === column) {
+                    newSortOrder = activeSortOrder === "asc" ? "desc" : activeSortOrder === "desc" ? null : "asc";
+                } else {
+                    newSortOrder = "asc";
+                }
+                
+                onSort({
+                    field: newSortOrder ? column : null,
+                    order: newSortOrder
+                });
+            }
         } else {
-            setSortColumn(column);
-            setSortOrder("asc");
+            // Modo cliente: lógica local
+            if (clientSortColumn === column) {
+                setClientSortOrder(clientSortOrder === "asc" ? "desc" : clientSortOrder === "desc" ? null : "asc");
+                if (clientSortOrder === "desc") setClientSortColumn(null);
+            } else {
+                setClientSortColumn(column);
+                setClientSortOrder("asc");
+            }
         }
     };
 
+    const handleSearch = (value) => {
+        if (serverSide) {
+            // Modo servidor: delegar al padre
+            if (onSearch) {
+                onSearch(value);
+            }
+        } else {
+            // Modo cliente: actualizar estado local
+            setClientSearchTerm(value);
+            setClientCurrentPage(1); // Reset a primera página
+        }
+    };
+
+    const handlePageChangeInternal = (page) => {
+        if (serverSide) {
+            // Modo servidor: delegar al padre
+            if (onPageChange) {
+                onPageChange(page);
+            }
+        } else {
+            // Modo cliente: actualizar estado local
+            setClientCurrentPage(page);
+        }
+    };
+
+    // Datos procesados (solo para modo cliente)
     const filteredData = useMemo(() => {
+        if (serverSide) return data; // En modo servidor, los datos ya vienen filtrados
+
         return data.filter((obj) =>
             columns.some((column) => {
                 const fieldsToSearch = column.searchFields || [column.field];
-
                 return fieldsToSearch.some((field) => {
                     const value = getNestedValue(obj, field);
-                    return value?.toString().toLowerCase().includes(searchTerm.toLowerCase());
+                    return value?.toString().toLowerCase().includes(clientSearchTerm.toLowerCase());
                 });
             })
         );
-    }, [searchTerm, data]);
+    }, [clientSearchTerm, data, serverSide]);
 
     const sortedData = useMemo(() => {
-        if (!sortColumn || !sortOrder) return filteredData;
+        if (serverSide) return data; // En modo servidor, los datos ya vienen ordenados
+
+        if (!clientSortColumn || !clientSortOrder) return filteredData;
 
         return [...filteredData].sort((a, b) => {
-            const valueA = getNestedValue(a, sortColumn);
-            const valueB = getNestedValue(b, sortColumn);
+            const valueA = getNestedValue(a, clientSortColumn);
+            const valueB = getNestedValue(b, clientSortColumn);
 
             if (typeof valueA === "number" && typeof valueB === "number") {
-                return sortOrder === "asc" ? valueA - valueB : valueB - valueA;
+                return clientSortOrder === "asc" ? valueA - valueB : valueB - valueA;
             }
 
-            return sortOrder === "asc"
+            return clientSortOrder === "asc"
                 ? valueA.toString().localeCompare(valueB.toString())
                 : valueB.toString().localeCompare(valueA.toString());
         });
-    }, [filteredData, sortColumn, sortOrder]);
-
-    const [currentPage, setCurrentPage] = useState(1);
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    }
+    }, [filteredData, clientSortColumn, clientSortOrder, serverSide]);
 
     const handleRowClick = (e, row) => {
         const isCheckbox = e.target.dataset.role === "checkbox" || e.target.parentElement.dataset.role === "checkbox";
@@ -120,11 +184,22 @@ export default function Datatable({
         if (rowClick) {
             rowClick(row);
         }
-    }
+    };
+
+    // Calcular datos a mostrar y total de páginas
+    const displayData = serverSide 
+        ? data 
+        : (paginator ? sortedData.slice((currentPage - 1) * rows, currentPage * rows) : sortedData);
+
+    const totalPages = serverSide 
+        ? Math.ceil(totalRecords / rows)
+        : Math.ceil(sortedData.length / rows);
+
+    const totalRecordsDisplay = serverSide ? totalRecords : data.length;
 
     const loadingBody = (
         <tbody>
-            {Array.from({ length: 5 }, (_, index) => (
+            {Array.from({ length: rows || 5 }, (_, index) => (
                 <tr key={index}>
                     {selectedRowsRef && (
                         <td className="q-datatable-checkbox-column">
@@ -146,16 +221,12 @@ export default function Datatable({
                 </tr>
             ))}
         </tbody>
-    )
+    );
 
     const dataBody = (
         <tbody>
             {(() => {
-                const filteredRows = paginator
-                    ? sortedData.slice((currentPage - 1) * rows, currentPage * rows)
-                    : sortedData;
-
-                if (filteredRows.length === 0) {
+                if (displayData.length === 0) {
                     return (
                         <tr>
                             <td colSpan={columns.length + (selectedRowsRef ? 1 : 0)} style={{ textAlign: "center", padding: "10px" }}>
@@ -165,9 +236,9 @@ export default function Datatable({
                     );
                 }
 
-                return filteredRows.map((row, index) => (
+                return displayData.map((row, index) => (
                     <tr
-                        key={index}
+                        key={row.id || index}
                         style={{ cursor: rowClick ? "pointer" : "default" }}
                         onClick={(e) => rowClick && handleRowClick(e, row)}
                         className={selectedVisibleRows.includes(row.id) ? "selected" : undefined}
@@ -184,7 +255,7 @@ export default function Datatable({
                             </td>
                         )}
                         {columns.map((column) => (
-                            <td key={column.field} style={ column.field === "actions" ? { width: "100px", textAlign: "center", ...column.style } : {...column.style} }>
+                            <td key={column.field} style={column.field === "actions" ? { width: "100px", textAlign: "center", ...column.style } : { ...column.style }}>
                                 {column.body ? column.body(row) : getNestedValue(row, column.field)}
                             </td>
                         ))}
@@ -192,28 +263,29 @@ export default function Datatable({
                 ));
             })()}
         </tbody>
-    )
-
+    );
 
     return (
         <div className="q-datatable">
             <div className="q-datatable-header">
                 <div className="q-datatable-title">
                     <span>{title}</span>
-                    <Badge color="primary" content={loading ? <Spinner size="sm" type='classic' /> : data.length} variant="soft" />
+                    <Badge 
+                        color="primary" 
+                        content={loading ? <Spinner size="sm" type='classic' /> : totalRecordsDisplay} 
+                        variant="soft" 
+                    />
                 </div>
                 <div className="q-datatable-actions">
-                    {
-                        filter && (
-                            <Input
-                                disabled={loading}
-                                placeholder={filterPlaceholder}
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                appendIcon={<PiMagnifyingGlass size={16} />}
-                            />
-                        )
-                    }
+                    {filter && (
+                        <Input
+                            disabled={loading}
+                            placeholder={filterPlaceholder}
+                            value={searchTerm}
+                            onChange={(e) => handleSearch(e.target.value)}
+                            appendIcon={<PiMagnifyingGlass size={16} />}
+                        />
+                    )}
                     {headerButtons && headerButtons}
                 </div>
             </div>
@@ -221,8 +293,7 @@ export default function Datatable({
                 <table>
                     <thead>
                         <tr>
-                            {
-                                selectedRowsRef &&
+                            {selectedRowsRef && (
                                 <th className="q-datatable-checkbox-column">
                                     <Checkbox
                                         label=""
@@ -232,21 +303,27 @@ export default function Datatable({
                                         color="primary"
                                     />
                                 </th>
-                            }
+                            )}
                             {columns.map(({ field, header, sorteable }) => (
                                 <th
                                     key={field}
-                                    className={sortColumn === field ? "sortActive" : undefined}
+                                    className={activeSortField === field ? "sortActive" : undefined}
                                     style={{ cursor: sorteable ? "pointer" : "default" }}
                                 >
                                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "5px" }}>
                                         <span>{header}</span>
                                         {sorteable && (
-                                            <Button size='sm' radius='full' onClick={() => sorteable && handleSort(field)} variant="ghost" color="azure" icon>
-                                                {
-                                                    sortColumn === field
-                                                        ? (sortOrder === "asc" ? <BiSortUp size={16} /> : <BiSortDown size={16} />)
-                                                        : <BiSort size={16} />
+                                            <Button 
+                                                size='sm' 
+                                                radius='full' 
+                                                onClick={() => sorteable && handleSort(field)} 
+                                                variant="ghost" 
+                                                color="azure" 
+                                                icon
+                                            >
+                                                {activeSortField === field
+                                                    ? (activeSortOrder === "asc" ? <BiSortUp size={16} /> : <BiSortDown size={16} />)
+                                                    : <BiSort size={16} />
                                                 }
                                             </Button>
                                         )}
@@ -263,11 +340,11 @@ export default function Datatable({
                     <Paginator
                         currentPage={currentPage}
                         maxVisible={7}
-                        totalPages={Math.ceil([...data].length / rows)}
-                        onPageChange={handlePageChange}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChangeInternal}
                     />
                 )}
             </div>
         </div>
-    )
+    );
 }

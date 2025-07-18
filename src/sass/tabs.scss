@@ -55,6 +55,7 @@
     display: flex;
     position: relative;
     background-color: var(--#{$prefix}surface-bg);
+    overflow-x: auto;
     
     // Variant styles
     .q-tabs-root[data-variant="line"] & {

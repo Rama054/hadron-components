@@ -58,7 +58,7 @@ export default function Input({
                     {required && <span className="q-input-required">*</span>}
                 </label>
             )}
-            <div class="q-input-wrapper">
+            <div className="q-input-wrapper">
                 {prependButton && <div>{prependButton}</div>}
                 <div
                     className={inputClassName}

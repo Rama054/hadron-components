@@ -1,51 +1,57 @@
-import '../../css/checkbox.css';
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import { useState } from "react";
+import '../../css/checkbox.css';
 
-export default function Checkbox({ 
+const Checkbox = forwardRef(({ 
     label, 
     color = "primary", 
     size = "md",
     helpText, 
     errorText, 
     checked, 
+    defaultChecked,
     onChange, 
     disabled = false,
     indeterminate = false,
     className,
+    id,
+    name,
+    value,
     ...props 
-}) {
-    const [isChecked, setIsChecked] = useState(checked ?? false);
-
-    const handleChange = (e) => {
-        const newValue = e.target.checked;
-        setIsChecked(newValue);
-        if (onChange && !props.name) onChange(newValue);
-    };
-
+}, ref) => {
     let checkboxClass = "q-checkbox-root";
     if (className) checkboxClass += ` ${className}`;
     if (errorText) checkboxClass += " q-checkbox-error";
     if (disabled) checkboxClass += " q-checkbox-disabled";
 
-    const uniqueId = props.id || `checkbox-${Math.random().toString(36).substr(2, 9)}`;
+    const uniqueId = id || `checkbox-${name || Math.random().toString(36).substr(2, 9)}`;
 
     return (
         <div className={checkboxClass}>
             <div className="q-checkbox-container">
                 <input
-                    {...props}
+                    ref={(el) => {
+                        if (el) el.indeterminate = indeterminate;
+                        if (ref) {
+                            if (typeof ref === 'function') {
+                                ref(el);
+                            } else {
+                                ref.current = el;
+                            }
+                        }
+                    }}
                     id={uniqueId}
+                    name={name}
+                    value={value}
                     data-color={color}
                     data-size={size}
                     type="checkbox"
-                    checked={checked ?? isChecked}
-                    onChange={handleChange}
+                    checked={checked}
+                    defaultChecked={defaultChecked}
+                    onChange={onChange}
                     disabled={disabled}
-                    ref={(el) => {
-                        if (el) el.indeterminate = indeterminate;
-                    }}
                     className="q-checkbox-input"
+                    {...props}
                 />
                 <label className="q-checkbox-label" htmlFor={uniqueId}>
                     {label}
@@ -53,13 +59,19 @@ export default function Checkbox({
             </div>
             {(helpText || errorText) && (
                 <div className="q-checkbox-help">
-                    {helpText && <span className="q-help-text">{helpText}</span>}
-                    {errorText && <span className="q-error-text">{errorText}</span>}
+                    {helpText && !errorText && (
+                        <span className="q-help-text">{helpText}</span>
+                    )}
+                    {errorText && (
+                        <span className="q-error-text">{errorText}</span>
+                    )}
                 </div>
             )}
         </div>
     );
-}
+});
+
+Checkbox.displayName = 'Checkbox';
 
 Checkbox.propTypes = {
     label: PropTypes.string.isRequired,
@@ -68,8 +80,14 @@ Checkbox.propTypes = {
     helpText: PropTypes.string,
     errorText: PropTypes.string,
     checked: PropTypes.bool,
+    defaultChecked: PropTypes.bool,
     onChange: PropTypes.func,
     disabled: PropTypes.bool,
     indeterminate: PropTypes.bool,
-    className: PropTypes.string
+    className: PropTypes.string,
+    id: PropTypes.string,
+    name: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
+
+export default Checkbox;
