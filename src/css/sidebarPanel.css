@@ -121,6 +121,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
+  gap: 0.25rem;
 }
 .q-sidebar-panel__item {
   list-style: none;
@@ -216,7 +217,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0rem;
+  gap: 0.25rem;
   border-left: 2px solid rgba(255, 255, 255, 0.1);
   margin-left: 1.5rem;
   padding-left: 0.5rem;

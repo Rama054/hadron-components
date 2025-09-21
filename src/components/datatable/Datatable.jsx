@@ -1,8 +1,9 @@
 import '../../css/datatable.css';
 import { BiSort, BiSortDown, BiSortUp } from "react-icons/bi";
-import { PiMagnifyingGlass } from "react-icons/pi";
+import { PiMagnifyingGlass, PiX } from "react-icons/pi";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 import Input from '../input/Input';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import Paginator from '../paginator/Paginator';
 import Badge from '../badge/Badge';
 import Button from '../button/Button';
@@ -42,15 +43,32 @@ export default function Datatable({
     const [clientSortOrder, setClientSortOrder] = useState(null);
     const [clientCurrentPage, setClientCurrentPage] = useState(1);
 
+    // Estado local para el input de búsqueda (evita pérdida de foco)
+    const [localSearchValue, setLocalSearchValue] = useState(searchValue);
+    const [isSearching, setIsSearching] = useState(false);
+
     // Estados para selección
     const [selectedVisibleRows, setSelectedVisibleRows] = useState([]);
     const [selectedAll, setSelectedAll] = useState(false);
 
     // Determinar qué valores usar según el modo
-    const searchTerm = serverSide ? searchValue : clientSearchTerm;
+    const searchTerm = serverSide ? localSearchValue : clientSearchTerm;
     const currentPage = serverSide ? externalCurrentPage : clientCurrentPage;
     const activeSortField = serverSide ? sortField : clientSortColumn;
     const activeSortOrder = serverSide ? sortOrder : clientSortOrder;
+
+    // Efecto para sincronizar el valor local con el prop searchValue
+    useEffect(() => {
+        setLocalSearchValue(searchValue);
+        setIsSearching(false);
+    }, [searchValue]);
+
+    // Efecto para resetear el estado de búsqueda cuando llegan los datos
+    useEffect(() => {
+        if (!loading) {
+            setIsSearching(false);
+        }
+    }, [loading, data]);
 
     // Efecto para resetear página cuando cambia la búsqueda en modo servidor
     useEffect(() => {
@@ -118,16 +136,42 @@ export default function Datatable({
         }
     };
 
-    const handleSearch = (value) => {
-        if (serverSide) {
-            // Modo servidor: delegar al padre
-            if (onSearch) {
-                onSearch(value);
-            }
-        } else {
-            // Modo cliente: actualizar estado local
+    const handleSearchInputChange = (value) => {
+        setLocalSearchValue(value);
+
+        if (!serverSide) {
+            // Modo cliente: actualizar estado local inmediatamente
             setClientSearchTerm(value);
             setClientCurrentPage(1); // Reset a primera página
+        }
+    };
+
+    const handleSearchSubmit = () => {
+        if (serverSide && onSearch) {
+            setIsSearching(true);
+            onSearch(localSearchValue);
+        }
+    };
+
+    const handleClearSearch = () => {
+        setLocalSearchValue("");
+        
+        if (serverSide) {
+            // Modo servidor: limpiar búsqueda en el servidor
+            if (onSearch) {
+                setIsSearching(true);
+                onSearch("");
+            }
+        } else {
+            // Modo cliente: limpiar búsqueda local
+            setClientSearchTerm("");
+            setClientCurrentPage(1);
+        }
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && serverSide) {
+            handleSearchSubmit();
         }
     };
 
@@ -282,8 +326,37 @@ export default function Datatable({
                             disabled={loading}
                             placeholder={filterPlaceholder}
                             value={searchTerm}
-                            onChange={(e) => handleSearch(e.target.value)}
-                            appendIcon={<PiMagnifyingGlass size={16} />}
+                            onChange={(e) => handleSearchInputChange(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            appendIcon={
+                                searchTerm ? (
+                                    <Button
+                                        variant="ghost"
+                                        color="azure"
+                                        size="sm"
+                                        radius="full"
+                                        icon
+                                        onClick={handleClearSearch}
+                                        disabled={loading}
+                                    >
+                                        <PiX size={16} />
+                                    </Button>
+                                ) : serverSide ? null : <PiMagnifyingGlass size={16} />
+                            }
+                            appendButton={serverSide ? (
+                                <Button
+                                    variant="solid"
+                                    color="primary"
+                                    size="md"
+                                    radius="md"
+                                    icon
+                                    loading={isSearching}
+                                    disabled={loading}
+                                    onClick={handleSearchSubmit}
+                                >
+                                    <FaMagnifyingGlass size={16} />
+                                </Button>
+                            ) : null}
                         />
                     )}
                     {headerButtons && headerButtons}

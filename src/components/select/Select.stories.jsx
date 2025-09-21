@@ -373,3 +373,116 @@ export const WithReactHookForm = {
     color: 'warning'
   }
 };
+
+// Test específico para problema de scroll
+export const ScrollPositionTest = {
+  render: (args) => {
+    const [selectedCountries, setSelectedCountries] = useState([]);
+    const [extraContent, setExtraContent] = useState([]);
+    
+    const handleChange = (values) => {
+      setSelectedCountries(values);
+      
+      // Simular generación de contenido que causa scroll
+      const newContent = [];
+      for (let i = 0; i < values.length * 5; i++) {
+        newContent.push(`Contenido generado dinámicamente #${i + 1} para ${values[values.length - 1] || 'selección'}`);
+      }
+      setExtraContent(newContent);
+    };
+    
+    return (
+      <div style={{ 
+        height: '400px', 
+        overflowY: 'auto', 
+        border: '2px solid #ddd', 
+        borderRadius: '8px',
+        padding: '1rem',
+        width: '350px'
+      }}>
+        <div style={{ marginBottom: '1rem' }}>
+          <strong>🧪 Test de Posición con Scroll</strong>
+          <p style={{ fontSize: '0.875rem', color: '#666', margin: '0.5rem 0' }}>
+            Selecciona países y observa que el dropdown se mantiene alineado al botón,
+            incluso cuando el contenido dinámico genera scroll.
+          </p>
+        </div>
+        
+        <div style={{ marginBottom: '1rem' }}>
+          <Select
+            {...args}
+            options={countries}
+            onChange={handleChange}
+            multiple={true}
+            filter={true}
+          />
+        </div>
+        
+        <div style={{ marginBottom: '1rem', padding: '0.5rem', backgroundColor: '#f0f8ff', borderRadius: '4px' }}>
+          <strong>Países seleccionados ({selectedCountries.length}):</strong>
+          <div style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>
+            {selectedCountries.length > 0 
+              ? selectedCountries.map(value => countries.find(c => c.value === value)?.label).join(', ')
+              : 'Ninguno'
+            }
+          </div>
+        </div>
+        
+        <div style={{ 
+          backgroundColor: '#fff5f5', 
+          border: '1px solid #fed7d7', 
+          borderRadius: '4px',
+          padding: '0.75rem',
+          marginBottom: '1rem' 
+        }}>
+          <strong>⚠️ Instrucciones del test:</strong>
+          <ol style={{ fontSize: '0.875rem', marginTop: '0.5rem', paddingLeft: '1.25rem' }}>
+            <li>Abre el dropdown del select</li>
+            <li>Selecciona varios países (esto generará contenido abajo)</li>
+            <li>El contenido nuevo hará que aparezca scroll en este contenedor</li>
+            <li>Abre el dropdown nuevamente y verifica que esté alineado correctamente</li>
+            <li>Haz scroll en este contenedor y abre el dropdown otra vez</li>
+          </ol>
+        </div>
+        
+        {/* Contenido dinámico que genera scroll */}
+        {extraContent.length > 0 && (
+          <div style={{ 
+            backgroundColor: '#f7fafc', 
+            border: '1px solid #e2e8f0',
+            borderRadius: '4px',
+            padding: '0.75rem'
+          }}>
+            <strong>📄 Contenido dinámico generado:</strong>
+            <div style={{ 
+              fontSize: '0.8rem', 
+              marginTop: '0.5rem',
+              maxHeight: '200px',
+              overflowY: 'auto'
+            }}>
+              {extraContent.map((content, index) => (
+                <div key={index} style={{ 
+                  padding: '0.25rem 0', 
+                  borderBottom: index < extraContent.length - 1 ? '1px solid #e2e8f0' : 'none'
+                }}>
+                  {content}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {/* Contenido adicional para forzar más scroll */}
+        <div style={{ height: '100px', backgroundColor: '#fafafa', marginTop: '1rem', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.875rem', color: '#666' }}>
+          Contenido adicional para generar más scroll
+        </div>
+      </div>
+    );
+  },
+  args: {
+    label: 'Selecciona países (Test Scroll)',
+    placeholder: 'Elige varios para generar contenido...',
+    color: 'primary',
+    name: 'scrollTest'
+  }
+};

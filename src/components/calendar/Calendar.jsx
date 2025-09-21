@@ -292,12 +292,14 @@ const Calendar = ({
                                                     <div
                                                         key={evento.id}
                                                         className={`q-calendar__event`}
+                                                        style={{ backgroundColor: evento.color || '#3b82f6' }}
                                                         onClick={(e) => {
                                                             e.stopPropagation();
                                                             handleEventClick(evento);
                                                         }}
                                                     >
-                                                        {esMultiDia ? '📅' : evento.initHour} {evento.title}
+                                                        <span>{esMultiDia ? '📅' : evento.initHour} {evento.title}</span>
+                                                        <div className='q-calendar__event-status' style={{ backgroundColor: evento.status }}></div>
                                                     </div>
                                                 );
                                             })}
@@ -387,7 +389,8 @@ const Calendar = ({
                                                                 left: '4px',
                                                                 right: '4px',
                                                                 height: '100%',
-                                                                zIndex: 10
+                                                                zIndex: 10,
+                                                                backgroundColor: eventoItem.color || '#3b82f6'
                                                             }}
                                                         >
                                                             <div className="q-calendar__time-event-client">{eventoItem.title}</div>
@@ -416,7 +419,8 @@ const Calendar = ({
                                                                 right: '4px',
                                                                 height: `${height}px`,
                                                                 zIndex: 10,
-                                                                minHeight: '40px'
+                                                                minHeight: '40px',
+                                                                backgroundColor: eventoItem.color || '#3b82f6'
                                                             }}
                                                         >
                                                             <div className="q-calendar__time-event-client">{eventoItem.title}</div>

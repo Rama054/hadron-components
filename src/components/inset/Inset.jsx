@@ -1,10 +1,10 @@
 import '../../css/inset.css';
 
-export default function Inset({children, side, ...props}) {
+export default function Inset({children, side, className, ...props}) {
     let classInset = 'q-inset';
 
-    if(props.className) {
-        classInset += ' ' + props.className;
+    if(className) {
+        classInset += ' ' + className;
     }
 
     return (

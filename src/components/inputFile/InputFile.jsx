@@ -1,40 +1,113 @@
-import { useState } from 'react';
+import { useState, forwardRef, useImperativeHandle, useEffect } from 'react';
 import '../../css/InputFile.css';
-import * as LuIcons from "react-icons/lu";
 import { PiTrash, PiUploadSimple } from 'react-icons/pi';
+import * as LuIcons from 'react-icons/lu';
 import Button from '../button/Button';
 import PropTypes from 'prop-types';
 
-export default function InputFile({ 
-    label, 
-    name, 
-    id, 
-    multiple = false, 
-    helpText, 
-    errorText, 
-    accept, 
+const formatSize = (size) => {
+    const units = ['bytes', 'KB', 'MB', 'GB'];
+    let unitIndex = 0;
+    let formattedSize = size;
+
+    while (formattedSize >= 1024 && unitIndex < units.length - 1) {
+        formattedSize /= 1024;
+        unitIndex++;
+    }
+
+    return `${formattedSize.toFixed(1)} ${units[unitIndex]}`;
+};
+
+const FileIcon = ({ extension }) => {
+    const iconMap = {
+        // Images
+        png: LuIcons.LuFileImage,
+        jpg: LuIcons.LuFileImage,
+        jpeg: LuIcons.LuFileImage,
+        gif: LuIcons.LuFileImage,
+        webp: LuIcons.LuFileImage,
+        svg: LuIcons.LuFileImage,
+        // Documents
+        pdf: LuIcons.LuFile,
+        doc: LuIcons.LuFileType,
+        docx: LuIcons.LuFileType,
+        txt: LuIcons.LuFileText,
+        // Spreadsheets
+        xls: LuIcons.LuFileSpreadsheet,
+        xlsx: LuIcons.LuFileSpreadsheet,
+        csv: LuIcons.LuFileSpreadsheet,
+        // Archives
+        zip: LuIcons.LuFileArchive,
+        rar: LuIcons.LuFileArchive,
+        '7z': LuIcons.LuFileArchive,
+        // Code
+        js: LuIcons.LuFileCode,
+        jsx: LuIcons.LuFileCode,
+        ts: LuIcons.LuFileCode,
+        tsx: LuIcons.LuFileCode,
+        html: LuIcons.LuFileCode,
+        css: LuIcons.LuFileCode,
+        json: LuIcons.LuFileJson,
+        // Videos
+        mp4: LuIcons.LuFileVideo2,
+        avi: LuIcons.LuFileVideo2,
+        mov: LuIcons.LuFileVideo2,
+        // Audio
+        mp3: LuIcons.LuFileAudio,
+        wav: LuIcons.LuFileAudio,
+        flac: LuIcons.LuFileAudio,
+    };
+
+    const IconComponent = iconMap[extension?.toLowerCase()] || LuIcons.LuFile;
+    return <IconComponent size={20} />;
+};
+
+const InputFile = forwardRef(function InputFile({
+    label,
+    name,
+    multiple = false,
+    helpText,
+    accept,
+    errorText,
     disabled = false,
     maxFiles = null,
-    maxSize = null, // in bytes
-    className,
-    onFilesChange,
-    ...props 
-}) {
-    const [files, setFiles] = useState([]);
+    maxSize = null,
+    className = '',
+    icon: CustomIcon = PiUploadSimple,
+    dropzoneText = 'Arrastra archivos aquí o haz clic para explorar',
+    listHeight = '200px', // altura por defecto de la lista
+    onChange,
+    onBlur,
+    value,
+    form = null, // react-hook-form object
+    ...props
+}, ref) {
+    const [internalFiles, setInternalFiles] = useState([]);
     const [dragActive, setDragActive] = useState(false);
-
-    const formatSize = (size) => {
-        const units = ['bytes', 'KB', 'MB', 'GB'];
-        let unitIndex = 0;
-        let formattedSize = size;
-
-        while (formattedSize >= 1024 && unitIndex < units.length - 1) {
-            formattedSize /= 1024;
-            unitIndex++;
+    
+    // Get current value from react-hook-form or props
+    const getCurrentValue = () => {
+        if (form && name) {
+            const formValue = form.watch(name);
+            return formValue || [];
         }
-
-        return `${formattedSize.toFixed(1)} ${units[unitIndex]}`;
+        return value || internalFiles;
     };
+    
+    // Determine which files to display
+    const filesToDisplay = getCurrentValue();
+    
+    // Update internal files when external value changes
+    useEffect(() => {
+        if (value && Array.isArray(value)) {
+            setInternalFiles(value);
+        }
+    }, [value]);
+
+    useImperativeHandle(ref, () => ({
+        focus: () => document.getElementById(`file-input-${name}`)?.focus(),
+        blur: () => document.getElementById(`file-input-${name}`)?.blur()
+    }));
 
     const validateFiles = (fileList) => {
         const validFiles = [];
@@ -43,25 +116,17 @@ export default function InputFile({
         Array.from(fileList).forEach(file => {
             // Check file size
             if (maxSize && file.size > maxSize) {
-                errors.push(`${file.name} exceeds maximum size of ${formatSize(maxSize)}`);
+                errors.push(`${file.name} excede el tamaño máximo de ${formatSize(maxSize)}`);
                 return;
             }
 
             // Check file count
-            if (maxFiles && files.length + validFiles.length >= maxFiles) {
-                errors.push(`Maximum ${maxFiles} files allowed`);
+            if (maxFiles && filesToDisplay.length + validFiles.length >= maxFiles) {
+                errors.push(`Máximo ${maxFiles} archivos permitidos`);
                 return;
             }
 
-            validFiles.push({
-                id: Math.random().toString(36).substr(2, 9),
-                type: file.type.split('/')[0],
-                extension: file.name.split('.').pop().toLowerCase(),
-                url: URL.createObjectURL(file),
-                size: formatSize(file.size),
-                name: file.name,
-                file
-            });
+            validFiles.push(file);
         });
 
         return { validFiles, errors };
@@ -71,29 +136,48 @@ export default function InputFile({
         const { validFiles, errors } = validateFiles(fileList);
         
         if (errors.length > 0) {
-            console.warn('File validation errors:', errors);
-            // You could show these errors in your UI
+            console.warn('Errores de validación:', errors);
         }
 
-        const newFiles = multiple ? [...files, ...validFiles] : validFiles;
-        setFiles(newFiles);
+        const newFiles = multiple ? [...filesToDisplay, ...validFiles] : validFiles;
         
-        if (onFilesChange) {
-            onFilesChange(newFiles.map(f => f.file));
+        // Update internal state
+        setInternalFiles(newFiles);
+        
+        // Handle react-hook-form integration
+        if (form && name) {
+            // Use react-hook-form's setValue
+            form.setValue(name, multiple ? newFiles : newFiles[0] || null, {
+                shouldValidate: true,
+                shouldDirty: true
+            });
+        } else if (onChange) {
+            // Fallback to regular onChange
+            onChange(multiple ? newFiles : newFiles[0] || null);
         }
     };
 
-    const handleFileInput = (e) => {
-        e.preventDefault();
-        if (e.target.files && e.target.files.length > 0) {
-            handleFiles(e.target.files);
+    const removeFile = (index) => {
+        const newFiles = filesToDisplay.filter((_, i) => i !== index);
+        setInternalFiles(newFiles);
+        
+        // Handle react-hook-form integration
+        if (form && name) {
+            // Use react-hook-form's setValue
+            form.setValue(name, multiple ? newFiles : newFiles[0] || null, {
+                shouldValidate: true,
+                shouldDirty: true
+            });
+        } else if (onChange) {
+            // Fallback to regular onChange
+            onChange(multiple ? newFiles : newFiles[0] || null);
         }
     };
 
     const handleDragEnter = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        setDragActive(true);
+        if (!disabled) setDragActive(true);
     };
 
     const handleDragLeave = (e) => {
@@ -112,164 +196,151 @@ export default function InputFile({
         e.stopPropagation();
         setDragActive(false);
         
-        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        if (!disabled && e.dataTransfer.files) {
             handleFiles(e.dataTransfer.files);
         }
     };
 
-    const handleFileRemove = (fileId) => {
-        const updatedFiles = files.filter(file => file.id !== fileId);
-        setFiles(updatedFiles);
-        
-        if (onFilesChange) {
-            onFilesChange(updatedFiles.map(f => f.file));
+    const handleInputChange = (e) => {
+        if (e && e.target && e.target.files) {
+            handleFiles(e.target.files);
         }
+        if (onBlur) onBlur(e);
     };
 
-    const uniqueId = id || `file-input-${Math.random().toString(36).substr(2, 9)}`;
+    const renderFilePreview = (file, index) => {
+        if (!file) return null;
+        
+        const isImage = file.type?.startsWith('image/');
+        const fileName = file.name || 'Archivo sin nombre';
+        const fileSize = file.size ? formatSize(file.size) : 'Tamaño desconocido';
+        const extension = fileName.includes('.') ? fileName.split('.').pop() : 'unknown';
 
-    let containerClass = "q-input-file-root";
-    if (className) containerClass += ` ${className}`;
+        return (
+            <div key={index} className="q-file-item">
+                <div className="q-file-icon">
+                    {isImage && file instanceof File ? (
+                        <img 
+                            src={URL.createObjectURL(file)} 
+                            alt={fileName}
+                            className="q-file-image"
+                        />
+                    ) : (
+                        <FileIcon extension={extension} />
+                    )}
+                </div>
+                <div className="q-file-info">
+                    <div className="q-file-name" title={fileName}>{fileName}</div>
+                    <div className="q-file-size">{fileSize}</div>
+                </div>
+                <div className="q-file-remove">
+                    <Button 
+                        variant="ghost" 
+                        size="sm"
+                        color="danger"
+                        radius="full"
+                        icon
+                        onClick={() => removeFile(index)}
+                        disabled={disabled}
+                    >
+                        <PiTrash size={16} />
+                    </Button>
+                </div>
+            </div>
+        );
+    };
 
     return (
-        <div className={containerClass}>
+        <div className={`q-input-file ${className}`}>
             {label && (
-                <label className="q-input-file-label" htmlFor={uniqueId}>
+                <label className="q-input-file-label" htmlFor={`file-input-${name}`}>
                     {label}
                 </label>
             )}
             
             <div 
-                className={`q-input-file-dropzone ${dragActive ? 'q-dropzone-active' : ''} ${disabled ? 'q-dropzone-disabled' : ''}`}
+                className={`q-input-file-dropzone ${dragActive ? 'drag-active' : ''} ${disabled ? 'disabled' : ''}`}
                 onDragEnter={handleDragEnter}
                 onDragLeave={handleDragLeave}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
+                onClick={() => !disabled && document.getElementById(`file-input-${name}`)?.click()}
             >
-                <label htmlFor={uniqueId} className="q-dropzone-label">
-                    <div className="q-dropzone-content">
-                        <PiUploadSimple size={32} className="q-dropzone-icon" />
-                        <div className="q-dropzone-text">
-                            <p className="q-dropzone-primary">
-                                Drop files here or <span className="q-dropzone-link">click to browse</span>
-                            </p>
-                            <p className="q-dropzone-secondary">
-                                {accept && `Supported formats: ${accept}`}
-                                {maxSize && ` • Max size: ${formatSize(maxSize)}`}
-                                {maxFiles && ` • Max files: ${maxFiles}`}
-                            </p>
-                        </div>
+                <div className="q-dropzone-content">
+                    <CustomIcon size={32} className="q-dropzone-icon" />
+                    <div className="q-dropzone-text">
+                        {dropzoneText.includes('haz clic') ? (
+                            dropzoneText.split('haz clic').map((part, i) => (
+                                i === 0 ? part : <span key={i}><span className="highlight">haz clic{part.split(' ')[1] === 'para' ? ' para' : ''}</span>{part.slice(part.indexOf(' ', part.indexOf('para') + 1))}</span>
+                            ))
+                        ) : (
+                            <>
+                                {dropzoneText} <span className="highlight">haz clic para explorar</span>
+                            </>
+                        )}
                     </div>
-                    <input
-                        type="file"
-                        id={uniqueId}
-                        name={name}
-                        accept={accept}
-                        multiple={multiple}
-                        disabled={disabled}
-                        onChange={handleFileInput}
-                        className="q-file-input"
-                        {...props}
-                    />
-                </label>
+                    {(accept || maxSize || maxFiles) && (
+                        <div className="q-dropzone-info">
+                            {accept && `Tipos: ${accept}`}
+                            {maxSize && ` • Máx: ${formatSize(maxSize)}`}
+                            {maxFiles && ` • Límite: ${maxFiles} archivo${maxFiles !== 1 ? 's' : ''}`}
+                        </div>
+                    )}
+                </div>
+                
+                <input
+                    ref={ref}
+                    type="file"
+                    id={`file-input-${name}`}
+                    name={name}
+                    accept={accept}
+                    multiple={multiple}
+                    disabled={disabled}
+                    onChange={handleInputChange}
+                    className="q-file-input"
+                    {...props}
+                />
             </div>
 
-            {helpText && <p className="q-input-help-text">{helpText}</p>}
-            {errorText && <p className="q-input-error-text">{errorText}</p>}
+            {helpText && <div className="q-input-help-text">{helpText}</div>}
+            {errorText && <div className="q-input-error-text">{errorText}</div>}
 
-            {files.length > 0 && (
-                <div className="q-files-summary">
-                    <span className="q-files-count">{files.length} file{files.length !== 1 ? 's' : ''} selected</span>
-                </div>
-            )}
-
-            {files.length > 0 && (
-                <div className="q-files-preview">
-                    {files.map((file) => (
-                        <div key={file.id} className="q-file-item">
-                            <div className="q-file-preview">
-                                {file.type === 'image' ? (
-                                    <img 
-                                        src={file.url} 
-                                        alt={file.name}
-                                        className="q-file-image"
-                                    />
-                                ) : (
-                                    <div className="q-file-icon-container">
-                                        <FileIcon type={file.extension} />
-                                    </div>
-                                )}
-                            </div>
-                            <div className="q-file-info">
-                                <div className="q-file-details">
-                                    <span className="q-file-name" title={file.name}>
-                                        {file.name}
-                                    </span>
-                                    <span className="q-file-size">{file.size}</span>
-                                </div>
-                                <Button 
-                                    variant="ghost" 
-                                    size="sm"
-                                    color="danger" 
-                                    onClick={() => handleFileRemove(file.id)}
-                                    disabled={disabled}
-                                >
-                                    <PiTrash size={16} />
-                                </Button>
-                            </div>
-                        </div>
-                    ))}
+            {filesToDisplay.length > 0 && (
+                <div 
+                    className="q-files-list"
+                    style={{ 
+                        maxHeight: listHeight,
+                        overflowY: 'auto'
+                    }}
+                >
+                    {filesToDisplay.map((file, index) => renderFilePreview(file, index))}
                 </div>
             )}
         </div>
     );
-}
-
-const FileIcon = ({ type }) => {
-    const typeIcons = {
-        image: LuIcons.LuFileImage,
-        video: LuIcons.LuFileVideo2,
-        audio: LuIcons.LuFileAudio,
-        zip: LuIcons.LuFileArchive,
-        json: LuIcons.LuFileJson,
-        txt: LuIcons.LuFileText,
-        code: LuIcons.LuFileCode,
-        word: LuIcons.LuFileType,
-        xls: LuIcons.LuFileSpreadsheet,
-        pdf: LuIcons.LuFile,
-        default: LuIcons.LuFile
-    };
-
-    const typeMap = {
-        image: ['image', 'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'],
-        video: ['video', 'mp4', 'avi', 'mov', 'wmv', 'flv', 'webm'],
-        audio: ['audio', 'mp3', 'wav', 'flac', 'aac'],
-        zip: ['zip', 'rar', 'tar', '7z', 'gz'],
-        json: ['json'],
-        txt: ['txt'],
-        pdf: ['pdf'],
-        code: ['js', 'html', 'css', 'yml', 'yaml', 'xml', 'sql', 'sh', 'php', 'py', 'java', 'c', 'cpp', 'cs', 'go', 'rb', 'swift', 'ts', 'jsx', 'tsx'],
-        word: ['doc', 'docx'],
-        xls: ['xls', 'xlsx', 'csv'],
-    };
-
-    const iconType = Object.keys(typeMap).find(key => typeMap[key].includes(type)) || 'default';
-    const IconComponent = typeIcons[iconType];
-
-    return <IconComponent size={24} />;
-};
+});
 
 InputFile.propTypes = {
     label: PropTypes.string,
-    name: PropTypes.string,
-    id: PropTypes.string,
+    name: PropTypes.string.isRequired,
     multiple: PropTypes.bool,
     helpText: PropTypes.string,
-    errorText: PropTypes.string,
     accept: PropTypes.string,
+    errorText: PropTypes.string,
     disabled: PropTypes.bool,
     maxFiles: PropTypes.number,
     maxSize: PropTypes.number,
     className: PropTypes.string,
-    onFilesChange: PropTypes.func
+    icon: PropTypes.elementType,
+    dropzoneText: PropTypes.string,
+    listHeight: PropTypes.string, // altura de la lista de archivos
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    value: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.arrayOf(PropTypes.object)
+    ]),
+    form: PropTypes.object // react-hook-form object
 };
+
+export default InputFile;

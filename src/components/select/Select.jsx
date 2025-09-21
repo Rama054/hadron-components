@@ -7,7 +7,8 @@ import Checkbox from '../checkbox/Checkbox';
 
 const Dropdown = ({ options, filter, onFilterChange, template, selectedValue, onChange, color, shouldResetFilter, multiple, triggerRef, onClose }) => {
     const dropdownRef = useRef(null);
-    const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
+    const [position, setPosition] = useState({ top: -9999, left: -9999, width: 0 }); // Start off-screen
+    const [isPositioned, setIsPositioned] = useState(false);
     const [filterValue, setFilterValue] = useState('');
 
     const handleFilterInputChange = (e) => {
@@ -24,7 +25,7 @@ const Dropdown = ({ options, filter, onFilterChange, template, selectedValue, on
     }, [shouldResetFilter]);
 
     // Calculate position
-    useEffect(() => {
+    const updatePosition = () => {
         if (triggerRef.current) {
             const rect = triggerRef.current.getBoundingClientRect();
             const scrollY = window.scrollY || document.documentElement.scrollTop;
@@ -35,8 +36,33 @@ const Dropdown = ({ options, filter, onFilterChange, template, selectedValue, on
                 left: rect.left + scrollX,
                 width: rect.width
             });
+            setIsPositioned(true);
         }
+    };
+
+    useEffect(() => {
+        updatePosition();
     }, [triggerRef]);
+
+    // Listen to scroll events to reposition dropdown
+    useEffect(() => {
+        const handleScroll = () => {
+            updatePosition();
+        };
+
+        const handleResize = () => {
+            updatePosition();
+        };
+
+        // Add listeners to window and all scrollable parents
+        window.addEventListener('scroll', handleScroll, true); // true for capture phase
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll, true);
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     // Handle click outside
     useEffect(() => {
@@ -82,7 +108,10 @@ const Dropdown = ({ options, filter, onFilterChange, template, selectedValue, on
                 top: position.top,
                 left: position.left,
                 width: position.width,
-                zIndex: 9999
+                zIndex: 9999,
+                visibility: isPositioned ? 'visible' : 'hidden', // Hide until positioned
+                opacity: isPositioned ? 1 : 0,
+                transition: isPositioned ? 'opacity 0.1s ease' : 'none'
             }}>
             {filter && (
                 <div className='q-select-filter-container'>
@@ -249,14 +278,21 @@ export default function Select({
                         <span className="q-select-chip-label">
                             {template ? template(item) : item.label}
                         </span>
-                        <button
-                            type="button"
+                        <span
                             className="q-select-chip-remove"
                             onClick={(e) => handleRemoveItem(item, e)}
+                            role="button"
+                            tabIndex="0"
                             aria-label={`Eliminar ${item.label}`}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    handleRemoveItem(item, e);
+                                }
+                            }}
                         >
                             <IoClose size={14} />
-                        </button>
+                        </span>
                     </div>
                 ))}
                 {remainingCount > 0 && (
